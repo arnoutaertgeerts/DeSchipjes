@@ -12,7 +12,8 @@ model PrototypeBuilding "A complete building model for testing"
       radiators=true,
       QNom={2113,1409,1,1025,804,1}),
     standAlone=true,
-    redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid,
+    redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
+          heatLosses=false)),
     redeclare DeSchipjes.Structures.Woning140 building(isolatieTest=0.02))
     annotation (Placement(transformation(extent={{-10,-6},{10,14}})));
 end PrototypeBuilding;
