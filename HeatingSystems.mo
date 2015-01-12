@@ -25,16 +25,6 @@ package HeatingSystems
           extent={{-10,10},{10,-10}},
           rotation=180,
           origin={80,30})));
-    IDEAS.Fluid.HeatExchangers.Radiators.Radiator[nZones] radiator(
-      QNom=QNom,
-      TInNom=TSupply,
-      TOutNom=TReturn,
-      redeclare package Medium = Medium)
-      annotation (Placement(
-          transformation(
-          extent={{10,-10},{-10,10}},
-          rotation=0,
-          origin={-82,36})));
 
     Modelica.Blocks.Sources.RealExpression realExpression1(y=273.15 + 77)
       annotation (Placement(transformation(extent={{122,42},{102,62}})));
@@ -54,32 +44,33 @@ package HeatingSystems
       redeclare package Medium = Medium,
       use_T=false,
       nPorts=1)
-      annotation (Placement(transformation(extent={{26,-14},{46,6}})));
+      annotation (Placement(transformation(extent={{28,-10},{48,10}})));
     Modelica.Blocks.Sources.RealExpression realExpression2(y=273.15 + 70)
       annotation (Placement(transformation(extent={{80,50},{60,70}})));
     IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow[nZones] pumpSupply(
       redeclare package Medium = Medium,
       m_flow_nominal=m_flow_nominal,
-      includePipes=true,
       dpValve_nominalBot=0,
       use_powerCharacteristic=false,
       KvBot=10,
-      useBalancingValve=true,
-      measureSupplyT=false,
-      measureReturnT=false,
-      measurePower=false)
+      measurePower=false,
+      includePipes=true,
+      measureSupplyT=true,
+      measureReturnT=true,
+      useBalancingValve=false)
       annotation (Placement(transformation(extent={{-6,20},{-26,40}})));
     IDEAS.Fluid.BaseCircuits.MixingCircuit_Tset mixingCircuit(
       redeclare package Medium = Medium,
       m_flow_nominal=sum(m_flow_nominal),
-      includePipes=true,
       KvBot=10,
       dpValve_nominalBot=0,
-      useBalancingValve=true,
       CvDataBot=IDEAS.Fluid.Types.CvTypes.Kv,
+      mMix=1,
       measureSupplyT=false,
+      includePipes=false,
       measureReturnT=false,
-      mMix=1)  annotation (Placement(transformation(extent={{56,20},{36,40}})));
+      useBalancingValve=false)
+               annotation (Placement(transformation(extent={{56,20},{36,40}})));
     Modelica.Blocks.Math.Gain gain[nZones](k=m_flow_nominal)
       annotation (Placement(transformation(extent={{-38,-44},{-18,-24}})));
     IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(
@@ -88,19 +79,17 @@ package HeatingSystems
       V=0.1,
       n=nZones)
       annotation (Placement(transformation(extent={{26,20},{6,40}})));
+    IDEAS.Fluid.HeatExchangers.Radiators.Radiator rad[nZones](
+      redeclare package Medium = Medium,
+      TInNom=TSupply,
+      TOutNom=TReturn,
+      QNom=QNom)
+      annotation (Placement(transformation(extent={{-50,26},{-70,46}})));
   equation
-    QHeaSys = -sum(radiator.heatPortCon.Q_flow) - sum(radiator.heatPortRad.Q_flow);
+    QHeaSys = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
     P[1] = 0;
     Q[1] = 0;
 
-    connect(radiator.heatPortRad, heatPortRad) annotation (Line(
-        points={{-91,46},{-92,46},{-92,62},{-130,62},{-130,-20},{-200,-20}},
-        color={191,0,0},
-        smooth=Smooth.None));
-    connect(radiator.heatPortCon, heatPortCon) annotation (Line(
-        points={{-87,46},{-86,46},{-86,72},{-160,72},{-160,20},{-200,20}},
-        color={191,0,0},
-        smooth=Smooth.None));
     connect(realExpression1.y, boiler.TSet) annotation (Line(
         points={{101,52},{84,52},{84,42}},
         color={0,0,127},
@@ -129,14 +118,6 @@ package HeatingSystems
         points={{83,20},{84,20},{84,0}},
         color={191,0,0},
         smooth=Smooth.None));
-    connect(pumpSupply.port_b1, radiator.port_a) annotation (Line(
-        points={{-26,36},{-72,36}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(radiator.port_b, pumpSupply.port_a2) annotation (Line(
-        points={{-92,36},{-104,36},{-104,14},{-42,14},{-42,24},{-26,24}},
-        color={0,127,255},
-        smooth=Smooth.None));
     connect(pumpSupply.port_a1, parallelPipesSplitter.port_bN) annotation (Line(
         points={{-6,36},{6,36}},
         color={0,127,255},
@@ -145,13 +126,11 @@ package HeatingSystems
         points={{-6,24},{6,24}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(parallelPipesSplitter.port_a, mixingCircuit.port_b1) annotation (
-        Line(
+    connect(parallelPipesSplitter.port_a, mixingCircuit.port_b1) annotation (Line(
         points={{26,36},{36,36}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(parallelPipesSplitter.port_b, mixingCircuit.port_a2) annotation (
-        Line(
+    connect(parallelPipesSplitter.port_b, mixingCircuit.port_a2) annotation (Line(
         points={{26,24},{36,24}},
         color={0,127,255},
         smooth=Smooth.None));
@@ -167,9 +146,26 @@ package HeatingSystems
         points={{-17,-34},{0,-34},{0,52},{-16,52},{-16,40.8}},
         color={0,0,127},
         smooth=Smooth.None));
+
     connect(bou.ports[1], boiler.port_a) annotation (Line(
-        points={{46,-4},{64,-4},{64,24},{70,24}},
+        points={{48,0},{62,0},{62,24},{70,24}},
         color={0,127,255},
+        smooth=Smooth.None));
+    connect(pumpSupply.port_b1, rad.port_a) annotation (Line(
+        points={{-26,36},{-50,36}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(rad.port_b, pumpSupply.port_a2) annotation (Line(
+        points={{-70,36},{-78,36},{-78,24},{-26,24}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(rad.heatPortRad, heatPortRad) annotation (Line(
+        points={{-69,46},{-70,46},{-70,50},{-128,50},{-128,-20},{-200,-20}},
+        color={191,0,0},
+        smooth=Smooth.None));
+    connect(rad.heatPortCon, heatPortCon) annotation (Line(
+        points={{-65,46},{-66,46},{-66,60},{-152,60},{-152,20},{-200,20}},
+        color={191,0,0},
         smooth=Smooth.None));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
               -100},{200,100}}), graphics));

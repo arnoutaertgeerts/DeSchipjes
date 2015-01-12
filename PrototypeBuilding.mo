@@ -8,8 +8,6 @@ model PrototypeBuilding "A complete building model for testing"
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
       ventilationSystem,
     redeclare DeSchipjes.HeatingSystems.RadiatorsBoiler heatingSystem(
-      floorHeating=false,
-      radiators=true,
       QNom={2113,1409,1,1025,804,1}),
     standAlone=true,
     redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
