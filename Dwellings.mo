@@ -1232,6 +1232,9 @@ package Dwellings
         final parameter Modelica.SIunits.MassFlowRate[nZones] m_flow_nominal = QNom/(4180.6*(TSupply-TReturn))
           "Nominal mass flow rates";
 
+        final parameter Modelica.SIunits.Pressure dp_nominal=
+          2* flowController.dp + heatExchanger.dp1_nominal;
+
         IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
           redeclare package Medium = Medium,
           Q_flow_nominal=QNom,
@@ -1245,8 +1248,8 @@ package Dwellings
           dp2_nominal=200,
           redeclare package Medium = Medium,
           measureReturnT=false,
-          dp=200,
-          efficiency=0.8)                                annotation (Placement(
+          dp=0,
+          efficiency=0.9)                                annotation (Placement(
               transformation(
               extent={{-10,10},{10,-10}},
               rotation=180,
@@ -1261,8 +1264,8 @@ package Dwellings
           includePipes=true,
           measureSupplyT=false,
           measureReturnT=false,
-          dp=200,
-          useBalancingValve=true)
+          useBalancingValve=true,
+          dp=200)
           annotation (Placement(transformation(
               extent={{-10,10},{10,-10}},
               rotation=180,
@@ -1307,8 +1310,7 @@ package Dwellings
               extent={{-10,10},{10,-10}},
               rotation=180,
               origin={80,4})));
-        DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=
-              m_flow_dhw)
+        DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw)
           annotation (Placement(transformation(extent={{130,42},{156,56}})));
         IDEAS.Fluid.Sources.FixedBoundary bou1(
           redeclare package Medium = Medium,
@@ -1357,14 +1359,14 @@ package Dwellings
             color={0,127,255},
             smooth=Smooth.None,
             pattern=LinePattern.Dash));
-        connect(parallelPipesSplitter.port_aN, pumpRadiators.port_b2)
-          annotation (Line(
+        connect(parallelPipesSplitter.port_aN, pumpRadiators.port_b2) annotation (
+            Line(
             points={{-82,-44},{-92,-44}},
             color={0,127,255},
             smooth=Smooth.None,
             pattern=LinePattern.Dash));
-        connect(parallelPipesSplitter.port_bN, pumpRadiators.port_a1)
-          annotation (Line(
+        connect(parallelPipesSplitter.port_bN, pumpRadiators.port_a1) annotation (
+            Line(
             points={{-82,-32},{-92,-32}},
             color={0,127,255},
             smooth=Smooth.None));

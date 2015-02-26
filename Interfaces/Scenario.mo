@@ -4,12 +4,18 @@ model Scenario
   //Parameters
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1;
 
-  replaceable BaseClasses.ProductionSite productionSite(redeclare package
-      Medium = IDEAS.Media.Water.Simple, m_flow_nominal=m_flow_nominal)
+  //Parameteres
+  parameter Modelica.SIunits.Power QNom[:] = {2113,1409,1,1025,804,1}
+    "Heat losses for each zone";
+
+  replaceable BaseClasses.ProductionSite productionSite(
+    redeclare package Medium = IDEAS.Media.Water.Simple,
+    m_flow_nominal=m_flow_nominal,
+    grid_dp=grid.dp_nominal)
     annotation (Placement(transformation(extent={{10,-18},{-10,2}})));
   replaceable BaseClasses.Grid grid(
-                                  m_flow_nominal=m_flow_nominal, redeclare
-      package Medium = Buildings.Media.ConstantPropertyLiquidWater)
+      m_flow_nominal=m_flow_nominal,
+      redeclare package Medium = Buildings.Media.ConstantPropertyLiquidWater)
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     nPorts=1,

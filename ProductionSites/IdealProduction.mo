@@ -5,7 +5,6 @@ model IdealProduction
   extends Interfaces.BaseClasses.ProductionSite;
 
   //Parameters
-  parameter Modelica.SIunits.Pressure Head=200000;
   parameter Modelica.SIunits.Temperature TSet=70+273.15;
 
   IDEAS.Fluid.Production.IdealHeater idealHeater(redeclare package Medium =
@@ -22,9 +21,9 @@ model IdealProduction
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={-8,26})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=TSet)
+  Modelica.Blocks.Sources.RealExpression realExpression(y=TSupplyGrid)
     annotation (Placement(transformation(extent={{-52,60},{-32,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(y=Head)
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=grid_dp)
     annotation (Placement(transformation(extent={{40,16},{20,36}})));
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=true)
     annotation (Placement(transformation(extent={{40,60},{20,80}})));

@@ -4,12 +4,17 @@ partial model Grid
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
 
   //Parameteres
-  parameter Modelica.SIunits.Temperature TSupply = 273.15+70
+  parameter Modelica.SIunits.Temperature TSupplyRad = 273.15+70
     "Supply temperature of the radiators";
-  parameter Modelica.SIunits.Temperature TReturn = 273.15+50
+  parameter Modelica.SIunits.Temperature TReturnRad = 273.15+60
     "Return temperature of the radiators";
+
+  parameter Modelica.SIunits.Temperature TSupplyGrid = 273.15+80
+    "Supply temperature of the Grid";
+
   parameter Modelica.SIunits.Power QNom[:] = {2113,1409,1,1025,804,1}
     "Heat losses for each zone";
+  parameter Modelica.SIunits.Pressure dp_nominal;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(

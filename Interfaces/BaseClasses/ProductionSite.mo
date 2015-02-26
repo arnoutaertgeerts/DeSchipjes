@@ -2,6 +2,12 @@ within DeSchipjes.Interfaces.BaseClasses;
 partial model ProductionSite
   extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
 
+  //Parameters
+  parameter Modelica.SIunits.Pressure grid_dp
+    "Nominal pressure drop over the grid";
+  parameter Modelica.SIunits.Temperature TSupplyGrid = 273.15+80
+    "Supply temperature of the Grid";
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(graphics={
       Polygon(

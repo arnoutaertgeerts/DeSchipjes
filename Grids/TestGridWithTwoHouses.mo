@@ -1,7 +1,13 @@
 within DeSchipjes.Grids;
 model TestGridWithTwoHouses
   //Extensions
-  extends DeSchipjes.Interfaces.BaseClasses.Grid;
+  extends DeSchipjes.Interfaces.BaseClasses.Grid(final dp_nominal=
+    building1.heatingSystem.dp_nominal +
+    building2.heatingSystem.dp_nominal +
+    dHConnection1.dp_nominal +
+    dHConnection2.dp_nominal);
+
+  //Variables
 
   IDEAS.Interfaces.Building building1(
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
@@ -9,16 +15,15 @@ model TestGridWithTwoHouses
     standAlone=true,
     redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
-    redeclare DeSchipjes.Dwellings.Structures.Woning140 building(isolatieTest=
-          0.02),
+    redeclare DeSchipjes.Dwellings.Structures.Woning140 building(isolatieTest=0.02),
     isDH=true,
     redeclare package Medium = Medium,
     redeclare IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
           6)),
     redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
       QNom=QNom,
-      TSupply=TSupply,
-      TReturn=TReturn))
+      TSupply=TSupplyRad,
+      TReturn=TReturnRad))
     annotation (Placement(transformation(extent={{-56,46},{-76,66}})));
   IDEAS.Interfaces.Building building2(
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
@@ -26,32 +31,31 @@ model TestGridWithTwoHouses
     standAlone=true,
     redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
-    redeclare DeSchipjes.Dwellings.Structures.Woning140 building(isolatieTest=
-          0.02),
+    redeclare DeSchipjes.Dwellings.Structures.Woning140 building(isolatieTest=0.02),
     isDH=true,
     redeclare package Medium = Medium,
     redeclare IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
           6)),
     redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
       QNom=QNom,
-      TSupply=TSupply,
-      TReturn=TReturn))
+      TSupply=TSupplyRad,
+      TReturn=TReturnRad))
     annotation (Placement(transformation(extent={{-56,76},{-76,96}})));
   DistrictHeating.Interfaces.DHConnection dHConnection1(
     length=15,
-    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe,
     m_flow_nominal=1,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe(dp_nominal=100))
     annotation (Placement(transformation(extent={{10,-11},{-10,11}},
         rotation=90,
         origin={-48,37})));
   DistrictHeating.Interfaces.DHConnection dHConnection2(
     length=15,
-    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe,
     m_flow_nominal=1,
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe(dp_nominal=100))
     annotation (Placement(transformation(extent={{10,-11},{-10,11}},
         rotation=90,
         origin={-48,67})));
