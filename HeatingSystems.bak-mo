@@ -1,0 +1,454 @@
+within DeSchipjes;
+package HeatingSystems
+  model HTHeatingSystem
+    extends BaseClasses.PartialRadiators(bou1(nPorts=2));
+
+    IDEAS.Fluid.BaseCircuits.HeatExchanger heatExchanger1(
+      redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_dhw,
+      dp1_nominal=200,
+      dp2_nominal=200) annotation (Placement(transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=0,
+          origin={64,50})));
+  equation
+    connect(heatExchanger1.port_a2, bou1.ports[2]) annotation (Line(
+        points={{74,44},{100,44},{100,34},{160,34},{160,46},{172,46},{172,60}},
+
+        color={0,127,255},
+        smooth=Smooth.None,
+        pattern=LinePattern.Dash));
+    connect(heatExchanger1.port_b1, dHWTap.port_hot) annotation (Line(
+        points={{74,56},{112,56},{112,46},{130,46}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(pumpDHW.port_b1, heatExchanger1.port_a1) annotation (Line(
+        points={{-14,56},{54,56}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(pumpDHW.port_a2, heatExchanger1.port_b2) annotation (Line(
+        points={{-14,44},{54,44}},
+        color={0,127,255},
+        smooth=Smooth.None,
+        pattern=LinePattern.Dash));
+    connect(pumpDHW.u, dHWTap.mDHW60C) annotation (Line(
+        points={{-24,60.8},{-24,80},{124,80},{124,54.6},{130,54.6}},
+        color={175,175,175},
+        smooth=Smooth.None));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{
+              -200,-100},{200,100}}), graphics));
+  end HTHeatingSystem;
+
+  model ITHeatingSystem
+    extends BaseClasses.PartialStorage;
+
+    DistrictHeating.HeatingSystems.Control.Hysteresis hysteresis1(
+      uLow=273.15 + 55,
+      uHigh=273.15 + 65,
+      realTrue=0,
+      realFalse=m_flow_dhw)
+      annotation (Placement(transformation(extent={{66,74},{46,94}})));
+  equation
+    connect(storageTank_OneIntHX.T[1], hysteresis1.u) annotation (Line(
+        points={{82,60.7077},{74,60.7077},{74,84},{67.2,84}},
+        color={0,0,127},
+        smooth=Smooth.None));
+    connect(pumpDHW.port_b1, storageTank_OneIntHX.port_a) annotation (Line(
+        points={{-14,56},{60,56},{60,71.5385},{82,71.5385}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(pumpDHW.port_a2, storageTank_OneIntHX.port_b) annotation (Line(
+        points={{-14,44},{82,44},{82,44.4615}},
+        color={0,127,255},
+        smooth=Smooth.None,
+        pattern=LinePattern.Dash));
+    connect(hysteresis1.y, pumpDHW.u) annotation (Line(
+        points={{45.2,84},{-24,84},{-24,60.8}},
+        color={175,175,175},
+        smooth=Smooth.None));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+              -100},{200,100}}), graphics));
+  end ITHeatingSystem;
+
+  model LTHeatingSystem
+    extends BaseClasses.PartialStorage;
+
+    IDEAS.Fluid.Production.NewHeatPumpWaterWater newHeatPumpWaterWater(
+        redeclare package Medium = Medium) annotation (Placement(transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=0,
+          origin={4,50})));
+    IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpSupply_m_flowdhw1(
+      redeclare package Medium = Medium,
+      KvReturn=2,
+      m_flow_nominal=m_flow_dhw,
+      measurePower=false) annotation (Placement(transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=0,
+          origin={34,50})));
+    DistrictHeating.HeatingSystems.Control.Hysteresis hysteresis1(
+      uLow=273.15 + 55,
+      uHigh=273.15 + 65,
+      realTrue=0,
+      realFalse=m_flow_dhw)
+      annotation (Placement(transformation(extent={{64,76},{44,96}})));
+  equation
+    connect(pumpSupply_m_flowdhw.port_b1, newHeatPumpWaterWater.port_a1)
+      annotation (Line(
+        points={{-14,56},{-6,56}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(pumpSupply_m_flowdhw.port_a2, newHeatPumpWaterWater.port_b1)
+      annotation (Line(
+        points={{-14,44},{-6,44}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(newHeatPumpWaterWater.port_b, pumpSupply_m_flowdhw1.port_a1)
+      annotation (Line(
+        points={{14,56},{24,56}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(newHeatPumpWaterWater.port_a, pumpSupply_m_flowdhw1.port_b2)
+      annotation (Line(
+        points={{14,44},{24,44}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(pumpSupply_m_flowdhw1.port_b1, storageTank_OneIntHX.port_a)
+      annotation (Line(
+        points={{44,56},{74,56},{74,71.5385},{82,71.5385}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(pumpSupply_m_flowdhw1.port_a2, storageTank_OneIntHX.port_b)
+      annotation (Line(
+        points={{44,44},{82,44},{82,44.4615}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(hysteresis1.y, pumpDHW.u) annotation (Line(
+        points={{43.2,86},{-24,86},{-24,60.8}},
+        color={175,175,175},
+        smooth=Smooth.None));
+    connect(hysteresis1.y, pumpSupply_m_flowdhw1.u) annotation (Line(
+        points={{43.2,86},{34,86},{34,60.8}},
+        color={175,175,175},
+        smooth=Smooth.None));
+    connect(storageTank_OneIntHX.T[1], hysteresis1.u) annotation (Line(
+        points={{82,60.7077},{82,62},{70,62},{70,86},{65.2,86}},
+        color={175,175,175},
+        smooth=Smooth.None));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{
+              -200,-100},{200,100}}), graphics));
+  end LTHeatingSystem;
+
+  package BaseClasses
+    partial model PartialRadiators
+      //Extensions
+      extends IDEAS.Interfaces.BaseClasses.HeatingSystem(
+        isDH=true,
+        nEmbPorts=0);
+
+      //Parameters
+      parameter Modelica.SIunits.Power[nZones] QNom=2000*ones(nZones)
+        "Nominal heating power of each zone";
+      parameter Modelica.SIunits.Temperature TSupply=273.15+70
+        "Radiator supply temperature";
+      parameter Modelica.SIunits.Temperature TReturn=273.15+60
+        "Radiator return temeprature";
+      parameter Modelica.SIunits.Temperature TBoiler=273.15+80
+        "Radiator return temeprature";
+
+      parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.1
+        "Nominal mass flow rate of DHW";
+
+      parameter Real KVs[nZones] = ones(nZones)*10
+        "Values for the balancing valves";
+
+      final parameter Modelica.SIunits.MassFlowRate[nZones] m_flow_nominal = QNom/(4180.6*(TSupply-TReturn))
+        "Nominal mass flow rates";
+
+      IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
+        redeclare package Medium = Medium,
+        Q_flow_nominal=QNom,
+        T_a_nominal=TSupply,
+        T_b_nominal=TReturn,
+        nEle=2)
+        annotation (Placement(transformation(extent={{-124,-42},{-144,-22}})));
+      IDEAS.Fluid.BaseCircuits.HeatExchanger heatExchanger(
+        m_flow_nominal=sum(m_flow_nominal),
+        dp1_nominal=200,
+        dp2_nominal=200,
+        redeclare package Medium = Medium,
+        measureReturnT=false,
+        dp=200,
+        efficiency=0.8)                                annotation (Placement(
+            transformation(
+            extent={{-10,10},{10,-10}},
+            rotation=180,
+            origin={54,-38})));
+      IDEAS.Fluid.BaseCircuits.FlowController flowController(
+          redeclare package Medium = Medium,
+        CvDataSupply=IDEAS.Fluid.Types.CvTypes.Kv,
+        m_flow_nominal=sum(m_flow_nominal),
+        dpValve_nominalSupply=0,
+        KvReturn=5,
+        KvSupply=1,
+        includePipes=true,
+        measureSupplyT=false,
+        measureReturnT=false,
+        dp=200,
+        useBalancingValve=true)
+        annotation (Placement(transformation(
+            extent={{-10,10},{10,-10}},
+            rotation=180,
+            origin={96,-38})));
+      IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(n=nZones,
+        redeclare package Medium = Medium,
+        m_flow_nominal=sum(m_flow_nominal),
+        V=0.01)
+        annotation (Placement(transformation(extent={{-62,-48},{-82,-28}})));
+      IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
+        KvReturn=5,
+        redeclare package Medium = Medium,
+        m_flow_nominal=m_flow_nominal,
+        includePipes=false,
+        measurePower=false,
+        dp=200)
+        annotation (Placement(transformation(extent={{-92,-48},{-112,-28}})));
+      IDEAS.Fluid.Sources.FixedBoundary bou(
+        redeclare package Medium = Medium,
+        use_T=false,
+        nPorts=1)
+        annotation (Placement(transformation(extent={{10,10},{-10,-10}},
+            rotation=90,
+            origin={30,-12})));
+      DistrictHeating.HeatingSystems.Control.Hysteresis
+                         hysteresis[nZones](
+        realFalse=m_flow_nominal,
+        release=false,
+        uLow=273.15 + 19,
+        uHigh=273.15 + 21,
+        realTrue=0)
+        annotation (Placement(transformation(extent={{-138,40},{-118,60}})));
+      DistrictHeating.HeatingSystems.Control.PI
+                 pI(TSet=TSupply - 5,
+        release=true,
+        PID(
+          controllerType=Modelica.Blocks.Types.SimpleController.PI,
+          yMax=1,
+          yMin=0,
+          k=0.1,
+          Ti=1000))                   annotation (Placement(transformation(
+            extent={{-10,10},{10,-10}},
+            rotation=180,
+            origin={80,4})));
+      DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=
+            m_flow_dhw)
+        annotation (Placement(transformation(extent={{130,42},{156,56}})));
+      IDEAS.Fluid.Sources.FixedBoundary bou1(
+        redeclare package Medium = Medium,
+        use_T=false,
+        nPorts=1)
+        annotation (Placement(transformation(extent={{10,10},{-10,-10}},
+            rotation=90,
+            origin={172,70})));
+      IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpDHW(
+        redeclare package Medium = Medium,
+        KvReturn=2,
+        m_flow_nominal=m_flow_dhw,
+        measurePower=false) annotation (Placement(transformation(
+            extent={{-10,-10},{10,10}},
+            rotation=0,
+            origin={-24,50})));
+    equation
+      QHeaSys = 0;
+      P[1] = 0;
+      Q[1] = 0;
+
+      connect(flowController.port_a1, flowPort_supply) annotation (Line(
+          points={{106,-32},{160,-32},{160,-100}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(flowController.port_b2, flowPort_return) annotation (Line(
+          points={{106,-44},{120,-44},{120,-100}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(flowController.port_b1,heatExchanger. port_a1) annotation (Line(
+          points={{86,-32},{64,-32}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(heatExchanger.port_b2,flowController. port_a2) annotation (Line(
+          points={{64,-44},{86,-44}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(heatExchanger.port_b1,parallelPipesSplitter. port_a) annotation (Line(
+          points={{44,-32},{-62,-32}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(parallelPipesSplitter.port_b,heatExchanger. port_a2) annotation (Line(
+          points={{-62,-44},{44,-44}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(parallelPipesSplitter.port_aN, pumpRadiators.port_b2) annotation
+        (Line(
+          points={{-82,-44},{-92,-44}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(parallelPipesSplitter.port_bN, pumpRadiators.port_a1) annotation
+        (Line(
+          points={{-82,-32},{-92,-32}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(pumpRadiators.port_b1, rad.port_a) annotation (Line(
+          points={{-112,-32},{-124,-32}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(rad.port_b, pumpRadiators.port_a2) annotation (Line(
+          points={{-144,-32},{-152,-32},{-152,-44},{-112,-44}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(heatPortCon,rad. heatPortCon) annotation (Line(
+          points={{-200,20},{-132,20},{-132,-24.8}},
+          color={191,0,0},
+          smooth=Smooth.None));
+      connect(heatPortRad,rad. heatPortRad) annotation (Line(
+          points={{-200,-20},{-136,-20},{-136,-24.8}},
+          color={191,0,0},
+          smooth=Smooth.None));
+      connect(TSensor,hysteresis. u) annotation (Line(
+          points={{-204,-60},{-180,-60},{-180,50},{-139.2,50}},
+          color={175,175,175},
+          smooth=Smooth.None));
+      connect(hysteresis.y, pumpRadiators.u) annotation (Line(
+          points={{-117.2,50},{-102,50},{-102,-27.2}},
+          color={0,0,127},
+          smooth=Smooth.None));
+      connect(pI.y,flowController. u) annotation (Line(
+          points={{90.6,4},{96,4},{96,-27.2}},
+          color={0,0,127},
+          smooth=Smooth.None));
+      connect(pI.senMassFlow1,heatExchanger. massFlow1) annotation (Line(
+          points={{69.6,-4},{62,-4},{62,-27.2}},
+          color={0,0,127},
+          smooth=Smooth.None));
+      connect(pI.T1,heatExchanger. senT1) annotation (Line(
+          points={{69.6,0},{60,0},{60,-27.4},{59.4,-27.4}},
+          color={0,0,127},
+          smooth=Smooth.None));
+      connect(pI.senMassFlow2,heatExchanger. massFlow2) annotation (Line(
+          points={{69.6,8},{49.2,8},{49.2,-27.4}},
+          color={0,0,127},
+          smooth=Smooth.None));
+      connect(pI.senT2,heatExchanger. Tsup) annotation (Line(
+          points={{69.6,12},{46.4,12},{46.4,-27.6}},
+          color={0,0,127},
+          smooth=Smooth.None));
+      connect(mDHW60C, dHWTap.mDHW60C) annotation (Line(
+          points={{80,-104},{80,-54},{124,-54},{124,54.6},{130,54.6}},
+          color={175,175,175},
+          smooth=Smooth.None));
+      connect(bou.ports[1], parallelPipesSplitter.port_a) annotation (Line(
+          points={{30,-22},{30,-32},{-62,-32}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(dHWTap.port_cold, bou1.ports[1]) annotation (Line(
+          points={{156,46},{172,46},{172,60}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(pumpDHW.port_b2, heatExchanger.port_a2) annotation (Line(
+          points={{-34,44},{-40,44},{-40,-44},{44,-44}},
+          color={0,127,255},
+          smooth=Smooth.None,
+          pattern=LinePattern.Dash));
+      connect(pumpDHW.port_a1, parallelPipesSplitter.port_a) annotation (Line(
+          points={{-34,56},{-54,56},{-54,-32},{-62,-32}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+                -100},{200,100}}), graphics));
+    end PartialRadiators;
+
+    partial model PartialStorage
+      //Extensions
+      extends PartialRadiators(dHWTap(m_flow_nominal=m_flow_dhw, redeclare
+            package Medium =
+                     Medium));
+
+      //Parameters
+      parameter Modelica.SIunits.Length hTan=1.5 "Height of the storage tank";
+      parameter Modelica.SIunits.Volume vTan=0.1 "Volume of the storage tank";
+
+      IDEAS.Fluid.Storage.StorageTank_OneIntHX storageTank_OneIntHX(
+        redeclare package MediumHX = Medium,
+        redeclare package Medium = Medium,
+        nbrNodes=5,
+        m_flow_nominal_HX=m_flow_dhw,
+        volumeTank=vTan,
+        heightTank=hTan)
+        annotation (Placement(transformation(extent={{104,42},{82,74}})));
+    equation
+      connect(storageTank_OneIntHX.portHXLower, dHWTap.port_hot) annotation (Line(
+          points={{104,46.9231},{130,46.9231},{130,46}},
+          color={0,127,255},
+          smooth=Smooth.None));
+      connect(storageTank_OneIntHX.portHXUpper, dHWTap.port_cold) annotation (Line(
+          points={{104,51.8462},{108,51.8462},{108,60},{160,60},{160,46},{156,
+              46}},
+          color={0,127,255},
+          smooth=Smooth.None));
+
+      annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+                -100},{200,100}}), graphics));
+    end PartialStorage;
+
+    model DHWTap
+      extends IDEAS.Fluid.Domestic_Hot_Water.DHW_RealInput;
+
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
+                -100,-40},{140,100}}), graphics={
+            Rectangle(
+              extent={{-100,100},{140,-40}},
+              lineColor={135,135,135},
+              fillColor={255,255,255},
+              fillPattern=FillPattern.Solid),
+            Polygon(
+              points={{8,-12},{28,-12},{28,54},{8,54},{8,-12}},
+              lineColor={135,135,135},
+              smooth=Smooth.None,
+              fillColor={215,215,215},
+              fillPattern=FillPattern.Solid),
+            Polygon(
+              points={{8,42},{28,42},{28,62},{8,82},{-30,82},{-50,62},{-50,42},
+                  {-32,42},{-32,56},{-22,64},{0,64},{8,56},{8,42}},
+              lineColor={135,135,135},
+              smooth=Smooth.None,
+              fillColor={215,215,215},
+              fillPattern=FillPattern.Solid),
+            Polygon(
+              points={{-32,28},{8,28},{-2,-12},{-22,-12},{-32,28}},
+              lineColor={135,135,135},
+              smooth=Smooth.None,
+              fillColor={215,215,215},
+              fillPattern=FillPattern.Solid),
+            Rectangle(
+              extent={{-26,34},{2,26}},
+              lineColor={255,85,85},
+              fillColor={255,0,0},
+              fillPattern=FillPattern.Solid),
+            Polygon(
+              points={{28,28},{68,28},{58,-12},{38,-12},{28,28}},
+              lineColor={135,135,135},
+              smooth=Smooth.None,
+              fillColor={215,215,215},
+              fillPattern=FillPattern.Solid),
+            Rectangle(
+              extent={{34,34},{62,26}},
+              lineColor={0,0,255},
+              fillColor={0,0,255},
+              fillPattern=FillPattern.Solid)}));
+    end DHWTap;
+  end BaseClasses;
+end HeatingSystems;

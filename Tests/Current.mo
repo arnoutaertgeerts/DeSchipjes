@@ -1,0 +1,25 @@
+within DeSchipjes.Tests;
+model Current "The current neighborhood"
+  IDEAS.Interfaces.Building building1
+    annotation (Placement(transformation(extent={{-80,-40},{-60,-20}})));
+  IDEAS.Interfaces.Building building2
+    annotation (Placement(transformation(extent={{-80,-20},{-60,0}})));
+  IDEAS.Interfaces.Building building3
+    annotation (Placement(transformation(extent={{-80,0},{-60,20}})));
+  IDEAS.Interfaces.Building building4
+    annotation (Placement(transformation(extent={{-80,20},{-60,40}})));
+  IDEAS.Interfaces.Building building5
+    annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
+  IDEAS.Interfaces.Building building6
+    annotation (Placement(transformation(extent={{-60,40},{-40,60}})));
+  IDEAS.Interfaces.Building building7
+    annotation (Placement(transformation(extent={{-40,40},{-20,60}})));
+  IDEAS.Interfaces.Building building8
+    annotation (Placement(transformation(extent={{-20,40},{0,60}})));
+  IDEAS.Interfaces.Building building9
+    annotation (Placement(transformation(extent={{0,40},{20,60}})));
+  IDEAS.Interfaces.Building building10
+    annotation (Placement(transformation(extent={{20,40},{40,60}})));
+  IDEAS.Interfaces.Building building11
+    annotation (Placement(transformation(extent={{40,40},{60,60}})));
+end Current;

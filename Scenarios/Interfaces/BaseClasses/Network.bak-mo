@@ -1,0 +1,126 @@
+within DeSchipjes.Scenarios.Interfaces.BaseClasses;
+model Network
+  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
+
+  IDEAS.Interfaces.Building building1(
+    redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
+      ventilationSystem,
+    standAlone=true,
+    redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
+          heatLosses=false)),
+    redeclare DeSchipjes.Structures.Woning140 building(isolatieTest=0.02),
+    isDH=true,
+    redeclare IDEAS.Occupants.Standards.None occupant(TSet_val=273.15 + 21),
+    redeclare DeSchipjes.HeatingSystems.ITHeatingSystem heatingSystem)
+    annotation (Placement(transformation(extent={{-66,36},{-86,56}})));
+  IDEAS.Interfaces.Building building2(
+    redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
+      ventilationSystem,
+    standAlone=true,
+    redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
+          heatLosses=false)),
+    redeclare DeSchipjes.Structures.Woning140 building(isolatieTest=0.02),
+    isDH=true,
+    redeclare IDEAS.Occupants.Standards.None occupant(TSet_val=273.15 + 21),
+    redeclare DeSchipjes.HeatingSystems.ITHeatingSystem heatingSystem)
+    annotation (Placement(transformation(extent={{-66,66},{-86,86}})));
+  DistrictHeating.Interfaces.DHConnection dHConnection1(
+    redeclare package Medium = IDEAS.Media.Water.Simple,
+    length=15,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe,
+    m_flow_nominal=1)
+    annotation (Placement(transformation(extent={{10,-11},{-10,11}},
+        rotation=90,
+        origin={-58,27})));
+  DistrictHeating.Interfaces.DHConnection dHConnection2(
+    redeclare package Medium = IDEAS.Media.Water.Simple,
+    length=15,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe,
+    m_flow_nominal=1)
+    annotation (Placement(transformation(extent={{10,-11},{-10,11}},
+        rotation=90,
+        origin={-58,57})));
+equation
+  connect(port_a, dHConnection1.flowPort_supply_in) annotation (Line(
+      points={{-100,0},{-60,0},{-60,19.8}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(building2.flowPort_return, dHConnection2.flowPortIn) annotation (Line(
+      points={{-74,66},{-74,62},{-66,62}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(building2.flowPort_supply, dHConnection2.flowPortOut) annotation (
+      Line(
+      points={{-78,66},{-78,58},{-66,58}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPort_supply_out, dHConnection2.flowPort_supply_in)
+    annotation (Line(
+      points={{-60,40},{-60,49.8}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPort_return_in, dHConnection2.flowPort_return_out)
+    annotation (Line(
+      points={{-48.2,40},{-48.2,40},{-48.2,50}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPort_return_out, port_b) annotation (Line(
+      points={{-48.2,20},{-48,20},{-48,0},{100,0}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPortIn, building1.flowPort_return) annotation (Line(
+      points={{-66,32},{-74,32},{-74,36}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPortOut, building1.flowPort_supply) annotation (
+      Line(
+      points={{-66,28},{-78,28},{-78,36}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics), Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
+        Polygon(
+          points={{-60,-20},{-20,-20},{-20,20},{-40,40},{-60,20},{-60,-20}},
+          lineColor={127,0,0},
+          smooth=Smooth.None,
+          fillColor={127,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-46,-20},{-34,0}},
+          lineColor={127,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{-20,-20},{20,-20},{20,20},{0,40},{-20,20},{-20,-20}},
+          lineColor={127,0,0},
+          smooth=Smooth.None,
+          fillColor={127,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-6,-20},{6,0}},
+          lineColor={127,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{20,-20},{60,-20},{60,20},{40,40},{20,20},{20,-20}},
+          lineColor={127,0,0},
+          smooth=Smooth.None,
+          fillColor={127,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{34,-20},{46,0}},
+          lineColor={127,0,0},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Line(
+          points={{-100,0},{-60,0}},
+          color={0,128,255},
+          smooth=Smooth.None),
+        Line(
+          points={{60,0},{90,0}},
+          color={0,128,255},
+          smooth=Smooth.None)}));
+end Network;
