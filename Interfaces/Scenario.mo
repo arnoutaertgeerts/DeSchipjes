@@ -15,7 +15,7 @@ model Scenario
     annotation (Placement(transformation(extent={{10,-18},{-10,2}})));
   replaceable BaseClasses.Grid grid(
       m_flow_nominal=m_flow_nominal,
-      redeclare package Medium = Buildings.Media.ConstantPropertyLiquidWater)
+      redeclare package Medium = IDEAS.Media.Water.Simple)
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     nPorts=1,
@@ -23,7 +23,7 @@ model Scenario
     use_T=false) annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
-        origin={36,14})));
+        origin={36,26})));
 equation
   connect(grid.port_a, productionSite.port_b) annotation (Line(
       points={{-10,30},{-22,30},{-22,-8},{-10,-8}},
@@ -34,7 +34,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(bou.ports[1], productionSite.port_a) annotation (Line(
-      points={{36,4},{36,0},{20,0},{20,-8},{10,-8}},
+      points={{36,16},{36,10},{20,10},{20,-8},{10,-8}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},

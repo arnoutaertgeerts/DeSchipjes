@@ -15,7 +15,6 @@ model TestGridWithTwoHouses
     standAlone=true,
     redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
-    redeclare DeSchipjes.Dwellings.Structures.Woning140 building(isolatieTest=0.02),
     isDH=true,
     redeclare package Medium = Medium,
     redeclare IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
@@ -23,7 +22,8 @@ model TestGridWithTwoHouses
     redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
       QNom=QNom,
       TSupply=TSupplyRad,
-      TReturn=TReturnRad))
+      TReturn=TReturnRad),
+    redeclare DeSchipjes.Dwellings.Structures.Old.House140 building)
     annotation (Placement(transformation(extent={{-56,46},{-76,66}})));
   IDEAS.Interfaces.Building building2(
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
@@ -31,7 +31,6 @@ model TestGridWithTwoHouses
     standAlone=true,
     redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
-    redeclare DeSchipjes.Dwellings.Structures.Woning140 building(isolatieTest=0.02),
     isDH=true,
     redeclare package Medium = Medium,
     redeclare IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
@@ -39,7 +38,8 @@ model TestGridWithTwoHouses
     redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
       QNom=QNom,
       TSupply=TSupplyRad,
-      TReturn=TReturnRad))
+      TReturn=TReturnRad),
+    redeclare DeSchipjes.Dwellings.Structures.Renovated.House140 building)
     annotation (Placement(transformation(extent={{-56,76},{-76,96}})));
   DistrictHeating.Interfaces.DHConnection dHConnection1(
     length=15,
