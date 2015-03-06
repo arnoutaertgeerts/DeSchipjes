@@ -3,7 +3,8 @@ model S1HTGasSun
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(
     m_flow_nominal=0.5,
-    redeclare ProductionSites.IdealProduction productionSite);
+    redeclare ProductionSites.IdealProduction productionSite,
+    redeclare DeSchipjes.Grids.BaseClasses.HTGrid grid);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(

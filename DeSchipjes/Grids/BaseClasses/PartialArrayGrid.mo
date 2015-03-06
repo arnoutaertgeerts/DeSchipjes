@@ -7,6 +7,7 @@ partial model PartialArrayGrid
   //Parameters
   parameter Integer nBuildings(min=2)=2;
   parameter Real lengths[nBuildings]=fill(15, nBuildings);
+  parameter Boolean reducedOrder = false;
 
   //Variables
 
@@ -21,12 +22,12 @@ partial model PartialArrayGrid
     redeclare each package Medium = Medium,
     redeclare each IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
           6)),
-    redeclare each
+    redeclare each replaceable
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
-     heatingSystem(
-      QNom=QNom,
-      TSupply=TSupplyRad,
-      TReturn=TReturnRad))
+       heatingSystem(
+        QNom=QNom,
+        TSupply=TSupplyRad,
+        TReturn=TReturnRad))
     annotation (Placement(transformation(extent={{-62,48},{-82,68}})));
   DistrictHeating.Interfaces.DHConnection[nBuildings] dHConnections(
     length=lengths,
