@@ -39,7 +39,7 @@ model TestGridWithTwoHouses
       QNom=QNom,
       TSupply=TSupplyRad,
       TReturn=TReturnRad),
-    redeclare DeSchipjes.Dwellings.Structures.Renovated.House140 building)
+    redeclare DeSchipjes.Dwellings.Structures.Renovated.RowHouse building)
     annotation (Placement(transformation(extent={{-56,76},{-76,96}})));
   DistrictHeating.Interfaces.DHConnection dHConnection1(
     length=15,

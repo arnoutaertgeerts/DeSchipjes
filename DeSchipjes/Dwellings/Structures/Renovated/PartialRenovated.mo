@@ -48,7 +48,17 @@ model PartialRenovated "Standaard woning de schipjes"
     badkamerZijgevel(redeclare final Data.Constructions.Renovated.GevelType1
         constructionType, final insulationThickness=0),
     halAchtergevel(redeclare final Data.Constructions.Renovated.GevelType1
-        constructionType, final insulationThickness=0));
+        constructionType, final insulationThickness=0),
+    woonruimteKeuken,
+    woonruimteGemeenschappelijk,
+    keukenGemeenschappelijk,
+    keukenWC,
+    WCGemeenschappelijk,
+    slaapkamerGemeenschappelijk,
+    slaapkamerBadStaand,
+    slaapkamerBadLiggend,
+    slaapkamerDakLinks,
+    slaapkamerDakRechts);
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
             -100},{220,200}}), graphics));

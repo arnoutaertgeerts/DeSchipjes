@@ -25,7 +25,8 @@ partial model PartialRadiators
     "Nominal mass flow rates";
 
   final parameter Modelica.SIunits.Pressure dp_nominal=
-    2* flowController.dp + heatExchanger.dp1_nominal;
+    2* flowController.dp + heatExchanger.dp1_nominal
+    "Nominal pressure drop of the DH grid in the dwelling";
 
   IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
     redeclare package Medium = Medium,

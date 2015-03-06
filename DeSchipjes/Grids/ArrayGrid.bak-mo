@@ -1,0 +1,59 @@
+within DeSchipjes.Grids;
+model ArrayGrid
+  //Extensions
+  extends DeSchipjes.Interfaces.BaseClasses.Grid(final dp_nominal=
+    building1.heatingSystem.dp_nominal +
+    building2.heatingSystem.dp_nominal +
+    dHConnection1.dp_nominal +
+    dHConnection2.dp_nominal);
+
+  //Parameters
+  parameter Real nBuildings = 2;
+  parameter Real lengths[nBuildings] = fill(nBuildings, 15);
+
+  //Variables
+
+  //Components
+  IDEAS.Interfaces.Building[nBuildings] buildings(
+    redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
+      ventilationSystem,
+    standAlone=true,
+    redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
+          heatLosses=false)),
+    isDH=true,
+    redeclare package Medium = Medium,
+    redeclare IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
+          6)),
+    redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
+      QNom=QNom,
+      TSupply=TSupplyRad,
+      TReturn=TReturnRad))
+    annotation (Placement(transformation(extent={{-56,46},{-76,66}})));
+  DistrictHeating.Interfaces.DHConnection[nConnections] dHConnections(
+    length=lengths,
+    m_flow_nominal=1,
+    redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe(dp_nominal=100))
+    annotation (Placement(transformation(extent={{10,-11},{-10,11}},
+        rotation=90,
+        origin={-48,37})));
+equation
+  connect(port_a,dHConnection1. flowPort_supply_in) annotation (Line(
+      points={{-100,0},{-50,0},{-50,29.8}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPort_return_out, port_b) annotation (Line(
+      points={{-38.2,30},{-38,30},{-38,0},{100,0}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPortIn,buildings. flowPort_return) annotation (Line(
+      points={{-56,42},{-64,42},{-64,46}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPortOut,buildings. flowPort_supply) annotation (
+      Line(
+      points={{-56,38},{-68,38},{-68,46}},
+      color={0,0,0},
+      smooth=Smooth.None));
+end ArrayGrid;

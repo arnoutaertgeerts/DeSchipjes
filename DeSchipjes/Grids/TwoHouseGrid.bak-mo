@@ -1,0 +1,6 @@
+within DeSchipjes.Grids;
+model TwoHouseGrid
+  //Extensions
+  extends PartialArrayGrid;
+
+end TwoHouseGrid;

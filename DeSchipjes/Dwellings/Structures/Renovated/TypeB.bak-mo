@@ -1,0 +1,10 @@
+within DeSchipjes.Dwellings.Structures.Renovated;
+model TypeB "Renovated house type B"
+  extends PartialRenovated(woonruimteHal(azi=0), woonruimteKeuken(azi=deg63));
+
+  parameter Real deg63 "Inclination of a 63 degree wall";
+  parameter Real deg153 "Inclination of a 153 degree wall";
+
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
+            -100},{220,200}}), graphics));
+end TypeB;

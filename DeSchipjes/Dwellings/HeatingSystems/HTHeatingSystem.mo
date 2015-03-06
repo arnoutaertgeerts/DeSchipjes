@@ -9,24 +9,24 @@ model HTHeatingSystem
     dp2_nominal=200) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={64,50})));
+        origin={46,50})));
 equation
   connect(heatExchanger1.port_a2, bou1.ports[2]) annotation (Line(
-      points={{74,44},{100,44},{100,34},{160,34},{160,46},{166,46},{166,46}},
+      points={{56,44},{100,44},{100,34},{160,34},{160,46},{166,46}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
 
   connect(heatExchanger1.port_b1, dHWTap.port_hot) annotation (Line(
-      points={{74,56},{112,56},{112,46},{130,46}},
+      points={{56,56},{112,56},{112,46},{130,46}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpDHW.port_b1, heatExchanger1.port_a1) annotation (Line(
-      points={{-14,56},{54,56}},
+      points={{-14,56},{36,56}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpDHW.port_a2, heatExchanger1.port_b2) annotation (Line(
-      points={{-14,44},{54,44}},
+      points={{-14,44},{36,44}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
