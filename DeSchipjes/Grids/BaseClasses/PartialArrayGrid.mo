@@ -1,4 +1,4 @@
-within DeSchipjes.Grids;
+within DeSchipjes.Grids.BaseClasses;
 partial model PartialArrayGrid
   //Extensions
   extends DeSchipjes.Interfaces.BaseClasses.Grid(final dp_nominal=
