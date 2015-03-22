@@ -13,8 +13,6 @@ partial model PartialArrayGrid
 
   //Components
   replaceable IDEAS.Interfaces.Building[nBuildings] buildings(
-    redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
-      ventilationSystem,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
@@ -27,8 +25,12 @@ partial model PartialArrayGrid
        heatingSystem(
         QNom=QNom,
         TSupply=TSupplyRad,
-        TReturn=TReturnRad))
+        TReturn=TReturnRad),
+    redeclare each replaceable
+      DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
+      constrainedby DeSchipjes.Dwellings.Structures.PartialStructure)
     annotation (Placement(transformation(extent={{-62,48},{-82,68}})));
+
   DistrictHeating.Interfaces.DHConnection[nBuildings] dHConnections(
     length=lengths,
     m_flow_nominal=1,
@@ -38,6 +40,7 @@ partial model PartialArrayGrid
     annotation (Placement(transformation(extent={{10,-11},{-10,11}},
         rotation=90,
         origin={-48,37})));
+
 equation
   connect(port_a, dHConnections[1].flowPort_supply_in) annotation (Line(
       points={{-100,0},{-50,0},{-50,29.8}},
