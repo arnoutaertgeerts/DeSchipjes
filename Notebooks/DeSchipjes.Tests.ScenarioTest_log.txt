@@ -1,0 +1,86 @@
+FMIL: module = FMI2XML, log level = 2: Attribute 'factor' cannot be equal to zero
+FMIL: module = FMI2XML, log level = 2: Attribute 'factor' cannot be equal to zero
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: Start attribute is not allowed for variables with initial='calculated'
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: Start attribute is not allowed for variables with initial='calculated'
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = FMI2XML, log level = 2: The derivative attribute may only appear on continuous-time Real variables.
+FMIL: module = Model, log level = 2: [][FMU status:Error] fmiInitialize: dsblock_ failed, QiErr = 1
+FMIL: module = Model, log level = 2: [][FMU status:Error] Unless otherwise indicated by error messages, possible errors are (non-exhaustive):
+The model references external data that is not present on the target machine, at least not with the same location.
+
