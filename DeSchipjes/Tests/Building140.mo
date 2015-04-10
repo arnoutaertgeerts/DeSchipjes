@@ -13,7 +13,13 @@ model Building140 "A complete building model for testing"
     redeclare DeSchipjes.Dwellings.Structures.Old.House140 building,
     isDH=true,
     redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
-        QNom={2113,1409,1,1025,804,1}))
+      QNom={2113,1409,1,1025,804,1},
+      heatExchanger(measureReturnT=true),
+      pumpRadiators(measureSupplyT=true, measureReturnT=true),
+      flowController(
+        includePipes=true,
+        measureSupplyT=true,
+        measureReturnT=true)))
     annotation (Placement(transformation(extent={{-30,20},{30,80}})));
   IDEAS.Fluid.Production.IdealHeater idealHeater(m_flow_nominal=0.5)
     annotation (Placement(transformation(

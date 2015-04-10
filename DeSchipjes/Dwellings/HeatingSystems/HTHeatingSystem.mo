@@ -1,6 +1,9 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model HTHeatingSystem
-  extends BaseClasses.PartialRadiators(bou1(nPorts=2));
+  extends BaseClasses.PartialRadiators(bou1(nPorts=2), pumpRadiators(
+      use_powerCharacteristic=false,
+      motorCooledByFluid=false,
+      dynamicBalance=false));
 
   IDEAS.Fluid.BaseCircuits.HeatExchanger heatExchanger1(
     redeclare package Medium = Medium,
@@ -31,7 +34,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(pumpDHW.u, dHWTap.mDHW60C) annotation (Line(
-      points={{-24,60.8},{-24,80},{124,80},{124,54.6},{130,54.6}},
+      points={{-24,60.8},{-24,80},{124,80},{124,56},{143,56}},
       color={175,175,175},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{

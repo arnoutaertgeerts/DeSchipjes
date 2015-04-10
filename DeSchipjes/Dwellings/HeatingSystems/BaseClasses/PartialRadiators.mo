@@ -41,9 +41,11 @@ partial model PartialRadiators
     dp2_nominal=200,
     redeclare package Medium = Medium,
     measureReturnT=false,
-    dp=0,
     efficiency=0.9,
-    m=25)                                          annotation (Placement(
+    m=25,
+    dp=50,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+                                                   annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -55,12 +57,15 @@ partial model PartialRadiators
     dpValve_nominalSupply=0,
     KvReturn=5,
     KvSupply=1,
-    includePipes=true,
     measureSupplyT=false,
     measureReturnT=false,
     useBalancingValve=true,
     m=10,
-    dp=200)
+    dp=200,
+    includePipes=false,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    dynamicBalance=false)
     annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -68,7 +73,7 @@ partial model PartialRadiators
   IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(n=nZones,
     redeclare package Medium = Medium,
     m_flow_nominal=sum(m_flow_nominal),
-    V=0.01)
+    V=0.025)
     annotation (Placement(transformation(extent={{-62,-48},{-82,-28}})));
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
     KvReturn=5,
@@ -76,7 +81,10 @@ partial model PartialRadiators
     m_flow_nominal=m_flow_nominal,
     includePipes=false,
     measurePower=false,
-    dp=200)
+    dp=200,
+    filteredSpeed=false,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    dynamicBalance=false)
     annotation (Placement(transformation(extent={{-92,-48},{-112,-28}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     redeclare package Medium = Medium,
@@ -118,7 +126,12 @@ partial model PartialRadiators
     redeclare package Medium = Medium,
     KvReturn=2,
     m_flow_nominal=m_flow_dhw,
-    measurePower=false) annotation (Placement(transformation(
+    measurePower=false,
+    filteredSpeed=false,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    dynamicBalance=false)
+                        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-24,50})));
@@ -211,7 +224,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(mDHW60C, dHWTap.mDHW60C) annotation (Line(
-      points={{80,-104},{80,-54},{124,-54},{124,54.6},{130,54.6}},
+      points={{80,-104},{80,-54},{124,-54},{124,56},{143,56}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(bou.ports[1], parallelPipesSplitter.port_a) annotation (Line(
