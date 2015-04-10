@@ -33,7 +33,8 @@ partial model PartialRadiators
     Q_flow_nominal=QNom,
     T_a_nominal=TSupply,
     T_b_nominal=TReturn,
-    nEle=2)
+    nEle=2,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-124,-42},{-144,-22}})));
   IDEAS.Fluid.BaseCircuits.HeatExchanger heatExchanger(
     m_flow_nominal=sum(m_flow_nominal),

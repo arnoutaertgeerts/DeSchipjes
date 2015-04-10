@@ -42,8 +42,9 @@ model Renovated "A complete building model for testing"
     KvReturn=10,
     redeclare package Medium = IDEAS.Media.Water.Simple,
     m_flow_nominal=0.5,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    dynamicBalance=false)
+    dynamicBalance=false,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    filteredSpeed=false)
                         annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
