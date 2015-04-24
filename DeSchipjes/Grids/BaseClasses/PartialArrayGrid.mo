@@ -29,7 +29,7 @@ partial model PartialArrayGrid
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
       constrainedby DeSchipjes.Dwellings.Structures.PartialStructure)
-    annotation (Placement(transformation(extent={{-62,48},{-82,68}})));
+    annotation (Placement(transformation(extent={{-62,64},{-82,84}})));
 
   DistrictHeating.Interfaces.DHConnection[nBuildings] dHConnections(
     length=lengths,
@@ -37,34 +37,36 @@ partial model PartialArrayGrid
     redeclare each package Medium = Medium,
     redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
       districtHeatingPipe(dp_nominal=100))
-    annotation (Placement(transformation(extent={{10,-11},{-10,11}},
+    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
         rotation=90,
-        origin={-48,37})));
+        origin={-44,40})));
 
 equation
-  connect(port_a, dHConnections[1].flowPort_supply_in) annotation (Line(
-      points={{-100,0},{-50,0},{-50,29.8}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(dHConnections[1].flowPort_return_out, port_b) annotation (Line(
-      points={{-38.2,30},{-38,30},{-38,0},{100,0}},
-      color={0,0,0},
-      smooth=Smooth.None));
 
   for i in 1:nBuildings loop
     connect(dHConnections[i].flowPortOut,buildings[i].flowPort_supply) annotation (
       Line(
-      points={{-56,38},{-74,38},{-74,48}},
+      points={{-54,38},{-74,38},{-74,64}},
       color={0,0,0},
       smooth=Smooth.None));
     connect(dHConnections[i].flowPortIn,buildings[i].flowPort_return) annotation (Line(
-      points={{-56,42},{-70,42},{-70,48}},
+      points={{-54,42},{-70,42},{-70,64}},
       color={0,0,0},
       smooth=Smooth.None));
   end for;
 
   for i in 1:nBuildings-1 loop
-    connect(dHConnections[i].flowPort_supply_out, dHConnections[i+1].flowPort_supply_in);
-    connect(dHConnections[i].flowPort_return_in, dHConnections[i+1].flowPort_return_out);
+    connect(dHConnections[i].port_a1, dHConnections[i+1].port_b1);
+    connect(dHConnections[i].port_b2, dHConnections[i+1].port_a2);
   end for;
+  connect(port_a, dHConnections[1].port_b1) annotation (Line(
+      points={{-100,0},{-50,0},{-50,30}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(port_b, dHConnections[1].port_a2) annotation (Line(
+      points={{100,0},{-38,0},{-38,30}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}}), graphics));
 end PartialArrayGrid;

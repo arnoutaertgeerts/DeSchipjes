@@ -1,13 +1,16 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model LTHeatingSystem
-  extends BaseClasses.PartialStorage;
+  extends BaseClasses.PartialStorage(tan(
+      redeclare package Medium = Medium,
+      m_flow_nominal=m_flow_dhw,
+      VTan=0.1,
+      dIns=0.02,
+      redeclare package MediumHex = Medium,
+      hTan=0.5,
+      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
+      hHex_a=0.40));
 
-  IDEAS.Fluid.Production.NewHeatPumpWaterWater newHeatPumpWaterWater(
-      redeclare package Medium = Medium) annotation (Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={4,50})));
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpSupply_m_flowdhw1(
     redeclare package Medium = Medium,
     KvReturn=2,
@@ -15,56 +18,92 @@ model LTHeatingSystem
     measurePower=false) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={34,50})));
+        origin={36,50})));
   DistrictHeating.HeatingSystems.Control.Hysteresis hysteresis1(
     uLow=273.15 + 55,
     uHigh=273.15 + 65,
     realTrue=0,
     realFalse=m_flow_dhw)
     annotation (Placement(transformation(extent={{64,76},{44,96}})));
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=273.15 + 60)
+    annotation (Placement(transformation(extent={{-38,14},{-18,34}})));
+  IDEAS.Fluid.Production.NewHeatPumpWaterWater newHeatPumpWaterWater(
+    use_onOffSignal=false,
+    onOff=true,
+    modulationInput=false,
+    redeclare package Medium1 = Medium,
+    redeclare package Medium2 = Medium,
+    m1_flow_nominal=m_flow_dhw,
+    redeclare package Medium = Medium,
+    QNom=1000,
+    m2_flow_nominal=m_flow_dhw,
+    dp1_nominal=0,
+    dp2_nominal=0,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState) annotation (
+      Placement(transformation(
+        extent={{10,-10},{-10,10}},
+        rotation=90,
+        origin={6,50})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
+    annotation (Placement(transformation(extent={{100,76},{80,96}})));
+  IDEAS.Fluid.Sources.FixedBoundary bou2(
+    redeclare package Medium = Medium,
+    use_T=false,
+    nPorts=1)
+    annotation (Placement(transformation(extent={{10,10},{-10,-10}},
+        rotation=270,
+        origin={64,30})));
 equation
-  connect(pumpSupply_m_flowdhw.port_b1, newHeatPumpWaterWater.port_a1)
-    annotation (Line(
-      points={{-14,56},{-6,56}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumpSupply_m_flowdhw.port_a2, newHeatPumpWaterWater.port_b1)
-    annotation (Line(
-      points={{-14,44},{-6,44}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(newHeatPumpWaterWater.port_b, pumpSupply_m_flowdhw1.port_a1)
-    annotation (Line(
-      points={{14,56},{24,56}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(newHeatPumpWaterWater.port_a, pumpSupply_m_flowdhw1.port_b2)
-    annotation (Line(
-      points={{14,44},{24,44}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumpSupply_m_flowdhw1.port_b1, storageTank_OneIntHX.port_a)
-    annotation (Line(
-      points={{44,56},{74,56},{74,71.5385},{82,71.5385}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumpSupply_m_flowdhw1.port_a2, storageTank_OneIntHX.port_b)
-    annotation (Line(
-      points={{44,44},{82,44},{82,44.4615}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(hysteresis1.y, pumpDHW.u) annotation (Line(
       points={{43.2,86},{-24,86},{-24,60.8}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(hysteresis1.y, pumpSupply_m_flowdhw1.u) annotation (Line(
-      points={{43.2,86},{34,86},{34,60.8}},
+      points={{43.2,86},{36,86},{36,60.8}},
       color={175,175,175},
       smooth=Smooth.None));
-  connect(storageTank_OneIntHX.T[1], hysteresis1.u) annotation (Line(
-      points={{82,60.7077},{82,62},{70,62},{70,86},{65.2,86}},
-      color={175,175,175},
+  connect(pumpDHW.port_b1, newHeatPumpWaterWater.port_a1) annotation (Line(
+      points={{-14,56},{-10,56},{-10,60},{0,60},{0,60}},
+      color={0,127,255},
       smooth=Smooth.None));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{
-            -200,-100},{200,100}}), graphics));
+  connect(pumpDHW.port_a2, newHeatPumpWaterWater.port_b1) annotation (Line(
+      points={{-14,44},{-10,44},{-10,40},{0,40},{0,40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(newHeatPumpWaterWater.port_b2, pumpSupply_m_flowdhw1.port_a1)
+    annotation (Line(
+      points={{12,60},{12,60},{20,60},{20,56},{26,56}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(newHeatPumpWaterWater.port_a2, pumpSupply_m_flowdhw1.port_b2)
+    annotation (Line(
+      points={{12,40},{20,40},{20,44},{26,44}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(realExpression1.y, newHeatPumpWaterWater.u) annotation (Line(
+      points={{-17,24},{-12,24},{-12,48},{-4.8,48}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(pumpSupply_m_flowdhw1.port_b1, tan.port_a) annotation (Line(
+      points={{46,56},{108,56},{108,44},{102,44}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(pumpSupply_m_flowdhw1.port_a2, tan.port_b) annotation (Line(
+      points={{46,44},{82,44}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(temperatureSensor.T, hysteresis1.u) annotation (Line(
+      points={{80,86},{65.2,86}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(temperatureSensor.port, tan.heaPorVol[3]) annotation (Line(
+      points={{100,86},{116,86},{116,48},{92,48},{92,44.15}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(pumpSupply_m_flowdhw1.port_a2, bou2.ports[1]) annotation (Line(
+      points={{46,44},{64,44},{64,40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+            -100},{200,100}}),      graphics));
 end LTHeatingSystem;

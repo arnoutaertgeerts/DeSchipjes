@@ -29,7 +29,10 @@ model Building140 "A complete building model for testing"
   IDEAS.Fluid.BaseCircuits.PumpSupply_dp pumpSupply_dp(
     KvReturn=10,
     redeclare package Medium = IDEAS.Media.Water.Simple,
-    m_flow_nominal=0.5) annotation (Placement(transformation(
+    m_flow_nominal=0.5,
+    includePipes=true,
+    m=10,
+    measurePower=false) annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
         origin={0,0})));

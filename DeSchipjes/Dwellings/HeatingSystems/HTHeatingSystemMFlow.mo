@@ -1,10 +1,9 @@
 within DeSchipjes.Dwellings.HeatingSystems;
-model HTHeatingSystem
-  extends BaseClasses.PartialRadiators(bou1(nPorts=2), pumpRadiators(
+model HTHeatingSystemMFlow
+  extends BaseClasses.PartialRadiatorsMFlow(bou1(nPorts=2), pumpRadiators(
       use_powerCharacteristic=false,
       motorCooledByFluid=false),
-    flowController(                   m=25),
-    heatExchanger(                      includePipes=true));
+    flowController(                   m=25, addPowerToMedium=false));
 
   IDEAS.Fluid.BaseCircuits.HeatExchanger heatExchanger1(
     redeclare package Medium = Medium,
@@ -40,4 +39,4 @@ equation
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));
-end HTHeatingSystem;
+end HTHeatingSystemMFlow;

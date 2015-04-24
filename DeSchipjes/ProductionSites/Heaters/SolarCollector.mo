@@ -135,5 +135,4 @@ __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/Sola
  experiment(StopTime=86400.0),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
                     graphics));
-
 end SolarCollector;
