@@ -4,9 +4,6 @@ model IdealProduction
   //Extensions
   extends Interfaces.BaseClasses.ProductionSite;
 
-  //Parameters
-  parameter Modelica.SIunits.Temperature TSet=70+273.15;
-
   IDEAS.Fluid.BaseCircuits.PumpSupply_dp centralPump(
     redeclare package Medium = Medium,
     KvReturn=2,
