@@ -1,28 +1,33 @@
 within DeSchipjes.Grids;
 partial model SmallGrid
-  extends Interfaces.BaseClasses.Grid;
+  extends Interfaces.BaseClasses.Grid(
+    final dp_nominal=
+      4*haarhakkerHouse.heatingSystem.dp_nominal+4*dHConnection.dp_nominal);
 
   parameter Modelica.SIunits.Length length = 15 "Lengths of the DH connections";
 
   IDEAS.Interfaces.Building haarhakkerHouse(
     each standAlone=true,
-    redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
-          heatLosses=false)),
     each isDH=true,
     redeclare each package Medium = Medium,
-    redeclare each IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
-          6)),
     redeclare each replaceable
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
         TSupply=TSupplyRad,
-        TReturn=TReturnRad),
+        TReturn=TReturnRad) constrainedby
+      DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
+          QNom=QNom,
+          TSupply=TSupplyRad,
+          TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
       constrainedby DeSchipjes.Dwellings.Structures.PartialStructure,
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
-      ventilationSystem)
+      ventilationSystem,
+    redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid,
+    redeclare each IDEAS.Occupants.Extern.StROBe occupant(VZones=
+          haarhakkerHouse.building.VZones))
     annotation (Placement(transformation(extent={{-40,18},{-60,38}})));
   IDEAS.Interfaces.Building petersleiHouse(
     each standAlone=true,
@@ -30,19 +35,23 @@ partial model SmallGrid
           heatLosses=false)),
     each isDH=true,
     redeclare each package Medium = Medium,
-    redeclare each IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
-          6)),
     redeclare each replaceable
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
         TSupply=TSupplyRad,
-        TReturn=TReturnRad),
+        TReturn=TReturnRad) constrainedby
+      DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
+          QNom=QNom,
+          TSupply=TSupplyRad,
+          TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse building
       constrainedby DeSchipjes.Dwellings.Structures.PartialStructure,
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
-      ventilationSystem)
+      ventilationSystem,
+    redeclare each IDEAS.Occupants.Extern.StROBe occupant(VZones=
+          haarhakkerHouse.building.VZones, id=3))
     annotation (Placement(transformation(extent={{46,-22},{26,-2}})));
   DistrictHeating.Interfaces.DHConnection dHConnection(
     length=length,
@@ -59,19 +68,23 @@ partial model SmallGrid
           heatLosses=false)),
     each isDH=true,
     redeclare each package Medium = Medium,
-    redeclare each IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
-          6)),
     redeclare each replaceable
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
         TSupply=TSupplyRad,
-        TReturn=TReturnRad),
+        TReturn=TReturnRad) constrainedby
+      DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
+          QNom=QNom,
+          TSupply=TSupplyRad,
+          TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
       constrainedby DeSchipjes.Dwellings.Structures.PartialStructure,
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
-      ventilationSystem)
+      ventilationSystem,
+    redeclare each IDEAS.Occupants.Extern.StROBe occupant(VZones=
+          haarhakkerHouse.building.VZones, id=2))
     annotation (Placement(transformation(extent={{-10,18},{-30,38}})));
   IDEAS.Interfaces.Building petersleiHouse1(
     each standAlone=true,
@@ -79,19 +92,23 @@ partial model SmallGrid
           heatLosses=false)),
     each isDH=true,
     redeclare each package Medium = Medium,
-    redeclare each IDEAS.Occupants.Standards.None occupant(TSet_val=fill(273.15 + 21,
-          6)),
     redeclare each replaceable
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
         TSupply=TSupplyRad,
-        TReturn=TReturnRad),
+        TReturn=TReturnRad) constrainedby
+      DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
+          QNom=QNom,
+          TSupply=TSupplyRad,
+          TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse building
       constrainedby DeSchipjes.Dwellings.Structures.PartialStructure,
     redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
-      ventilationSystem)
+      ventilationSystem,
+    redeclare each IDEAS.Occupants.Extern.StROBe occupant(VZones=
+          haarhakkerHouse.building.VZones, id=4))
     annotation (Placement(transformation(extent={{46,-52},{26,-32}})));
   DistrictHeating.Interfaces.DHConnection dHConnection1(
     length=length,

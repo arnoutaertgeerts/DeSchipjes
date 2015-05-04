@@ -4,6 +4,9 @@ model Renovated "A complete building model for testing"
   //Parameters
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal = 0.1;
 
+  //Variables
+  Modelica.SIunits.Energy ETot;
+
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   IDEAS.Interfaces.Building buildingTest(
@@ -13,14 +16,15 @@ model Renovated "A complete building model for testing"
     redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
     isDH=true,
-    redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
-      building,
     redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem(
       QNom={2113,1409,1,1025,804,1},
-      TSupply=273.15 + 45,
-      TReturn=273.15 + 35,
-      TBoiler=273.15 + 45),
-    redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones))
+      TSupply=273.15 + 50,
+      TReturn=273.15 + 40,
+      TBoiler=273.15 + 50),
+    redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
+      building,
+    redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
+        id=5))
     annotation (Placement(transformation(extent={{-30,20},{30,80}})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_dp pumpSupply_dp(
@@ -45,8 +49,8 @@ model Renovated "A complete building model for testing"
     nPorts=1,
     redeclare package Medium = IDEAS.Media.Water.Simple,
     use_T=false)
-    annotation (Placement(transformation(extent={{52,-38},{32,-18}})));
-  Modelica.Blocks.Sources.Constant const1(k=273.15 + 45)
+    annotation (Placement(transformation(extent={{34,-36},{14,-16}})));
+  Modelica.Blocks.Sources.Constant const1(k=273.15 + 55)
     annotation (Placement(transformation(extent={{-60,-56},{-40,-36}})));
 public
   Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
@@ -56,23 +60,25 @@ public
     annotation (Placement(transformation(extent={{-8,-62},{12,-42}})));
 protected
   inner IDEAS.Occupants.Extern.StrobeInfoManager                strobe(
-    FilNam_Q="Q.txt",
     FilNam_mDHW="mDHW.txt",
     FilNam_QCon="QCon.txt",
     FilNam_QRad="QRad.txt",
     FilNam_TSet="sh_day.txt",
     FilNam_TSet2="sh_night.txt",
-    FilNam_P="P.txt",
+    filDir="C://Users//u0098668//Documents//Modelica//Occupants/",
     StROBe_P=true,
-    filDir="C://Users//u0098668//Documents//Modelica//Occupants/")
+    FilNam_P="P.txt",
+    FilNam_Q="Q.txt")
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
 equation
+  der(ETot) = hea.Q_flow;
+
   connect(const.y, pumpSupply_dp.u) annotation (Line(
       points={{27,0},{20,0},{20,-6.66134e-16},{10.8,-6.66134e-16}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(bou.ports[1], pumpSupply_dp.port_a1) annotation (Line(
-      points={{32,-28},{6,-28},{6,-10}},
+      points={{14,-26},{6,-26},{6,-10}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpSupply_dp.port_b2, hea.port_a) annotation (Line(
@@ -98,8 +104,8 @@ equation
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics),
     experiment(
-      StopTime=86000,
-      __Dymola_fixedstepsize=25,
+      StopTime=3.15569e+007,
+      __Dymola_fixedstepsize=10,
       __Dymola_Algorithm="Lsodar"),
     __Dymola_experimentSetupOutput);
 end Renovated;

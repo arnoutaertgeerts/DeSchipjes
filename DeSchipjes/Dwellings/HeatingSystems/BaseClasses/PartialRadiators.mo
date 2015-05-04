@@ -2,6 +2,7 @@ within DeSchipjes.Dwellings.HeatingSystems.BaseClasses;
 partial model PartialRadiators
   //Extensions
   extends IDEAS.Interfaces.BaseClasses.HeatingSystem(
+    nLoads=0,
     isDH=true,
     nEmbPorts=0,
     TSet);
@@ -18,7 +19,7 @@ partial model PartialRadiators
   parameter Modelica.SIunits.Temperature TStorage=273.15+60
     "DHW temperature setpoint";
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.1
+  parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.015
     "Nominal mass flow rate of DHW";
 
   parameter Real KVs[nZones] = ones(nZones)*10
@@ -31,6 +32,11 @@ partial model PartialRadiators
     2* flowController.dp + heatExchanger.dp1_nominal
     "Nominal pressure drop of the DH grid in the dwelling";
 
+  //Variables
+  Modelica.SIunits.Energy SpaceQ;
+  Modelica.SIunits.Energy dhwQ;
+
+  //Components
   IDEAS.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
     redeclare package Medium = Medium,
     Q_flow_nominal=QNom,
@@ -38,7 +44,8 @@ partial model PartialRadiators
     T_b_nominal=TReturn,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nEle=1,
-    T_start=TSupply)
+    T_start=TSupply,
+    allowFlowReversal=true)
     annotation (Placement(transformation(extent={{-124,-42},{-144,-22}})));
   IDEAS.Fluid.BaseCircuits.HeatExchanger heatExchanger(
     m_flow_nominal=sum(m_flow_nominal),
@@ -98,7 +105,8 @@ partial model PartialRadiators
     tauTSensor=0,
     each filteredSpeed=true,
     each riseTime=180,
-    T_start=TSupply)
+    T_start=TSupply,
+    allowFlowReversal=true)
     annotation (Placement(transformation(extent={{-90,-48},{-110,-28}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     redeclare package Medium = Medium,
@@ -120,7 +128,8 @@ partial model PartialRadiators
         extent={{-10,10},{10,-10}},
         rotation=180,
         origin={70,4})));
-  DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw)
+  DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw,
+    TDHWSet=273.15 + 40)
     annotation (Placement(transformation(extent={{128,32},{154,46}})));
   IDEAS.Fluid.Sources.FixedBoundary bou1(
     redeclare package Medium = Medium,
@@ -137,8 +146,8 @@ partial model PartialRadiators
     filteredSpeed=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    dynamicBalance=false)
-                        annotation (Placement(transformation(
+    dynamicBalance=false,
+    T_start=TSupply)    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-24,50})));
@@ -148,7 +157,7 @@ partial model PartialRadiators
     yMax=m_flow_nominal,
     k=0.5)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
-  Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(Td=240)
+  Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(Td=30)
     annotation (Placement(transformation(extent={{90,-6},{110,14}})));
   ToKelvin toKelvin[nZones]
     annotation (Placement(transformation(extent={{-60,-78},{-80,-58}})));
@@ -160,6 +169,9 @@ partial model PartialRadiators
         origin={80,-76})));
 equation
   QHeaSys = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
+  der(SpaceQ) = QHeaSys;
+  dhwQ = 0;
+
   P[1] = 0;
   Q[1] = 0;
 

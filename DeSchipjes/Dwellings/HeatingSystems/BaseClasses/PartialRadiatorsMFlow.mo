@@ -14,6 +14,8 @@ partial model PartialRadiatorsMFlow
     "Radiator return temeprature";
   parameter Modelica.SIunits.Temperature TBoiler=273.15+80
     "Radiator return temeprature";
+  parameter Modelica.SIunits.Temperature TStorage=273.15+60
+    "DHW temperature setpoint";
 
   parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.1
     "Nominal mass flow rate of DHW";
@@ -34,7 +36,8 @@ partial model PartialRadiatorsMFlow
     T_a_nominal=TSupply,
     T_b_nominal=TReturn,
     nEle=2,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    T_start=TSupply)
     annotation (Placement(transformation(extent={{-124,-42},{-144,-22}})));
   IDEAS.Fluid.BaseCircuits.HeatExchanger heatExchanger(
     m_flow_nominal=sum(m_flow_nominal),
@@ -47,7 +50,8 @@ partial model PartialRadiatorsMFlow
     dynamicBalance=true,
     tauTSensor=0,
     m=50,
-    efficiency=0.8)                                annotation (Placement(
+    efficiency=0.8,
+    T_start=TSupply)                               annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -68,7 +72,8 @@ partial model PartialRadiatorsMFlow
     riseTime=180,
     dynamicBalance=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    includePipes=false)
+    includePipes=false,
+    T_start=TSupply)
     annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -76,7 +81,8 @@ partial model PartialRadiatorsMFlow
   IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(n=nZones,
     redeclare package Medium = Medium,
     m_flow_nominal=sum(m_flow_nominal),
-    V=0.025)
+    V=0.025,
+    T_start=TSupply)
     annotation (Placement(transformation(extent={{-60,-48},{-80,-28}})));
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
     KvReturn=5,
@@ -89,7 +95,9 @@ partial model PartialRadiatorsMFlow
     each dynamicBalance=false,
     tauTSensor=0,
     each filteredSpeed=true,
-    each riseTime=180)
+    each riseTime=180,
+    T_start=TSupply,
+    allowFlowReversal=false)
     annotation (Placement(transformation(extent={{-90,-48},{-110,-28}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     redeclare package Medium = Medium,
@@ -99,7 +107,7 @@ partial model PartialRadiatorsMFlow
         rotation=90,
         origin={30,-12})));
   DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw)
-    annotation (Placement(transformation(extent={{130,42},{156,56}})));
+    annotation (Placement(transformation(extent={{130,32},{156,46}})));
   IDEAS.Fluid.Sources.FixedBoundary bou1(
     redeclare package Medium = Medium,
     use_T=false,
@@ -115,8 +123,8 @@ partial model PartialRadiatorsMFlow
     filteredSpeed=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    dynamicBalance=false)
-                        annotation (Placement(transformation(
+    dynamicBalance=false,
+    T_start=TSupply)    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-24,50})));
@@ -126,8 +134,12 @@ partial model PartialRadiatorsMFlow
     realTrue=0,
     realFalse=m_flow_nominal)
     annotation (Placement(transformation(extent={{-140,36},{-120,56}})));
-  Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=0.065)
-    annotation (Placement(transformation(extent={{64,-10},{84,10}})));
+  Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=0.015)
+    annotation (Placement(transformation(extent={{56,-10},{76,10}})));
+  Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(
+    Rising=0.01,
+    Falling=-0.1,
+    Td=30) annotation (Placement(transformation(extent={{84,-10},{104,10}})));
 equation
   QHeaSys = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
   P[1] = 0;
@@ -189,7 +201,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(mDHW60C, dHWTap.mDHW60C) annotation (Line(
-      points={{80,-104},{80,-54},{124,-54},{124,56},{143,56}},
+      points={{80,-104},{80,-54},{124,-54},{124,60},{144,60},{144,46},{143,46}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(bou.ports[1], parallelPipesSplitter.port_a) annotation (Line(
@@ -197,7 +209,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHWTap.port_cold, bou1.ports[1]) annotation (Line(
-      points={{156,46},{166,46}},
+      points={{156,36},{162,36},{162,46},{166,46}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpDHW.port_b2, heatExchanger.port_a2) annotation (Line(
@@ -218,11 +230,15 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatExchanger.massFlow2, limiter.u) annotation (Line(
-      points={{49.2,-27.4},{49.2,0},{62,0}},
+      points={{49.2,-27.4},{49.2,0},{54,0}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(limiter.y, flowController.u) annotation (Line(
-      points={{85,0},{96,0},{96,-27.2}},
+  connect(limiter.y, slewRateLimiter.u) annotation (Line(
+      points={{77,0},{82,0}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(slewRateLimiter.y, flowController.u) annotation (Line(
+      points={{105,0},{108,0},{108,-20},{96,-20},{96,-27.2}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
