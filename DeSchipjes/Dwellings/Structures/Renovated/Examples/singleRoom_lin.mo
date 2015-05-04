@@ -1,10 +1,12 @@
 within DeSchipjes.Dwellings.Structures.Renovated.Examples;
-model singleRoom_lin_validation
+model singleRoom_lin
   extends Modelica.Icons.Example;
-  BaseClasses.SingleRoom singleRoom1
+  BaseClasses.SingleRoom_lin singleRoom1
     annotation (Placement(transformation(extent={{-10,40},{10,60}})));
-  BaseClasses.SingleRoom_SSM singleRoom_SSM1(x_start=fill(293.15,
-        singleRoom_SSM1.states))
+  IDEAS.Buildings.Linearization.BaseClasses.StateSpace
+                             singleRoom_SSM1(    fileName="ssm.mat",
+    nWin=1,
+    x_start=293.15*ones(singleRoom_SSM1.states))
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Math.Add error(k2=-1)
     annotation (Placement(transformation(extent={{40,20},{60,40}})));
@@ -20,7 +22,7 @@ model singleRoom_lin_validation
     azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-54,42},{-44,62}})));
 public
-  inner IDEAS.SimInfoManager sim(offsetAzi=0.80285145591739)
+  inner IDEAS.SimInfoManager sim(offsetAzi=0.95993108859688)
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-92,68},{-72,88}})));
   Modelica.Blocks.Sources.Constant const(k=0)
@@ -61,7 +63,17 @@ equation
 //       color={255,204,51},
 //       thickness=0.5,
 //       smooth=Smooth.None));
+  connect(keukenWindowLarge.winBus, singleRoom1.winBus1[1]) annotation (Line(
+      points={{-43.8,46},{-26,46},{-26,48.3},{-10,48.3}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));
+  connect(keukenWindowLarge.winBus, singleRoom_SSM1.winBus[1]) annotation (Line(
+      points={{-43.8,46},{-26,46},{-26,0},{-10,0}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics), __Dymola_Commands(file="../scripts/lin_sim_plot.mos"
+            -100},{100,100}}), graphics), __Dymola_Commands(file="../scripts/singleRoom_lin_sim_plot.mos"
         "Linearize, simulate, plot"));
-end singleRoom_lin_validation;
+end singleRoom_lin;

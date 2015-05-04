@@ -4,10 +4,11 @@ partial model PartialStructure "Standaard woning de schipjes"
   //Extensions
   extends IDEAS.Interfaces.BaseClasses.Structure(
     nZones=6,
-    final AZones={woonruimteA,keukenA,wcA, slaapkamerA, badkamerA, nachthalA},
-    final VZones={woonruimte.V,keuken.V, wc.V, slaapkamer.V, badkamer.V, nachthal.V},
+    final AZones={woonruimteA,keukenA,wcA,slaapkamerA,badkamerA,nachthalA},
+    final VZones={woonruimte.V,keuken.V,wc.V,slaapkamer.V,badkamer.V,nachthal.V},
     final nEmb=0,
-    final ATrans);
+    final ATrans,
+    redeclare package Medium = Buildings.Media.GasesConstantDensity.SimpleAir);
 
   parameter Modelica.SIunits.Length isolatieTest=0;
 
@@ -20,334 +21,325 @@ partial model PartialStructure "Standaard woning de schipjes"
 
   //Components
   IDEAS.Buildings.Components.Zone woonruimte(
-     V=70.1,
-     corrCV=5,
-     nSurf=10) annotation (Placement(transformation(extent={{110,148},{130,168}})));
-  IDEAS.Buildings.Components.Zone keuken(
-     V=17.13,
-     nSurf=8) annotation (Placement(transformation(extent={{86,102},{106,122}})));
-  IDEAS.Buildings.Components.Zone wc(
-     V=3.86,
-     nSurf=7) annotation (Placement(transformation(extent={{88,46},{108,66}})));
-  IDEAS.Buildings.Components.Zone slaapkamer(
-     V=24.17,
-     nSurf=10) annotation (Placement(transformation(extent={{90,-4},{110,16}})));
-  IDEAS.Buildings.Components.Zone badkamer(
-     V=8.09,
-     nSurf=7)
+    V=70.1,
+    corrCV=5,
+    nSurf=10,
+    redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{110,148},{130,168}})));
+  IDEAS.Buildings.Components.Zone keuken(V=17.13, nSurf=8,
+    redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{86,102},{106,122}})));
+  IDEAS.Buildings.Components.Zone wc(V=3.86, nSurf=7,
+    redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{88,46},{108,66}})));
+  IDEAS.Buildings.Components.Zone slaapkamer(V=24.17, nSurf=10,
+    redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{90,-4},{110,16}})));
+  IDEAS.Buildings.Components.Zone badkamer(V=8.09, nSurf=7,
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{90,-48},{110,-28}})));
-  IDEAS.Buildings.Components.Zone nachthal(
-     V=7.24,
-     nSurf=6)
+  IDEAS.Buildings.Components.Zone nachthal(V=7.24, nSurf=6,
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{74,-90},{94,-70}})));
   IDEAS.Buildings.Components.BoundaryWall woonruimteGemeenschappelijk(
-     AWall=17.10,
-     inc=1.5707963267949,
-     azi=2.3736477827123,
+    AWall=17.10,
+    inc=1.5707963267949,
+    azi=2.3736477827123,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.GemeneMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.GemeneMuur constructionType)
     annotation (Placement(transformation(extent={{-58,138},{-48,158}})));
   IDEAS.Buildings.Components.InternalWall woonruimteKeuken(
-     AWall=6.97,
-     inc=1.5707963267949,
-     azi=2.3736477827123,
+    AWall=6.97,
+    inc=1.5707963267949,
+    azi=2.3736477827123,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)   annotation (Placement(transformation(
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
+    annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=180,
         origin={-19,180})));
   IDEAS.Buildings.Components.OuterWall woonruimteKoer(
-     AWall=5.15,
-     inc=1.5707963267949,
-     azi=2.3736477827123)
+    AWall=5.15,
+    inc=1.5707963267949,
+    azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-138,158},{-128,178}})));
   IDEAS.Buildings.Components.SlabOnGround woonruimteVloer(
-     PWall=18.92,
-     inc=0,
-     azi=0,
-     AWall=woonruimteA)
+    PWall=18.92,
+    inc=0,
+    azi=0,
+    AWall=woonruimteA)
     annotation (Placement(transformation(extent={{-68,176},{-58,196}})));
   IDEAS.Buildings.Components.OuterWall woonruimteAchtergevel(
-     AWall=13.23,
-     inc=1.5707963267949,
-     azi=3.9444441095072)
+    AWall=13.23,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-94,154},{-84,174}})));
   IDEAS.Buildings.Components.OuterWall woonruimteVoorgevel(
-     AWall=9.29,
-     inc=1.5707963267949,
-     azi=3.9444441095072)
+    AWall=9.29,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-114,128},{-104,148}})));
   IDEAS.Buildings.Components.InternalWall woonruimteHal(
-     AWall=3.32,
-     inc=0,
-     azi=0,
+    AWall=3.32,
+    inc=0,
+    azi=0,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={67,180})));
   IDEAS.Buildings.Components.InternalWall woonruimteBad(
-     AWall=3.61,
-     inc=0,
-     azi=0,
+    AWall=3.61,
+    inc=0,
+    azi=0,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={41,176})));
   IDEAS.Buildings.Components.InternalWall woonruimteSlaapkamer(
-     AWall=10.79,
-     inc=0,
-     azi=0,
+    AWall=10.79,
+    inc=0,
+    azi=0,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
     annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=90,
         origin={11,182})));
   IDEAS.Buildings.Components.OuterWall keukenAchtergevel(
-     AWall=7.56,
-     inc=1.5707963267949,
-     azi=3.9444441095072)
+    AWall=7.56,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-132,94},{-122,114}})));
-  IDEAS.Buildings.Components.Window woonruimteWindow(
-     A=5.78,
+  IDEAS.Buildings.Components.LinearizableWindow woonruimteWindow(
+    A=5.78,
     frac=0.12,
-    azi=3.9444441095072,
-    inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
+    redeclare Data.Frames.LoofHout fraType,
+    linOut=false,
+    use_ctrl=false,
+    inc=3.9444441095072,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{76,138},{86,158}})));
-  IDEAS.Buildings.Components.Window keukenWindowLarge(
-     A=4.57,
+  IDEAS.Buildings.Components.LinearizableWindow keukenWindowLarge(
+    A=4.57,
     frac=0.15,
-    azi=3.9444441095072,
+    redeclare Data.Frames.LoofHout fraType,
+    use_ctrl=false,
     inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-90,92},{-80,112}})));
-  IDEAS.Buildings.Components.Window keukenWindowSmall(
-     A=1.05,
+  IDEAS.Buildings.Components.LinearizableWindow keukenWindowSmall(
+    A=1.05,
     frac=0.25,
-    azi=2.3736477827123,
+    redeclare Data.Frames.LoofHout fraType,
+    linOut=false,
+    use_ctrl=false,
     inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
+    azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-72,92},{-62,112}})));
   IDEAS.Buildings.Components.BoundaryWall keukenGemeenschappelijk(
-     AWall=5.92,
-     inc=1.5707963267949,
-     azi=2.3736477827123,
+    AWall=5.92,
+    inc=1.5707963267949,
+    azi=2.3736477827123,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.GemeneMuur
-      constructionType)   annotation (Placement(transformation(
+    redeclare final Data.Constructions.Old.GemeneMuur constructionType)
+    annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={-27,102})));
   IDEAS.Buildings.Components.SlabOnGround keukenVloer(
-     AWall=7.27,
-     PWall=11.16,
-     inc=0,
-     azi=0)
-    annotation (Placement(transformation(extent={{-52,92},{-42,112}})));
+    AWall=7.27,
+    PWall=11.16,
+    inc=0,
+    azi=0) annotation (Placement(transformation(extent={{-52,92},{-42,112}})));
   IDEAS.Buildings.Components.OuterWall keukenDak(
-     AWall=keukenA,
-     inc=0,
-     azi=0,
-    redeclare final Data.Constructions.Old.DakBijBouw
-      constructionType,
+    AWall=keukenA,
+    inc=0,
+    azi=0,
+    redeclare final Data.Constructions.Old.DakBijBouw constructionType,
     final insulationThickness=0.08,
-    redeclare final Data.Insulation.RotsWolSKepers
-      insulationType)
+    redeclare final Data.Insulation.RotsWolSKepers insulationType)
     annotation (Placement(transformation(extent={{-112,92},{-102,112}})));
   IDEAS.Buildings.Components.InternalWall keukenWC(
-     AWall=1.96,
-     inc=1.5707963267949,
-     azi=3.9444441095072,
+    AWall=1.96,
+    inc=1.5707963267949,
+    azi=3.9444441095072,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)                             annotation (Placement(
-        transformation(
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
+    annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=0,
         origin={11,102})));
   IDEAS.Buildings.Components.BoundaryWall WCGemeenschappelijk(
-     AWall=2.85,
-     inc=1.5707963267949,
-     azi=2.3736477827123,
+    AWall=2.85,
+    inc=1.5707963267949,
+    azi=2.3736477827123,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.GemeneMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.GemeneMuur constructionType)
     annotation (Placement(transformation(extent={{-28,46},{-18,66}})));
   IDEAS.Buildings.Components.OuterWall WCKoer(
-     AWall=2.83,
-     inc=1.5707963267949,
-     azi=2.3736477827123)
-    annotation (Placement(transformation(extent={{-134,46},{-124,66}})));
-  IDEAS.Buildings.Components.Window raamwc(
-     A=0.07,
-    frac=0.89,
-    azi=3.9444441095072,
+    AWall=2.83,
     inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
+    azi=2.3736477827123)
+    annotation (Placement(transformation(extent={{-134,46},{-124,66}})));
+  IDEAS.Buildings.Components.LinearizableWindow raamwc(
+    A=0.07,
+    frac=0.89,
+    redeclare Data.Frames.LoofHout fraType,
+    use_ctrl=false,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-66,46},{-56,66}})));
   IDEAS.Buildings.Components.OuterWall WCVoorgevel(
-     AWall=2.65,
-     inc=1.5707963267949,
-     azi=3.9444441095072)
+    AWall=2.65,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-110,46},{-100,66}})));
   IDEAS.Buildings.Components.SlabOnGround WCVloer(
-     AWall=wcA,
-     inc=0,
-     azi=0,
-     PWall=4.74)
+    AWall=wcA,
+    inc=0,
+    azi=0,
+    PWall=4.74)
     annotation (Placement(transformation(extent={{-48,46},{-38,66}})));
   IDEAS.Buildings.Components.OuterWall WCDak(
-     AWall=wcA,
-     inc=0,
-     azi=0,
+    AWall=wcA,
+    inc=0,
+    azi=0,
     final insulationThickness=0.08,
-    redeclare final Data.Constructions.Old.DakBijBouw
-      constructionType,
-    redeclare final Data.Insulation.RotsWolSKepers
-      insulationType)              annotation (Placement(
-        transformation(
+    redeclare final Data.Constructions.Old.DakBijBouw constructionType,
+    redeclare final Data.Insulation.RotsWolSKepers insulationType) annotation (
+      Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=270,
         origin={-83,58})));
   IDEAS.Buildings.Components.OuterWall slaapkamerZijgevel(
-     AWall=2.41,
-     inc=1.5707963267949,
-     azi=2.3736477827123)
+    AWall=2.41,
+    inc=1.5707963267949,
+    azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-132,-2},{-122,18}})));
   IDEAS.Buildings.Components.OuterWall slaapkamerVoorgevel(
-     AWall=13.22,
-     inc=1.5707963267949,
-     azi=3.9444441095072)
+    AWall=13.22,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-114,-2},{-104,18}})));
   IDEAS.Buildings.Components.BoundaryWall slaapkamerGemeenschappelijk(
-     AWall=10.27,
+    AWall=10.27,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.GemeneMuur
-      constructionType,
+    redeclare final Data.Constructions.Old.GemeneMuur constructionType,
     inc=1.5707963267949,
     azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-92,-2},{-82,18}})));
   IDEAS.Buildings.Components.InternalWall slaapkamerBadLiggend(
-     AWall=4.26,
-     inc=1.5707963267949,
-     azi=3.9444441095072,
+    AWall=4.26,
+    inc=1.5707963267949,
+    azi=3.9444441095072,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
     annotation (Placement(transformation(extent={{-68,4},{-58,24}})));
   IDEAS.Buildings.Components.InternalWall slaapkamerBadStaand(
-     AWall=1.12,
-     inc=1.5707963267949,
-     azi=2.3736477827123,
+    AWall=1.12,
+    inc=1.5707963267949,
+    azi=2.3736477827123,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
     annotation (Placement(transformation(extent={{-50,8},{-40,28}})));
   IDEAS.Buildings.Components.InternalWall slaapkamerHal(
-     AWall=3.81,
-     inc=1.5707963267949,
-     azi=3.9444441095072,
-    final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)
-    annotation (Placement(transformation(extent={{-30,-14},{-20,6}})));
-  IDEAS.Buildings.Components.Window slaapkamerRaam(
-     A=0.75,
-    frac=0.21,
-    azi=3.9444441095072,
+    AWall=3.81,
     inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
+    azi=3.9444441095072,
+    final insulationThickness=0,
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
+    annotation (Placement(transformation(extent={{-30,-14},{-20,6}})));
+  IDEAS.Buildings.Components.LinearizableWindow slaapkamerRaam(
+    A=0.75,
+    frac=0.21,
+    redeclare Data.Frames.LoofHout fraType,
+    use_ctrl=false,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-12,-2},{-2,18}})));
   IDEAS.Buildings.Components.OuterWall slaapkamerDakLinks(
-     AWall=11.73,
-    redeclare final Data.Constructions.Old.DakHoofdGebouw
-      constructionType,
+    AWall=11.73,
+    redeclare final Data.Constructions.Old.DakHoofdGebouw constructionType,
     final insulationThickness=0.08,
-    redeclare final Data.Insulation.RotsWolSpanten
-      insulationType,
+    redeclare final Data.Insulation.RotsWolSpanten insulationType,
     inc=5.235987755983,
-    azi=2.3736477827123)  annotation (Placement(transformation(
+    azi=2.3736477827123) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=270,
         origin={-21,30})));
   IDEAS.Buildings.Components.OuterWall badkamerAchtergevel(
-     AWall=1.34,
-     inc=1.5707963267949,
-     azi=3.9444441095072)
+    AWall=1.34,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-132,-38},{-122,-18}})));
   IDEAS.Buildings.Components.OuterWall badkamerZijgevel(
-     AWall=4.05,
-     inc=1.5707963267949,
-     azi=2.3736477827123)
+    AWall=4.05,
+    inc=1.5707963267949,
+    azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-110,-38},{-100,-18}})));
   IDEAS.Buildings.Components.OuterWall badkamerDak(
-     AWall=8.74,
+    AWall=8.74,
     final insulationThickness=0.08,
-    redeclare final Data.Constructions.Old.DakHoofdGebouw
-      constructionType,
-    redeclare final Data.Insulation.RotsWolSpanten
-      insulationType,
+    redeclare final Data.Constructions.Old.DakHoofdGebouw constructionType,
+    redeclare final Data.Insulation.RotsWolSpanten insulationType,
     inc=5.3407075111026,
-    azi=3.9444441095072)  annotation (Placement(transformation(
+    azi=3.9444441095072) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=270,
         origin={11,-22})));
   IDEAS.Buildings.Components.InternalWall badkamerHal(
-     AWall=2.4,
-     inc=1.5707963267949,
-     azi=2.3736477827123,
+    AWall=2.4,
+    inc=1.5707963267949,
+    azi=2.3736477827123,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.BinnenMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.BinnenMuur constructionType)
     annotation (Placement(transformation(extent={{-78,-38},{-68,-18}})));
   IDEAS.Buildings.Components.OuterWall halAchtergevel(
-     AWall=1.06,
-     inc=1.5707963267949,
-     azi=3.9444441095072)
+    AWall=1.06,
+    inc=1.5707963267949,
+    azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-130,-78},{-120,-58}})));
   IDEAS.Buildings.Components.OuterWall halDak(
-     AWall=6.89,
+    AWall=6.89,
     final insulationThickness=0.08,
-    redeclare final Data.Constructions.Old.DakHoofdGebouw
-      constructionType,
-    redeclare final Data.Insulation.RotsWolSpanten
-      insulationType,
+    redeclare final Data.Constructions.Old.DakHoofdGebouw constructionType,
+    redeclare final Data.Insulation.RotsWolSpanten insulationType,
     inc=5.3407075111026,
-    azi=3.9444441095072)                       annotation (Placement(
-        transformation(
+    azi=3.9444441095072) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=270,
         origin={17,-66})));
   IDEAS.Buildings.Components.BoundaryWall halGemeenschappelijk(
-     AWall=4.05,
-     inc=1.5707963267949,
-     azi=2.3736477827123,
+    AWall=4.05,
+    inc=1.5707963267949,
+    azi=2.3736477827123,
     final insulationThickness=0,
-    redeclare final Data.Constructions.Old.GemeneMuur
-      constructionType)
+    redeclare final Data.Constructions.Old.GemeneMuur constructionType)
     annotation (Placement(transformation(extent={{-108,-78},{-98,-58}})));
   IDEAS.Buildings.Components.OuterWall slaapkamerDakRechts(
-     AWall=14.05,
+    AWall=14.05,
     final insulationThickness=0.08,
-    redeclare final Data.Constructions.Old.DakHoofdGebouw
-      constructionType,
-    redeclare final Data.Insulation.RotsWolSpanten
-      insulationType,
+    redeclare final Data.Constructions.Old.DakHoofdGebouw constructionType,
+    redeclare final Data.Insulation.RotsWolSpanten insulationType,
     inc=2.0943951023932,
-    azi=2.3736477827123)  annotation (Placement(transformation(
+    azi=2.3736477827123) annotation (Placement(transformation(
         extent={{-5,-10},{5,10}},
         rotation=270,
         origin={13,30})));
+  input IDEAS.BoundaryConditions.WeatherData.Bus weaBus(numSolBus=sim.numAzi + 1) if sim.linearize
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={220,100})));
+  input IDEAS.Buildings.Components.Interfaces.WinBus winBus[5](each nLay=3) if sim.linearize
+    annotation (Placement(transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={220,20})));
 equation
   connect(woonruimteHal.propsBus_a, woonruimte.propsBus[1]) annotation (Line(
       points={{63,185},{63,163.8},{110,163.8}},
@@ -732,6 +724,19 @@ equation
       points={{82,-70},{78,-70},{78,18},{-20,18},{-20,108.333}},
       color={0,0,0},
       smooth=Smooth.None));
+
+  // Linerization connections
+  connect(woonruimte.weaBus, weaBus);
+  connect(keuken.weaBus, weaBus);
+  connect(wc.weaBus, weaBus);
+  connect(slaapkamer.weaBus, weaBus);
+  connect(badkamer.weaBus, weaBus);
+  connect(nachthal.weaBus, weaBus);
+  connect(woonruimteWindow.winBus, winBus[1]);
+  connect(keukenWindowLarge.winBus, winBus[2]);
+  connect(keukenWindowSmall.winBus, winBus[3]);
+  connect(raamwc.winBus, winBus[4]);
+  connect(slaapkamerRaam.winBus, winBus[5]);
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
             -100},{220,200}}), graphics));
 end PartialStructure;

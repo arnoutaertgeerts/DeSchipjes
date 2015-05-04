@@ -29,15 +29,17 @@ model RowHouse
     badkamerAchtergevel(azi=streetAzi),
     badkamerZijgevel(azi=perpendicularAzi),
     badkamerHal(azi=perpendicularAzi),
-    badkamerDak(azi=streetAzi),
-    WCDak(azi=0),
+    badkamerDak(azi=streetAzi, inc=306),
+    WCDak(azi=streetAzi),
     halAchtergevel(azi=streetAzi),
     halGemeenschappelijk(azi=perpendicularAzi),
-    halDak(azi=0),
-    keukenDak(azi=0));
+    halDak(azi=streetAzi),
+    keukenDak(azi=streetAzi),
+    woonruimteWindow(inc=1.5707963267949, azi=perpendicularAzi));
 
-  parameter Real streetAzi "Azimuth parallel to the street direction";
-  parameter Real perpendicularAzi
+  parameter Modelica.SIunits.Angle streetAzi
+    "Azimuth parallel to the street direction";
+  parameter Modelica.SIunits.Angle perpendicularAzi
     "Azimuth perpendicular on the street direction";
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
