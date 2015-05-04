@@ -1,0 +1,27 @@
+
+% Load dslin.mat containing the ABCD matrices, number of state nx, the name
+% of the states, inputs and outputs.
+load('E:\\work\\modelica\\SimulationResults\\dslin.mat')
+
+nu = size(ABCD,2)-nx;
+ny = size(ABCD,1)-nx;
+A=ABCD(1:nx,1:nx);       
+B=ABCD(1:nx, nx+1:nx+nu);
+C=ABCD(nx+1:nx+ny, 1:nx);
+D=ABCD(nx+1:nx+ny, nx+1:nx+nu);
+       
+sys_ss = ss(A,B,C,D); % full-order model in state-space
+
+% Load inputs
+nInp = 6*2;
+nDist = nu - nInp;
+
+t_sim=findOutput('E:\\work\\modelica\\SimulationResults\\haarhakkerStraatHouse_lin.mat', 'Time', true )';
+u = zeros(size(t_sim,1),nDist);
+for i = 1:nDist
+    u(:,i) = findOutput('E:\\work\\modelica\\SimulationResults\\haarhakkerStraatHouse_lin.mat',['ssm.stateSpace.u['  num2str(nInp + i)  ']'],true);
+end;
+
+
+% Simulate state space
+lsim(sys_ss,u,t);

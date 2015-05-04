@@ -1,5 +1,6 @@
 within DeSchipjes.Dwellings.Structures.Renovated.Examples.BaseClasses;
 model HaarhakkerStraatHouse_lin
+  // FIXME: all dynamics are now on steady state to simplify the initialization in matlab. This should be changed.
   package Medium = Buildings.Media.GasesConstantDensity.SimpleAir;
   parameter Integer nZones = 6;
   HaarhakkerStraatHouse haarhakkerStraatHouse(redeclare package Medium = Medium,
@@ -7,7 +8,19 @@ model HaarhakkerStraatHouse_lin
     slaapkamerDakRechts(inc=if sim.linearize then 0 else 120/180*Modelica.Constants.pi),
     badkamerDak(inc=if sim.linearize then 0 else 306/180*Modelica.Constants.pi),
     halDak(inc=if sim.linearize then 0 else 306/180*Modelica.Constants.pi),
-    T_start=293.15*ones(nZones))
+    T_start=293.15*ones(nZones),
+    woonruimte(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+        massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+    keuken(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+        massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+    wc(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState, massDynamics=
+          Modelica.Fluid.Types.Dynamics.SteadyState),
+    slaapkamer(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+        massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+    badkamer(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+        massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
+    nachthal(energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+        massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState))
     annotation (Placement(transformation(extent={{-16,-10},{14,10}})));
 
   Modelica.Fluid.Sources.FixedBoundary boundary(nPorts=6, redeclare package
