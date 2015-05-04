@@ -2,18 +2,11 @@ within DeSchipjes.Dwellings.Structures.Renovated.Examples.BaseClasses;
 model HaarhakkerStraatHouse_lin
   package Medium = Buildings.Media.GasesConstantDensity.SimpleAir;
 
-  parameter Real n50 = Modelica.Constants.eps;
   HaarhakkerStraatHouse haarhakkerStraatHouse(redeclare package Medium = Medium,
     slaapkamerDakLinks(inc=if sim.linearize then 0 else 300/180*Modelica.Constants.pi),
     slaapkamerDakRechts(inc=if sim.linearize then 0 else 120/180*Modelica.Constants.pi),
     badkamerDak(inc=if sim.linearize then 0 else 306/180*Modelica.Constants.pi),
     halDak(inc=if sim.linearize then 0 else 306/180*Modelica.Constants.pi),
-    woonruimte(n50=n50),
-    keuken(n50=n50),
-    wc(n50=n50),
-    slaapkamer(n50=n50),
-    badkamer(n50=n50),
-    nachthal(n50=n50),
     T_start=293.15*ones(haarhakkerStraatHouse.nZones))
     annotation (Placement(transformation(extent={{-16,-10},{14,10}})));
 

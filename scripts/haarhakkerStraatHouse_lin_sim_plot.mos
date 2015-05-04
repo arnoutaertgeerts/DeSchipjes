@@ -19,5 +19,5 @@ Advanced.PlotLegendTooltip = true;
 Advanced.FullPlotTooltip = true;
 Advanced.DefaultAutoErase = true;
 Advanced.Legend.Horizontal = true;
-createPlot(id=1, position={0, 0, 1496, 400}, y={"SSM.y[1]", "building.TSensor[1]"}, range={0.0, 100000.0, 265.0, 295.0}, grid=true, filename="haarhakkerStraatHouse_lin.mat", leftTitleType=1, bottomTitleType=1, colors={{0,0,255}, {255,0,0}});
-createPlot(id=1, position={0, 0, 1496, 197}, y={"error.y[1]"}, range={0.0, 100000.0, -5.0, 25.0}, grid=true, subPlot=2, leftTitleType=1, bottomTitleType=1, colors={{0,0,255}});
+createPlot(id=1, position={0, 0, 1496, 400}, y={"ssm.y[1]", "building.TSensor[1]"}, range={0.0, 100000.0, 265.0, 295.0}, grid=true, filename="haarhakkerStraatHouse_lin.mat", leftTitleType=1, bottomTitleType=1, colors={{0,0,255}, {255,0,0}});
+createPlot(id=1, position={0, 0, 1496, 197}, y={"error[1].y","error[2].y","error[3].y","error[4].y","error[5].y","error[6].y"}, range={0.0, 100000.0, -5.0, 25.0}, grid=true, subPlot=2, leftTitleType=1, bottomTitleType=1, colors={{0,0,255},{255,0,0},{0,128,0},{255,0,255},{0,0,0},{0,0,255}}, markers={MarkerStyle.None,MarkerStyle.None,MarkerStyle.None,MarkerStyle.None,MarkerStyle.None,MarkerStyle.Cross});
