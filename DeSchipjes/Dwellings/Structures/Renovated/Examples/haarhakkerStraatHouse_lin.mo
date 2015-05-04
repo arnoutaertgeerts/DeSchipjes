@@ -6,7 +6,9 @@ model haarhakkerStraatHouse_lin
   IDEAS.Buildings.Linearization.BaseClasses.StateSpace ssm(
     fileName="ssm.mat",
     nWin=5,
-    x_start=293.15*ones(ssm.states))
+    x_start=293.15*ones(ssm.states),
+    nQConv=6,
+    nQRad=6)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Math.Add error[6](k2=-1)
     annotation (Placement(transformation(extent={{40,20},{60,40}})));
@@ -72,12 +74,14 @@ public
         extent={{-20,20},{20,-20}},
         rotation=270,
         origin={-100,-40})));
+  Modelica.Blocks.Sources.Sine sine[6](amplitude=100, freqHz=1/(86400*0.5))
+    annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
 initial algorithm
     ssm.y :=building.TSensor;
 
 equation
   connect(sim.weaBus, building.weaBus1) annotation (Line(
-      points={{-80.6,85.2},{-80.6,92},{-26,92},{-26,54},{-10,54}},
+      points={{-80.6,85.2},{-80.6,92},{-26,92},{-26,58},{-10,58}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
@@ -133,7 +137,7 @@ equation
       thickness=0.5,
       smooth=Smooth.None));
   connect(building.winBus1, winBus1) annotation (Line(
-      points={{-10,46},{-24,46},{-24,40},{-40,40}},
+      points={{-10,42},{-24,42},{-24,40},{-40,40}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -141,7 +145,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(ssm.winBus, winBus1) annotation (Line(
-      points={{-10,0},{-24,0},{-24,40},{-40,40}},
+      points={{-9.8,6},{-24,6},{-24,40},{-40,40}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -180,6 +184,22 @@ equation
       points={{-83,-48},{-94,-48},{-94,92},{-80.6,92},{-80.6,85.2}},
       color={255,204,51},
       thickness=0.5,
+      smooth=Smooth.None));
+  connect(ssm.Q_flowConv, sine.y) annotation (Line(
+      points={{-10.6,0},{-19,0},{-19,-30}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(building.Q_flowConv, sine.y) annotation (Line(
+      points={{-11,53.6},{-19,53.6},{-19,-30}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(building.Q_flowRad, sine.y) annotation (Line(
+      points={{-11,46.2},{-19,46.2},{-19,-30}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(ssm.Q_flowRad, sine.y) annotation (Line(
+      points={{-10.6,-6},{-19,-6},{-19,-30}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), __Dymola_Commands(file="../scripts/haarhakkerStraatHouse_lin_sim_plot.mos"
