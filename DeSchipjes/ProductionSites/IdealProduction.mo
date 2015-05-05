@@ -4,9 +4,10 @@ model IdealProduction
   //Extensions
   extends Interfaces.BaseClasses.ProductionSite;
 
-  //Parameters
-  parameter Modelica.SIunits.Temperature TSet=70+273.15;
+  //Variables
+  Modelica.SIunits.Energy ETot "Total energy consumed";
 
+  //Components
   IDEAS.Fluid.BaseCircuits.PumpSupply_dp centralPump(
     redeclare package Medium = Medium,
     KvReturn=2,
@@ -29,6 +30,8 @@ model IdealProduction
     dp_nominal=0)
     annotation (Placement(transformation(extent={{-16,50},{4,70}})));
 equation
+  der(ETot) = idealHeater.Q_flow;
+
   connect(centralPump.port_a2, port_a) annotation (Line(
       points={{-14,16},{-14,0},{-100,0}},
       color={0,127,255},

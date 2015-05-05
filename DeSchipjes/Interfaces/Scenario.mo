@@ -1,21 +1,31 @@
 within DeSchipjes.Interfaces;
-model Scenario
+partial model Scenario
 
   //Parameters
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1;
-
-  //Parameteres
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1
+    "Nominal massflow rate at the production site";
   parameter Modelica.SIunits.Power QNom[:] = {2113,1409,1,1025,804,1}
-    "Heat losses for each zone";
+    "Average heat losses for each zone";
+
+  parameter Modelica.SIunits.Temperature TRadSupply(displayUnit="Celsius")
+    "Supply radiator temperature";
+  parameter Modelica.SIunits.Temperature TRadReturn(displayUnit="Celsius")
+    "Return radiator temperature";
+  parameter Modelica.SIunits.Temperature TGrid(displayUnit="Celsius")
+    "Grid supply temperature";
 
   replaceable BaseClasses.ProductionSite productionSite(
     redeclare package Medium = IDEAS.Media.Water.Simple,
     m_flow_nominal=m_flow_nominal,
-    grid_dp=grid.dp_nominal)
+    grid_dp=grid.dp_nominal,
+    TSupplyGrid=TGrid)
     annotation (Placement(transformation(extent={{10,-18},{-10,2}})));
-  replaceable BaseClasses.Grid grid(
+  replaceable DeSchipjes.Interfaces.BaseClasses.Grid grid(
       m_flow_nominal=m_flow_nominal,
-      redeclare package Medium = IDEAS.Media.Water.Simple)
+      redeclare package Medium = IDEAS.Media.Water.Simple,
+    TSupplyRad=TRadSupply,
+    TReturnRad=TRadReturn,
+    TGrid=TGrid)
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     nPorts=1,

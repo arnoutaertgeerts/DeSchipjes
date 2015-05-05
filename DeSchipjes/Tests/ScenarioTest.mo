@@ -1,15 +1,11 @@
 within DeSchipjes.Tests;
 model ScenarioTest
-  extends Interfaces.Scenario(redeclare Grids.BaseClasses.HTGrid grid(
-      nBuildings=2,
-      buildings(redeclare
-          IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
-          ventilationSystem),
-      QNom={2113,1409,1,1025,804,1},
-      TSupplyRad=343.15,
-      TReturnRad=328.15,
-      TSupplyGrid=353.15),
-      redeclare ProductionSites.IdealProduction productionSite);
+  extends Interfaces.Scenario(
+    TGrid=273.15+55,
+    redeclare Grids.Small.LTSmallGrid  grid(
+      TSupplyRad=273.15 + 50,
+      TReturnRad=273.15 + 40),
+    redeclare ProductionSites.IdealProduction productionSite);
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics));

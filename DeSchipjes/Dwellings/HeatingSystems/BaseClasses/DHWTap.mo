@@ -1,6 +1,7 @@
 within DeSchipjes.Dwellings.HeatingSystems.BaseClasses;
 model DHWTap
-  extends IDEAS.Fluid.Domestic_Hot_Water.DHW_RealInput;
+  extends IDEAS.Fluid.Domestic_Hot_Water.DHW_RealInput(pipe_HeatPort(
+        massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{
             -100,-40},{140,100}}), graphics={

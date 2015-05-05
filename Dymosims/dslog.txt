@@ -1,0 +1,5 @@
+Log-file of program ../Dymosims\peterslei.exe
+(generated: Fri May 01 12:43:26 2015)
+
+peterslei.exe started
+... "peterslei_dsin.txt" creating (dymosim input file).

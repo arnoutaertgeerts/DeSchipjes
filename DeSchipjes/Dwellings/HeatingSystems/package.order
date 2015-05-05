@@ -1,5 +1,8 @@
+FromKelvin
+ToKelvin
 HTHeatingSystem
 HTHeatingSystemMFlow
 ITHeatingSystem
 LTHeatingSystem
+LTHeatingSystemMFlow
 BaseClasses
