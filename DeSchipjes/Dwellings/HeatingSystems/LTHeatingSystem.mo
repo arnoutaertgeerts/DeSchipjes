@@ -9,8 +9,6 @@ model LTHeatingSystem
       dIns=0.02,
       redeclare package MediumHex = Medium,
       hTan=0.5,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
       hHex_a=0.45,
       hHex_b=0.05,
       TTan_nominal=TStorage,

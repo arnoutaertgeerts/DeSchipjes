@@ -12,8 +12,6 @@ package Full
 
   model LTFullGrid
     extends DeSchipjes.Grids.FullGrid(
-      haarhakkerHouse(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
       haarhakkerHouse1(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
       haarhakkerHouse2(redeclare replaceable
@@ -22,19 +20,21 @@ package Full
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
       haarhakkerHouse4(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
-      petersleiHouse(redeclare replaceable
+      haarhakkerHouse5(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
-      petersleiHouse1(redeclare replaceable
+      petersleiHouse6(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
-      petersleiHouse2(redeclare replaceable
+      petersleiHouse7(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
-      petersleiHouse3(redeclare replaceable
+      petersleiHouse8(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
-      petersleiHouse4(redeclare replaceable
+      petersleiHouse9(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
-      petersleiHouse5(redeclare replaceable
+      petersleiHouse10(redeclare replaceable
           DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
-      dHConnection(T_start=TGrid),
+      petersleiHouse11(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      dHConnection11(T_start=TGrid),
       dHConnection1(T_start=TGrid),
       dHConnection4(T_start=TGrid),
       dHConnection5(T_start=TGrid),

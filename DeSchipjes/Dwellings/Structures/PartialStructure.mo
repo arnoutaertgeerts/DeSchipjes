@@ -7,7 +7,14 @@ partial model PartialStructure "Standaard woning de schipjes"
     final AZones={woonruimteA,keukenA,wcA, slaapkamerA, badkamerA, nachthalA},
     final VZones={woonruimte.V,keuken.V, wc.V, slaapkamer.V, badkamer.V, nachthal.V},
     final nEmb=0,
-    final ATrans);
+    final ATrans,
+    final Q_design = {
+      woonruimte.Q_design,
+      keuken.Q_design,
+      wc.Q_design,
+      slaapkamer.Q_design,
+      badkamer.Q_design,
+      nachthal.Q_design});
 
   parameter Modelica.SIunits.Length isolatieTest=0;
 
@@ -18,7 +25,9 @@ partial model PartialStructure "Standaard woning de schipjes"
   parameter Modelica.SIunits.Area badkamerA=3.61;
   parameter Modelica.SIunits.Area nachthalA=3.23;
 
-  //Components
+//Components
+//Zones-----------------------------------------------------------------------
+
   IDEAS.Buildings.Components.Zone woonruimte(
      V=70.1,
      corrCV=5,
@@ -40,6 +49,49 @@ partial model PartialStructure "Standaard woning de schipjes"
      V=7.24,
      nSurf=6)
     annotation (Placement(transformation(extent={{74,-90},{94,-70}})));
+
+//Windows---------------------------------------------------------------------
+
+  IDEAS.Buildings.Components.Window woonruimteWindow(
+     A=5.78,
+    frac=0.12,
+    azi=3.9444441095072,
+    inc=1.5707963267949,
+    redeclare Data.Frames.LoofHout fraType)
+    annotation (Placement(transformation(extent={{76,138},{86,158}})));
+
+  IDEAS.Buildings.Components.Window keukenWindowLarge(
+     A=4.57,
+    frac=0.15,
+    azi=3.9444441095072,
+    inc=1.5707963267949,
+    redeclare Data.Frames.LoofHout fraType)
+    annotation (Placement(transformation(extent={{-90,92},{-80,112}})));
+  IDEAS.Buildings.Components.Window keukenWindowSmall(
+     A=1.05,
+    frac=0.25,
+    azi=2.3736477827123,
+    inc=1.5707963267949,
+    redeclare Data.Frames.LoofHout fraType)
+    annotation (Placement(transformation(extent={{-72,92},{-62,112}})));
+  IDEAS.Buildings.Components.Window raamwc(
+     A=0.07,
+    frac=0.89,
+    azi=3.9444441095072,
+    inc=1.5707963267949,
+    redeclare Data.Frames.LoofHout fraType)
+    annotation (Placement(transformation(extent={{-66,46},{-56,66}})));
+  IDEAS.Buildings.Components.Window slaapkamerRaam(
+     A=0.75,
+    frac=0.21,
+    azi=3.9444441095072,
+    inc=1.5707963267949,
+    redeclare Data.Frames.LoofHout fraType)
+    annotation (Placement(transformation(extent={{-12,-2},{-2,18}})));
+
+//Walls-----------------------------------------------------------------------
+
+protected
   IDEAS.Buildings.Components.BoundaryWall woonruimteGemeenschappelijk(
      AWall=17.10,
      inc=1.5707963267949,
@@ -117,27 +169,7 @@ partial model PartialStructure "Standaard woning de schipjes"
      inc=1.5707963267949,
      azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-132,94},{-122,114}})));
-  IDEAS.Buildings.Components.Window woonruimteWindow(
-     A=5.78,
-    frac=0.12,
-    azi=3.9444441095072,
-    inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
-    annotation (Placement(transformation(extent={{76,138},{86,158}})));
-  IDEAS.Buildings.Components.Window keukenWindowLarge(
-     A=4.57,
-    frac=0.15,
-    azi=3.9444441095072,
-    inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
-    annotation (Placement(transformation(extent={{-90,92},{-80,112}})));
-  IDEAS.Buildings.Components.Window keukenWindowSmall(
-     A=1.05,
-    frac=0.25,
-    azi=2.3736477827123,
-    inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
-    annotation (Placement(transformation(extent={{-72,92},{-62,112}})));
+
   IDEAS.Buildings.Components.BoundaryWall keukenGemeenschappelijk(
      AWall=5.92,
      inc=1.5707963267949,
@@ -188,13 +220,6 @@ partial model PartialStructure "Standaard woning de schipjes"
      inc=1.5707963267949,
      azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-134,46},{-124,66}})));
-  IDEAS.Buildings.Components.Window raamwc(
-     A=0.07,
-    frac=0.89,
-    azi=3.9444441095072,
-    inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
-    annotation (Placement(transformation(extent={{-66,46},{-56,66}})));
   IDEAS.Buildings.Components.OuterWall WCVoorgevel(
      AWall=2.65,
      inc=1.5707963267949,
@@ -261,13 +286,6 @@ partial model PartialStructure "Standaard woning de schipjes"
     redeclare final Data.Constructions.Old.BinnenMuur
       constructionType)
     annotation (Placement(transformation(extent={{-30,-14},{-20,6}})));
-  IDEAS.Buildings.Components.Window slaapkamerRaam(
-     A=0.75,
-    frac=0.21,
-    azi=3.9444441095072,
-    inc=1.5707963267949,
-    redeclare Data.Frames.LoofHout fraType)
-    annotation (Placement(transformation(extent={{-12,-2},{-2,18}})));
   IDEAS.Buildings.Components.OuterWall slaapkamerDakLinks(
      AWall=11.73,
     redeclare final Data.Constructions.Old.DakHoofdGebouw

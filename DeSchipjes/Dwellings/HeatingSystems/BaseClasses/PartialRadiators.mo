@@ -87,34 +87,7 @@ partial model PartialRadiators
         extent={{-10,10},{10,-10}},
         rotation=180,
         origin={106,-38})));
-  IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(n=nZones,
-    redeclare package Medium = Medium,
-    m_flow_nominal=sum(m_flow_nominal),
-    V=0.025,
-    T_start=TSupply)
-    annotation (Placement(transformation(extent={{-60,-48},{-80,-28}})));
-  IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
-    KvReturn=5,
-    redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_nominal,
-    includePipes=false,
-    measurePower=false,
-    dp=200,
-    each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    each dynamicBalance=false,
-    tauTSensor=0,
-    each filteredSpeed=true,
-    each riseTime=180,
-    T_start=TSupply,
-    allowFlowReversal=true)
-    annotation (Placement(transformation(extent={{-90,-48},{-110,-28}})));
-  IDEAS.Fluid.Sources.FixedBoundary bou(
-    redeclare package Medium = Medium,
-    use_T=false,
-    nPorts=1)
-    annotation (Placement(transformation(extent={{10,10},{-10,-10}},
-        rotation=90,
-        origin={20,-18})));
+
   DistrictHeating.HeatingSystems.Control.PI
              pI(TSet=TSupply - 5,
     release=true,
@@ -131,13 +104,7 @@ partial model PartialRadiators
   DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw,
     TDHWSet=273.15 + 40)
     annotation (Placement(transformation(extent={{128,32},{154,46}})));
-  IDEAS.Fluid.Sources.FixedBoundary bou1(
-    redeclare package Medium = Medium,
-    use_T=false,
-    nPorts=1)
-    annotation (Placement(transformation(extent={{10,10},{-10,-10}},
-        rotation=0,
-        origin={174,42})));
+
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpDHW(
     redeclare package Medium = Medium,
     KvReturn=2,
@@ -151,6 +118,7 @@ partial model PartialRadiators
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-24,50})));
+
   IDEAS.Controls.Continuous.LimPID conPID[nZones](
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     Ti=180,
@@ -159,14 +127,56 @@ partial model PartialRadiators
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
   Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(Td=30)
     annotation (Placement(transformation(extent={{90,-6},{110,14}})));
-  ToKelvin toKelvin[nZones]
-    annotation (Placement(transformation(extent={{-60,-78},{-80,-58}})));
   Modelica.Blocks.Math.Gain gain(k=(TStorage - 273.15 - 20)/40)
                                                        annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={80,-76})));
+
+protected
+  IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(n=nZones,
+    redeclare package Medium = Medium,
+    m_flow_nominal=sum(m_flow_nominal),
+    V=0.025,
+    T_start=TSupply)
+    annotation (Placement(transformation(extent={{-60,-48},{-80,-28}})));
+
+  IDEAS.Fluid.Sources.FixedBoundary bou1(
+    redeclare package Medium = Medium,
+    use_T=false,
+    nPorts=1)
+    annotation (Placement(transformation(extent={{10,10},{-10,-10}},
+        rotation=0,
+        origin={174,42})));
+
+  IDEAS.Fluid.Sources.FixedBoundary bou(
+    redeclare package Medium = Medium,
+    use_T=false,
+    nPorts=1)
+    annotation (Placement(transformation(extent={{10,10},{-10,-10}},
+        rotation=90,
+        origin={20,-18})));
+
+  IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
+    KvReturn=5,
+    redeclare package Medium = Medium,
+    m_flow_nominal=m_flow_nominal,
+    includePipes=false,
+    measurePower=false,
+    dp=200,
+    each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    each dynamicBalance=false,
+    tauTSensor=0,
+    each filteredSpeed=true,
+    each riseTime=180,
+    T_start=TSupply,
+    allowFlowReversal=true)
+    annotation (Placement(transformation(extent={{-90,-48},{-110,-28}})));
+
+  ToKelvin toKelvin[nZones]
+    annotation (Placement(transformation(extent={{-60,-78},{-80,-58}})));
+
 equation
   QHeaSys = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
   der(SpaceQ) = QHeaSys;

@@ -28,7 +28,7 @@ model IdealProduction
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     dp_nominal=0)
-    annotation (Placement(transformation(extent={{-16,50},{4,70}})));
+    annotation (Placement(transformation(extent={{-10,50},{10,70}})));
 equation
   der(ETot) = idealHeater.Q_flow;
 
@@ -45,15 +45,15 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(idealHeater.port_a, centralPump.port_b2) annotation (Line(
-      points={{-16,60},{-24,60},{-24,44},{-14,44},{-14,36}},
+      points={{-10,60},{-12,60},{-12,60},{-14,60},{-14,44},{-14,44},{-14,36}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(idealHeater.port_b, centralPump.port_a1) annotation (Line(
-      points={{4,60},{10,60},{10,44},{-2,44},{-2,36}},
+      points={{10,60},{10,60},{14,60},{14,44},{-2,44},{-2,36}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(realExpression.y, idealHeater.TSet) annotation (Line(
-      points={{-31,70},{-26,70},{-26,66},{-18,66}},
+      points={{-31,70},{-26,70},{-26,66},{-12,66}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

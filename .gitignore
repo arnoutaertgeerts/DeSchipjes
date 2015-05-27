@@ -1,10 +1,7 @@
 Results
 Notebooks/*.txt
-<<<<<<< HEAD
 .idea
-=======
 Dymosims/*
->>>>>>> 6b17eb0de00e504f016e3e119cab9a0dd32f1b1f
 
 MANIFEST
 build

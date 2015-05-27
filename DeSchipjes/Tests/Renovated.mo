@@ -61,14 +61,14 @@ public
 protected
   inner IDEAS.Occupants.Extern.StrobeInfoManager                strobe(
     FilNam_mDHW="mDHW.txt",
-    FilNam_QCon="QCon.txt",
     FilNam_QRad="QRad.txt",
     FilNam_TSet="sh_day.txt",
     FilNam_TSet2="sh_night.txt",
-    filDir="C://Users//u0098668//Documents//Modelica//Occupants/",
     StROBe_P=true,
     FilNam_P="P.txt",
-    FilNam_Q="Q.txt")
+    FilNam_Q="Q.txt",
+    FilNam_QCon="Q.txt",
+    filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
 equation
   der(ETot) = hea.Q_flow;
