@@ -1,7 +1,7 @@
 within DeSchipjes.Dwellings.HeatingSystems.BaseClasses;
 partial model PartialRadiators
   //Extensions
-  extends IDEAS.Interfaces.BaseClasses.HeatingSystem(
+  extends HeatingSystem(
     nLoads=0,
     isDH=true,
     nEmbPorts=0,
@@ -19,7 +19,7 @@ partial model PartialRadiators
   parameter Modelica.SIunits.Temperature TStorage=273.15+60
     "DHW temperature setpoint";
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.015
+  parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.03
     "Nominal mass flow rate of DHW";
 
   parameter Real KVs[nZones] = ones(nZones)*10
@@ -88,19 +88,6 @@ partial model PartialRadiators
         rotation=180,
         origin={106,-38})));
 
-  DistrictHeating.HeatingSystems.Control.PI
-             pI(TSet=TSupply - 5,
-    release=true,
-    threshold=0.001,
-    PID(
-      controllerType=Modelica.Blocks.Types.SimpleController.PI,
-      yMax=1,
-      yMin=0,
-      Ti=180,
-      k=0.05))                    annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=180,
-        origin={70,4})));
   DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw,
     TDHWSet=273.15 + 40)
     annotation (Placement(transformation(extent={{128,32},{154,46}})));
@@ -126,7 +113,7 @@ partial model PartialRadiators
     k=0.5)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
   Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(Td=30)
-    annotation (Placement(transformation(extent={{90,-6},{110,14}})));
+    annotation (Placement(transformation(extent={{90,0},{110,20}})));
   Modelica.Blocks.Math.Gain gain(k=(TStorage - 273.15 - 20)/40)
                                                        annotation (Placement(
         transformation(
@@ -240,22 +227,6 @@ equation
       points={{-200,-20},{-136,-20},{-136,-24.8}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(pI.senMassFlow1,heatExchanger. massFlow1) annotation (Line(
-      points={{59.6,-4},{56,-4},{56,-27.2}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(pI.T1,heatExchanger. senT1) annotation (Line(
-      points={{59.6,1.33227e-15},{54,1.33227e-15},{54,-27.4},{53.4,-27.4}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(pI.senMassFlow2,heatExchanger. massFlow2) annotation (Line(
-      points={{59.6,8},{43.2,8},{43.2,-27.4}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(pI.senT2,heatExchanger. Tsup) annotation (Line(
-      points={{59.6,12},{40.4,12},{40.4,-27.6}},
-      color={175,175,175},
-      smooth=Smooth.None));
   connect(bou.ports[1], parallelPipesSplitter.port_a) annotation (Line(
       points={{20,-28},{20,-32},{-60,-32}},
       color={0,127,255},
@@ -273,28 +244,12 @@ equation
       points={{-34,56},{-54,56},{-54,-32},{-60,-32}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(conPID.y, pumpRadiators.u) annotation (Line(
-      points={{-109,40},{-100,40},{-100,-27.2}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(TSensor, conPID.u_m) annotation (Line(
-      points={{-204,-60},{-168,-60},{-168,12},{-120,12},{-120,28}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(pI.y, slewRateLimiter.u) annotation (Line(
-      points={{80.6,4},{88,4}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(slewRateLimiter.y, flowController.u) annotation (Line(
-      points={{111,4},{118,4},{118,-16},{106,-16},{106,-27.2}},
+      points={{111,10},{118,10},{118,-16},{106,-16},{106,-27.2}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(TSet, toKelvin.Celsius) annotation (Line(
       points={{20,-104},{20,-68},{-58,-68}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(
-      points={{-81,-68},{-160,-68},{-160,40},{-132,40}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(mDHW60C, gain.u) annotation (Line(

@@ -1,0 +1,5 @@
+within DeSchipjes.Dwellings.Structures;
+model Structure
+  extends IDEAS.Interfaces.BaseClasses.Structure;
+
+end Structure;

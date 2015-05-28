@@ -1,6 +1,8 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model HTHeatingSystem
-  extends BaseClasses.PartialRadiators(bou1(nPorts=2), pumpRadiators(
+  extends BaseClasses.PartialRadiators(
+    modulation=false,
+    bou1(nPorts=2), pumpRadiators(
       use_powerCharacteristic=false,
       motorCooledByFluid=false),
     flowController(                   m=25),
@@ -16,13 +18,13 @@ model HTHeatingSystem
         origin={46,50})));
 equation
   connect(heatExchanger1.port_a2, bou1.ports[2]) annotation (Line(
-      points={{56,44},{100,44},{100,34},{160,34},{160,46},{166,46}},
+      points={{56,44},{100,44},{100,34},{160,34},{160,42},{164,42}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
 
   connect(heatExchanger1.port_b1, dHWTap.port_hot) annotation (Line(
-      points={{56,56},{112,56},{112,46},{130,46}},
+      points={{56,56},{112,56},{112,36},{128,36}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpDHW.port_b1, heatExchanger1.port_a1) annotation (Line(
@@ -35,8 +37,8 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(pumpDHW.u, dHWTap.mDHW60C) annotation (Line(
-      points={{-24,60.8},{-24,80},{124,80},{124,56},{143,56}},
-      color={175,175,175},
+      points={{-24,60.8},{-24,78},{124,78},{124,60},{141,60},{141,46}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));

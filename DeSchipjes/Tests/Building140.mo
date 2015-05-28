@@ -73,7 +73,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(const1.y, idealHeater.u) annotation (Line(
-      points={{-19,-50},{-9.8,-50}},
+      points={{-19,-50},{-4,-50},{-4,-48},{10.8,-48}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(idealHeater.u1, booleanExpression.y) annotation (Line(
