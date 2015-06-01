@@ -1,5 +1,5 @@
 within DeSchipjes.Dwellings.HeatingSystems;
-model ITHeatingSystem
+model ITHeatingSystemReverse
   extends BaseClasses.PartialStorage(
     m_flow_dhw=0.06,
     modulation=true,
@@ -16,17 +16,17 @@ model ITHeatingSystem
       dExtHex=0.05,
       Q_flow_nominal=2000,
       VTan=0.1),
-    bou1(nPorts=2),
-    rad(Q_flow_nominal={2113,1409,1,1025,804,1}));
+    rad(Q_flow_nominal={2113,1409,1,1025,804,1}),
+    bou1(nPorts=2));
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{76,66},{56,86}})));
   DistrictHeating.HeatingSystems.Control.Hysteresis hysteresis1(
     realTrue=0,
-    realFalse=m_flow_dhw,
     release=false,
     uLow=TStorage,
-    uHigh=TStorage + 5)
+    uHigh=TStorage + 5,
+    realFalse=2*m_flow_dhw)
     annotation (Placement(transformation(extent={{40,66},{20,86}})));
   Controls.OnOff onOff
     annotation (Placement(transformation(extent={{10,66},{-10,86}})));
@@ -122,26 +122,26 @@ equation
       points={{76,76},{88,76},{88,52.45}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(pumpDHW.port_b1, tan.port_a) annotation (Line(
-      points={{-14,56},{78,56},{78,52}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(tan.port_b, pumpDHW.port_a2) annotation (Line(
-      points={{98,52},{100,52},{100,40},{60,40},{60,44},{-14,44}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
       points={{120,90},{93.6,90},{93.6,52}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(tan.portHex_a, dHWTap.port_hot) annotation (Line(
-      points={{78,48.2},{68,48.2},{68,48},{68,48},{68,36},{128,36}},
+  connect(pumpDHW.port_b1, tan.portHex_a) annotation (Line(
+      points={{-14,56},{50,56},{50,48.2},{78,48.2}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(tan.portHex_b, bou1.ports[2]) annotation (Line(
-      points={{78,44},{78,28},{160,28},{160,42},{164,42}},
+  connect(pumpDHW.port_a2, tan.portHex_b) annotation (Line(
+      points={{-14,44},{78,44}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(tan.port_a, dHWTap.port_hot) annotation (Line(
+      points={{78,52},{72,52},{72,36},{108,36},{108,36},{128,36}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(tan.port_b, bou1.ports[2]) annotation (Line(
+      points={{98,52},{160,52},{160,42},{164,42}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics));
-end ITHeatingSystem;
+end ITHeatingSystemReverse;

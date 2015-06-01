@@ -6,7 +6,29 @@ package Full
   end HTFullGrid;
 
   model ITFullGrid
-    extends DeSchipjes.Grids.FullGrid;
+    extends DeSchipjes.Grids.FullGrid(
+      haarhakkerHouse1(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      haarhakkerHouse2(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      haarhakkerHouse3(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      haarhakkerHouse4(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      haarhakkerHouse5(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      petersleiHouse6(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      petersleiHouse7(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      petersleiHouse8(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      petersleiHouse9(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      petersleiHouse10(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+      petersleiHouse11(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem));
 
   end ITFullGrid;
 

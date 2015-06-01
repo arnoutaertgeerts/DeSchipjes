@@ -18,13 +18,13 @@ model ModulationTemperature "A complete building model for testing"
     isDH=true,
     redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
       building,
-    redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
-        id=5),
     modulation=true,
-    redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+    redeclare Dwellings.HeatingSystems.ITHeatingSystemReverse     heatingSystem(
       QNom={2113,1409,1,1025,804,1},
       TSupply=273.15 + 50,
-      TReturn=273.15 + 40))
+      TReturn=273.15 + 40),
+    redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
+        id=1))
     annotation (Placement(transformation(extent={{-30,20},{30,80}})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_dp pumpSupply_dp(
@@ -131,6 +131,6 @@ equation
     experiment(
       StopTime=604800,
       __Dymola_fixedstepsize=10,
-      __Dymola_Algorithm="Lsodar"),
+      __Dymola_Algorithm="Rkfix4"),
     __Dymola_experimentSetupOutput);
 end ModulationTemperature;

@@ -2,7 +2,8 @@ within DeSchipjes.Dwellings.HeatingSystems.BaseClasses;
 partial model PartialStorage
   //Extensions
   extends PartialRadiators(dHWTap(m_flow_nominal=m_flow_dhw, redeclare package
-        Medium = Medium));
+        Medium = Medium,
+      TDHWSet=273.15 + 38), gain(k=(38 - 10)/(60 - 10)));
 
   //Parameters
   parameter Modelica.SIunits.Length hTan=1.5 "Height of the storage tank";

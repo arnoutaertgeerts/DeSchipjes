@@ -2,6 +2,7 @@ Results
 Notebooks/*.txt
 .idea
 Dymosims/*
+*.json
 
 MANIFEST
 build

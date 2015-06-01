@@ -3,6 +3,7 @@ ToKelvin
 HTHeatingSystem
 HTHeatingSystemMFlow
 ITHeatingSystem
+ITHeatingSystemReverse
 LTHeatingSystem
 LTHeatingSystemMFlow
 BaseClasses

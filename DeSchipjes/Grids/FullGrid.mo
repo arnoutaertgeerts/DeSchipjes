@@ -632,8 +632,7 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(u, haarhakkerHouse1.u) annotation (Line(
-      points={{-120,40},{-92,40},{-92,98},{-86,98},{-86,98},{-80,98},{-80,90},{
-          -73,90}},
+      points={{-120,40},{-92,40},{-92,98},{-80,98},{-80,90},{-73,90}},
       color={255,0,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
