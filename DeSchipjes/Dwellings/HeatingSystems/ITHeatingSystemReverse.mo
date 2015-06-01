@@ -119,27 +119,27 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(temperatureSensor.port, tan.heaPorVol[4]) annotation (Line(
-      points={{76,76},{88,76},{88,52.45}},
+      points={{76,76},{98,76},{98,56.45}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
-      points={{120,90},{93.6,90},{93.6,52}},
+      points={{120,90},{103.6,90},{103.6,56}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(pumpDHW.port_b1, tan.portHex_a) annotation (Line(
-      points={{-14,56},{50,56},{50,48.2},{78,48.2}},
+      points={{-14,56},{78,56},{78,52.2},{88,52.2}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpDHW.port_a2, tan.portHex_b) annotation (Line(
-      points={{-14,44},{78,44}},
+      points={{-14,44},{88,44},{88,48},{88,48}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.port_a, dHWTap.port_hot) annotation (Line(
-      points={{78,52},{72,52},{72,36},{108,36},{108,36},{128,36}},
+      points={{88,56},{82,56},{82,68},{180,68},{180,36},{172,36}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.port_b, bou1.ports[2]) annotation (Line(
-      points={{98,52},{160,52},{160,42},{164,42}},
+      points={{108,56},{120,56},{120,36},{138,36},{138,32}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,

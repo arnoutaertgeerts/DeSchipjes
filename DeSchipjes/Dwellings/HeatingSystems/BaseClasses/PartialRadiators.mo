@@ -90,7 +90,7 @@ partial model PartialRadiators
 
   DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw,
     TDHWSet=273.15 + 40)
-    annotation (Placement(transformation(extent={{128,32},{154,46}})));
+    annotation (Placement(transformation(extent={{172,32},{146,46}})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpDHW(
     redeclare package Medium = Medium,
@@ -133,9 +133,9 @@ protected
     redeclare package Medium = Medium,
     use_T=false,
     nPorts=1)
-    annotation (Placement(transformation(extent={{10,10},{-10,-10}},
-        rotation=0,
-        origin={174,42})));
+    annotation (Placement(transformation(extent={{4,4},{-4,-4}},
+        rotation=270,
+        origin={138,28})));
 
   IDEAS.Fluid.Sources.FixedBoundary bou(
     redeclare package Medium = Medium,
@@ -231,10 +231,6 @@ equation
       points={{20,-28},{20,-32},{-60,-32}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(dHWTap.port_cold, bou1.ports[1]) annotation (Line(
-      points={{154,36},{160,36},{160,42},{164,42}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(pumpDHW.port_b2, heatExchanger.port_a2) annotation (Line(
       points={{-34,44},{-40,44},{-40,-44},{38,-44}},
       color={0,127,255},
@@ -257,8 +253,12 @@ equation
       color={175,175,175},
       smooth=Smooth.None));
   connect(gain.y, dHWTap.mDHW60C) annotation (Line(
-      points={{80,-65},{80,-54},{124,-54},{124,60},{141,60},{141,46}},
+      points={{80,-65},{80,-54},{132,-54},{132,60},{159,60},{159,46}},
       color={175,175,175},
+      smooth=Smooth.None));
+  connect(dHWTap.port_cold, bou1.ports[1]) annotation (Line(
+      points={{146,36},{138,36},{138,32}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics));

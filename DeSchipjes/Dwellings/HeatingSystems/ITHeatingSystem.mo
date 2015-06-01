@@ -16,8 +16,8 @@ model ITHeatingSystem
       dExtHex=0.05,
       Q_flow_nominal=2000,
       VTan=0.1),
-    bou1(nPorts=2),
-    rad(Q_flow_nominal={2113,1409,1,1025,804,1}));
+    rad(Q_flow_nominal={2113,1409,1,1025,804,1}),
+    bou1(nPorts=2));
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{76,66},{56,86}})));
@@ -119,29 +119,32 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(temperatureSensor.port, tan.heaPorVol[4]) annotation (Line(
-      points={{76,76},{88,76},{88,52.45}},
+      points={{76,76},{98,76},{98,56.45}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(pumpDHW.port_b1, tan.port_a) annotation (Line(
-      points={{-14,56},{78,56},{78,52}},
+      points={{-14,56},{88,56},{88,56}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.port_b, pumpDHW.port_a2) annotation (Line(
-      points={{98,52},{100,52},{100,40},{60,40},{60,44},{-14,44}},
+      points={{108,56},{114,56},{114,44},{-14,44}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
-      points={{120,90},{93.6,90},{93.6,52}},
+      points={{120,90},{103.6,90},{103.6,56}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(tan.portHex_a, dHWTap.port_hot) annotation (Line(
-      points={{78,48.2},{68,48.2},{68,48},{68,48},{68,36},{128,36}},
+      points={{88,52.2},{80,52.2},{80,52},{80,52},{80,68},{180,68},{180,36},{
+          172,36}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.portHex_b, bou1.ports[2]) annotation (Line(
-      points={{78,44},{78,28},{160,28},{160,42},{164,42}},
+      points={{88,48},{80,48},{80,36},{138,36},{138,32}},
       color={0,127,255},
-      smooth=Smooth.None));
+      smooth=Smooth.None,
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics));
 end ITHeatingSystem;

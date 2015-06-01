@@ -14,7 +14,6 @@ partial model PartialStorage
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex tan(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_dhw,
-    dIns=0.02,
     redeclare package MediumHex = Medium,
     dpHex_nominal=0,
     mHex_flow_nominal=m_flow_dhw*0.9,
@@ -23,13 +22,14 @@ partial model PartialStorage
     energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     hexSegMult=1,
     VTan=0.1,
-    hTan=0.5,
-    Q_flow_nominal=1000,
-    TTan_nominal=TStorage - 5,
-    THex_nominal=TStorage - 10,
-    hHex_a=0.45,
-    hHex_b=0.05)
-    annotation (Placement(transformation(extent={{78,42},{98,62}})));
+    hHex_b=0.05,
+    dIns=0.07,
+    hTan=0.75,
+    hHex_a=0.7,
+    TTan_nominal=333.15,
+    THex_nominal=293.15,
+    Q_flow_nominal=m_flow_dhw*4200*20)
+    annotation (Placement(transformation(extent={{88,46},{108,66}})));
 equation
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
