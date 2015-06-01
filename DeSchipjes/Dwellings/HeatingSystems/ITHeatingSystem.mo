@@ -8,19 +8,13 @@ model ITHeatingSystem
       includePipes=true,
       UA=0.1,
       m=10),
-    tan(
-      dIns=0.05,
-      hTan=0.8,
-      hHex_a=0.75,
-      hHex_b=0.05,
-      dExtHex=0.05,
-      Q_flow_nominal=2000,
-      VTan=0.1),
+    tan(energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
+        massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState),
     rad(Q_flow_nominal={2113,1409,1,1025,804,1}),
     bou1(nPorts=2));
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
-    annotation (Placement(transformation(extent={{76,66},{56,86}})));
+    annotation (Placement(transformation(extent={{66,70},{54,82}})));
   DistrictHeating.HeatingSystems.Control.Hysteresis hysteresis1(
     realTrue=0,
     realFalse=m_flow_dhw,
@@ -52,7 +46,7 @@ model ITHeatingSystem
         origin={40,10})));
 equation
   connect(temperatureSensor.T, hysteresis1.u) annotation (Line(
-      points={{56,76},{41.2,76}},
+      points={{54,76},{41.2,76}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(hysteresis1.y, onOff.u1) annotation (Line(
@@ -119,7 +113,7 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(temperatureSensor.port, tan.heaPorVol[4]) annotation (Line(
-      points={{76,76},{98,76},{98,56.45}},
+      points={{66,76},{98,76},{98,56.45}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(pumpDHW.port_b1, tan.port_a) annotation (Line(
@@ -132,7 +126,7 @@ equation
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
-      points={{120,90},{103.6,90},{103.6,56}},
+      points={{120,96},{103.6,96},{103.6,56}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(tan.portHex_a, dHWTap.port_hot) annotation (Line(

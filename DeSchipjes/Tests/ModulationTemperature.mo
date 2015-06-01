@@ -19,12 +19,10 @@ model ModulationTemperature "A complete building model for testing"
     redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
       building,
     modulation=true,
-    redeclare Dwellings.HeatingSystems.ITHeatingSystemReverse     heatingSystem(
-      QNom={2113,1409,1,1025,804,1},
-      TSupply=273.15 + 50,
-      TReturn=273.15 + 40),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
-        id=1))
+        id=1),
+    redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        QNom={2113,1409,1,1025,804,1}))
     annotation (Placement(transformation(extent={{-30,20},{30,80}})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_dp pumpSupply_dp(

@@ -10,13 +10,12 @@ partial model PartialStorage
   parameter Modelica.SIunits.Volume vTan=0.1 "Volume of the storage tank";
 
   Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=18)
-    annotation (Placement(transformation(extent={{140,80},{120,100}})));
+    annotation (Placement(transformation(extent={{128,92},{120,100}})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex tan(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_dhw,
     redeclare package MediumHex = Medium,
     dpHex_nominal=0,
-    mHex_flow_nominal=m_flow_dhw*0.9,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupply,
     energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -28,7 +27,8 @@ partial model PartialStorage
     hHex_a=0.7,
     TTan_nominal=333.15,
     THex_nominal=293.15,
-    Q_flow_nominal=m_flow_dhw*4200*20)
+    Q_flow_nominal=m_flow_dhw*4200*20,
+    mHex_flow_nominal=m_flow_dhw)
     annotation (Placement(transformation(extent={{88,46},{108,66}})));
 equation
 

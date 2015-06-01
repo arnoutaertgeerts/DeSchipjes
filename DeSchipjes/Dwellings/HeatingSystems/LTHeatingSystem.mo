@@ -133,7 +133,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
-      points={{120,90},{103.6,90},{103.6,56}},
+      points={{120,96},{103.6,96},{103.6,56}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(
