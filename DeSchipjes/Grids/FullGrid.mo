@@ -409,7 +409,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection2.port_a2, dHConnection3.port_b2) annotation (Line(
-      points={{-32,56},{-32,58},{-30,58},{-30,56},{-28,56}},
+      points={{-32,56},{-32,56},{-30,56},{-30,56},{-28,56}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection3.port_b1, dHConnection4.port_a1) annotation (Line(

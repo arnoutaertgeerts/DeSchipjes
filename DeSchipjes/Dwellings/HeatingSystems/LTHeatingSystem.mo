@@ -80,7 +80,7 @@ model LTHeatingSystem
       k=0.05))                    annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
-        origin={70,4})));
+        origin={70,10})));
 equation
   connect(hysteresis1.y, pumpDHW.u) annotation (Line(
       points={{43.2,76},{-24,76},{-24,60.8}},
@@ -145,23 +145,23 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(slewRateLimiter.u, pI.y) annotation (Line(
-      points={{88,10},{84,10},{84,4},{80.6,4}},
+      points={{93.2,10},{80.6,10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatExchanger.Tsup, pI.senT2) annotation (Line(
-      points={{40.4,-27.6},{40.4,12},{59.6,12}},
+      points={{40.4,-27.6},{40.4,18},{59.6,18}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatExchanger.massFlow2, pI.senMassFlow2) annotation (Line(
-      points={{43.2,-27.4},{43.2,8},{59.6,8}},
+      points={{43.2,-27.4},{43.2,14},{59.6,14}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatExchanger.senT1, pI.T1) annotation (Line(
-      points={{53.4,-27.4},{53.4,0},{59.6,0}},
+      points={{53.4,-27.4},{53.4,6},{59.6,6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(heatExchanger.massFlow1, pI.senMassFlow1) annotation (Line(
-      points={{56,-27.2},{56,-4},{59.6,-4}},
+      points={{56,-27.2},{56,2},{59.6,2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(pumpSupply_m_flowdhw1.port_b1, tan.port_a) annotation (Line(

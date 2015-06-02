@@ -113,7 +113,7 @@ partial model PartialRadiators
     k=0.5)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
   Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter(Td=30)
-    annotation (Placement(transformation(extent={{90,0},{110,20}})));
+    annotation (Placement(transformation(extent={{92,6},{100,14}})));
   Modelica.Blocks.Math.Gain gain(k=(TStorage - 273.15 - 20)/40)
                                                        annotation (Placement(
         transformation(
@@ -135,7 +135,7 @@ protected
     nPorts=1)
     annotation (Placement(transformation(extent={{4,4},{-4,-4}},
         rotation=270,
-        origin={138,28})));
+        origin={140,28})));
 
   IDEAS.Fluid.Sources.FixedBoundary bou(
     redeclare package Medium = Medium,
@@ -241,7 +241,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(slewRateLimiter.y, flowController.u) annotation (Line(
-      points={{111,10},{118,10},{118,-16},{106,-16},{106,-27.2}},
+      points={{100.4,10},{106,10},{106,-27.2}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(TSet, toKelvin.Celsius) annotation (Line(
@@ -257,7 +257,7 @@ equation
       color={175,175,175},
       smooth=Smooth.None));
   connect(dHWTap.port_cold, bou1.ports[1]) annotation (Line(
-      points={{146,36},{138,36},{138,32}},
+      points={{146,36},{140,36},{140,32}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,

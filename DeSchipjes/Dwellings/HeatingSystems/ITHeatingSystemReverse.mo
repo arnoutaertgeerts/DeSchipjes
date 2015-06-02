@@ -18,16 +18,16 @@ model ITHeatingSystemReverse
     bou1(nPorts=2));
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
-    annotation (Placement(transformation(extent={{66,70},{54,82}})));
+    annotation (Placement(transformation(extent={{78,70},{66,82}})));
   DistrictHeating.HeatingSystems.Control.Hysteresis hysteresis1(
     realTrue=0,
     release=false,
     uLow=TStorage,
     uHigh=TStorage + 5,
     realFalse=2*m_flow_dhw)
-    annotation (Placement(transformation(extent={{40,66},{20,86}})));
+    annotation (Placement(transformation(extent={{58,66},{38,86}})));
   Controls.OnOff onOff
-    annotation (Placement(transformation(extent={{10,66},{-10,86}})));
+    annotation (Placement(transformation(extent={{14,66},{-6,86}})));
   Controls.OnOff onOff1[nZones] annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
@@ -48,21 +48,21 @@ model ITHeatingSystemReverse
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={40,10})));
+  Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter1(
+                                                            Td=30, Rising=
+        m_flow_dhw)
+    annotation (Placement(transformation(extent={{-12,72},{-20,80}})));
 equation
   connect(temperatureSensor.T, hysteresis1.u) annotation (Line(
-      points={{54,76},{41.2,76}},
+      points={{66,76},{59.2,76}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(hysteresis1.y, onOff.u1) annotation (Line(
-      points={{19.2,76},{12,76}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(onOff.y, pumpDHW.u) annotation (Line(
-      points={{-11,76},{-24,76},{-24,60.8}},
+      points={{37.2,76},{16,76}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(HT, onOff.u) annotation (Line(
-      points={{50,-104},{50,-60},{0,-60},{0,64}},
+      points={{50,-104},{50,-60},{4,-60},{4,64}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(conPID.y, onOff1.u1) annotation (Line(
@@ -80,7 +80,7 @@ equation
 
   for i in 1:nZones loop
     connect(HT, not1[i].u)   annotation (Line(
-      points={{50,-104},{50,-60},{0,-60},{0,14},{-60,14}},
+      points={{50,-104},{50,-60},{4,-60},{4,14},{-60,14}},
       color={255,0,255},
       smooth=Smooth.None));
   end for;
@@ -113,11 +113,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(switch1.u2, onOff.u) annotation (Line(
-      points={{28,10},{0,10},{0,64}},
+      points={{28,10},{4,10},{4,64}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(temperatureSensor.port, tan.heaPorVol[4]) annotation (Line(
-      points={{66,76},{98,76},{98,56.45}},
+      points={{78,76},{98,76},{98,56.45}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
@@ -142,6 +142,14 @@ equation
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
+  connect(onOff.y, slewRateLimiter1.u) annotation (Line(
+      points={{-7,76},{-11.2,76}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(slewRateLimiter1.y, pumpDHW.u) annotation (Line(
+      points={{-20.4,76},{-24,76},{-24,60.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics));
 end ITHeatingSystemReverse;
