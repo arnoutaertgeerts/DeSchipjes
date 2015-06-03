@@ -27,7 +27,7 @@ end;
 x0 = initialize(293.15,C,xuyName);
 
 % Simulate state space with constumized control inputs
-u(:,1:nCtrlInp) = sin(t_sim/(86400/2))*ones(1,nCtrlInp).*100;
+u(:,1:nCtrlInp) = sin(2*pi()*t_sim/(86400/2))*ones(1,nCtrlInp).*100;
 [y,t,x] = lsim(sys_ss,u,t_sim,x0);
 
 plot(t,y(:,1:6))
