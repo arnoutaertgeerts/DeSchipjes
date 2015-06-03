@@ -203,5 +203,7 @@ equation
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), __Dymola_Commands(file="../scripts/haarhakkerStraatHouse_lin_sim_plot.mos"
-        "Linearize, simulate, plot"));
+        "Linearize, simulate, plot"),
+    experiment(StopTime=100000),
+    __Dymola_experimentSetupOutput(events=false));
 end haarhakkerStraatHouse_lin;
