@@ -20,7 +20,7 @@ nCtrlInp = 12;
 t_sim=findOutput('haarhakkerStraatHouse_lin.mat', 'Time' )';
 u = zeros(size(t_sim,1),nu);
 for i = nCtrlInp+1:nu
-    u(:,i) = findOutput('haarhakkerStraatHouse_lin.mat',['ssm.stateSpace.u['  num2str(nCtrlInp + i)  ']'])';
+    u(:,i) = findOutput('haarhakkerStraatHouse_lin.mat',['ssm.stateSpace.u['  num2str(i)  ']'])';
 end;
 
 % Initialize x
