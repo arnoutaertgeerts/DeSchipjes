@@ -2,7 +2,9 @@ FromKelvin
 ToKelvin
 HTHeatingSystem
 ITHeatingSystem
+ITHeatingSystemIDEAS
 ITHeatingSystemReverse
+ITHeatingSystemReverseIDEAS
 LTHeatingSystem
 BaseClasses
 Components

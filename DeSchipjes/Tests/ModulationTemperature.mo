@@ -21,8 +21,8 @@ model ModulationTemperature "A complete building model for testing"
     modulation=true,
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
         id=1),
-    redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
-        QNom={2113,1409,1,1025,804,1}))
+    redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+      heatingSystem(QNom={2113,1409,1,1025,804,1}))
     annotation (Placement(transformation(extent={{-30,20},{30,80}})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_dp pumpSupply_dp(

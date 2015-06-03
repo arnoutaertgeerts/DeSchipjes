@@ -46,18 +46,9 @@ equation
           extent={{-150,150},{150,110}},
           textString="%name",
           lineColor={0,0,255}),
-        Line(points={{10,0},{100,0}},
-          color={0,0,127}),
-        Line(points={{-30,0},{80,9.52739e-15}},
-          color={255,0,255},
-          origin={0,-70},
-          rotation=90),
-        Line(points={{-8.57253e-16,14},{20,-6}},
-          color={255,0,255},
-          origin={4,0},
-          rotation=90,
-          thickness=1),
-        Line(points={{-100,0},{-10,0}},
-          color={0,0,127},
-          thickness=1)}));
+        Ellipse(extent={{-60,58},{60,-60}}, lineColor={255,85,170}),
+        Line(
+          points={{0,86},{0,28}},
+          color={255,85,170},
+          smooth=Smooth.None)}));
 end OnOff;

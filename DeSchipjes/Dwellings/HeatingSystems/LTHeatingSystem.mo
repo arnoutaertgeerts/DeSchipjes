@@ -68,19 +68,8 @@ model LTHeatingSystem
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=heatExchanger.Tsup
          > THPmin)
     annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
-  DistrictHeating.HeatingSystems.Control.PI
-             pI(TSet=TSupply - 5,
-    release=true,
-    threshold=0.001,
-    PID(
-      controllerType=Modelica.Blocks.Types.SimpleController.PI,
-      yMax=1,
-      yMin=0,
-      Ti=180,
-      k=0.05))                    annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=180,
-        origin={70,10})));
+  Modelica.Blocks.Sources.Constant const1(k=TSupply - 5)
+    annotation (Placement(transformation(extent={{50,10},{58,18}})));
 equation
   connect(hysteresis1.y, pumpDHW.u) annotation (Line(
       points={{43.2,76},{-24,76},{-24,60.8}},
@@ -144,26 +133,6 @@ equation
       points={{-204,-60},{-120,-60},{-120,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(slewRateLimiter.u, pI.y) annotation (Line(
-      points={{93.2,10},{80.6,10}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatExchanger.Tsup, pI.senT2) annotation (Line(
-      points={{40.4,-27.6},{40.4,18},{59.6,18}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatExchanger.massFlow2, pI.senMassFlow2) annotation (Line(
-      points={{43.2,-27.4},{43.2,14},{59.6,14}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatExchanger.senT1, pI.T1) annotation (Line(
-      points={{53.4,-27.4},{53.4,6},{59.6,6}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(heatExchanger.massFlow1, pI.senMassFlow1) annotation (Line(
-      points={{56,-27.2},{56,2},{59.6,2}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(pumpSupply_m_flowdhw1.port_b1, tan.port_a) annotation (Line(
       points={{46,56},{88,56},{88,56}},
       color={0,127,255},
@@ -181,8 +150,12 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.portHex_b, bou1.ports[2]) annotation (Line(
-      points={{88,48},{84,48},{84,36},{138,36},{138,32}},
+      points={{88,48},{84,48},{84,36},{140,36},{140,32}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(PIDSupplyT.u_s, const1.y) annotation (Line(
+      points={{64,14},{58.4,14}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));

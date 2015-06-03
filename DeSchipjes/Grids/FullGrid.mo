@@ -10,6 +10,8 @@ partial model FullGrid
   parameter Boolean modulation=true;
   parameter Modelica.SIunits.Length length = 15 "Lengths of the DH connections";
 
+  parameter Real KVs[11] = ones(11) "KV values of the main house valves";
+
   Dwellings.Building        haarhakkerHouse1(
     modulation=modulation,
     each standAlone=true,
@@ -23,11 +25,13 @@ partial model FullGrid
       QNom=QNom,
       TSupply=TSupplyRad,
       TReturn=TReturnRad,
+      KV=KVs[1],
       modulation=false)   constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
-      QNom=QNom,
-      TSupply=TSupplyRad,
-      TReturn=TReturnRad),
+        KV=KVs[1],
+        QNom=QNom,
+        TSupply=TSupplyRad,
+        TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
       constrainedby DeSchipjes.Dwellings.Structures.PartialStructure,
@@ -46,13 +50,15 @@ partial model FullGrid
     redeclare each replaceable
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
       heatingSystem(
-      QNom=QNom,
-      TSupply=TSupplyRad,
-      TReturn=TReturnRad) constrainedby
+        KV=KVs[6],
+        QNom=QNom,
+        TSupply=TSupplyRad,
+        TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
-      QNom=QNom,
-      TSupply=TSupplyRad,
-      TReturn=TReturnRad),
+        QNom=QNom,
+        KV=KVs[6],
+        TSupply=TSupplyRad,
+        TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse building
       constrainedby DeSchipjes.Dwellings.Structures.PartialStructure,
@@ -82,11 +88,13 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
+        KV=KVs[2],
         TSupply=TSupplyRad,
         TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
           QNom=QNom,
           TSupply=TSupplyRad,
+          KV=KVs[2],
           TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
@@ -107,11 +115,13 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
+        KV=KVs[7],
         TSupply=TSupplyRad,
         TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
           QNom=QNom,
           TSupply=TSupplyRad,
+          KV=KVs[7],
           TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse building
@@ -132,10 +142,12 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
+        KV=KVs[3],
         TSupply=TSupplyRad,
         TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
           QNom=QNom,
+          KV=KVs[3],
           TSupply=TSupplyRad,
           TReturn=TReturnRad),
     redeclare each replaceable
@@ -157,11 +169,13 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
+        KV=KVs[4],
         TSupply=TSupplyRad,
         TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
           QNom=QNom,
           TSupply=TSupplyRad,
+          KV=KVs[4],
           TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
@@ -182,10 +196,12 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
       heatingSystem(
       QNom=QNom,
+      KV=KVs[9],
       TSupply=TSupplyRad,
       TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
       QNom=QNom,
+      KV=KVs[9],
       TSupply=TSupplyRad,
       TReturn=TReturnRad),
     redeclare each replaceable
@@ -207,11 +223,13 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
+        KV=KVs[8],
         TSupply=TSupplyRad,
         TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
           QNom=QNom,
           TSupply=TSupplyRad,
+          KV=KVs[8],
           TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse building
@@ -232,11 +250,13 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
        heatingSystem(
         QNom=QNom,
+        KV=KVs[5],
         TSupply=TSupplyRad,
         TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
           QNom=QNom,
           TSupply=TSupplyRad,
+          KV=KVs[5],
           TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse building
@@ -257,11 +277,13 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
       heatingSystem(
       QNom=QNom,
+      KV=KVs[10],
       TSupply=TSupplyRad,
       TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
       QNom=QNom,
       TSupply=TSupplyRad,
+      KV=KVs[10],
       TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse building
@@ -282,11 +304,13 @@ partial model FullGrid
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators
       heatingSystem(
       QNom=QNom,
+      KV=KVs[11],
       TSupply=TSupplyRad,
       TReturn=TReturnRad) constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
       QNom=QNom,
       TSupply=TSupplyRad,
+      KV=KVs[11],
       TReturn=TReturnRad),
     redeclare each replaceable
       DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse building
@@ -340,7 +364,7 @@ partial model FullGrid
       districtHeatingPipe(dp_nominal=100))
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={54,40})));
+        origin={54,38})));
   DistrictHeating.Interfaces.DHConnection dHConnection7(
     length=length,
     m_flow_nominal=m_flow_nominal,
@@ -349,7 +373,7 @@ partial model FullGrid
       districtHeatingPipe(dp_nominal=100))
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={54,16})));
+        origin={54,14})));
   DistrictHeating.Interfaces.DHConnection dHConnection8(
     length=length,
     m_flow_nominal=m_flow_nominal,
@@ -358,7 +382,7 @@ partial model FullGrid
       districtHeatingPipe(dp_nominal=100))
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={54,-8})));
+        origin={54,-10})));
   DistrictHeating.Interfaces.DHConnection dHConnection9(
     length=length,
     m_flow_nominal=m_flow_nominal,
@@ -367,7 +391,7 @@ partial model FullGrid
       districtHeatingPipe(dp_nominal=100))
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={54,-32})));
+        origin={54,-34})));
   DistrictHeating.Interfaces.DHConnection dHConnection10(
     length=length,
     m_flow_nominal=m_flow_nominal,
@@ -376,7 +400,7 @@ partial model FullGrid
       districtHeatingPipe(dp_nominal=100)) annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={54,-56})));
+        origin={54,-58})));
   DistrictHeating.Interfaces.DHConnection dHConnection11(
     length=length,
     m_flow_nominal=m_flow_nominal,
@@ -385,12 +409,19 @@ partial model FullGrid
       districtHeatingPipe(dp_nominal=100))
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={54,-80})));
+        origin={54,-82})));
   Modelica.Blocks.Interfaces.BooleanInput u annotation (Placement(
-        transformation(extent={{-140,20},{-100,60}}), iconTransformation(
+        transformation(extent={{-140,40},{-100,80}}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
-        origin={0,70})));
+        origin={0,90})));
+  Modelica.Blocks.Interfaces.RealOutput valveOpenings[11] annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-110,40}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=180,
+        origin={-110,60})));
 equation
   connect(port_a, dHConnection1.port_a1) annotation (Line(
       points={{-100,0},{-86,0},{-86,68},{-76,68}},
@@ -429,11 +460,11 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection5.port_a2, dHConnection6.port_b2) annotation (Line(
-      points={{40,56},{48,56},{48,50}},
+      points={{40,56},{48,56},{48,48}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection5.port_b1, dHConnection6.port_a1) annotation (Line(
-      points={{40,68},{60,68},{60,50}},
+      points={{40,68},{60,68},{60,48}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection1.flowPortIn, haarhakkerHouse1.flowPort_return)
@@ -487,103 +518,103 @@ equation
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection6.port_a2, dHConnection7.port_b2) annotation (Line(
-      points={{48,30},{48,26}},
+      points={{48,28},{48,24}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection6.port_b1, dHConnection7.port_a1) annotation (Line(
-      points={{60,30},{60,26}},
+      points={{60,28},{60,24}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection7.port_a2, dHConnection8.port_b2) annotation (Line(
-      points={{48,6},{48,2}},
+      points={{48,4},{48,1.77636e-15}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection7.port_b1, dHConnection8.port_a1) annotation (Line(
-      points={{60,6},{60,2}},
+      points={{60,4},{60,-1.77636e-15}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection7.flowPortIn, petersleiHouse7.flowPort_return)
     annotation (Line(
-      points={{64,18},{82,18}},
+      points={{64,16},{82,16},{82,18},{82,18}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection6.flowPortIn, petersleiHouse6.flowPort_return)
     annotation (Line(
-      points={{64,42},{82,42},{82,44}},
+      points={{64,40},{82,40},{82,44}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection6.flowPortOut, petersleiHouse6.flowPort_supply)
     annotation (Line(
-      points={{64,38},{86,38},{86,44}},
+      points={{64,36},{86,36},{86,44}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection7.flowPortOut, petersleiHouse7.flowPort_supply)
     annotation (Line(
-      points={{64,14},{86,14},{86,18}},
+      points={{64,12},{86,12},{86,18}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection8.flowPortIn, petersleiHouse8.flowPort_return)
     annotation (Line(
-      points={{64,-6},{82,-6}},
+      points={{64,-8},{82,-8},{82,-6},{82,-6}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection8.flowPortOut, petersleiHouse8.flowPort_supply)
     annotation (Line(
-      points={{64,-10},{86,-10},{86,-6}},
+      points={{64,-12},{86,-12},{86,-6}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection9.flowPortIn, petersleiHouse9.flowPort_return)
     annotation (Line(
-      points={{64,-30},{82,-30}},
+      points={{64,-32},{82,-32},{82,-30},{82,-30}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection8.port_a2, dHConnection9.port_b2) annotation (Line(
-      points={{48,-18},{48,-22}},
+      points={{48,-20},{48,-24}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection8.port_b1, dHConnection9.port_a1) annotation (Line(
-      points={{60,-18},{60,-22}},
+      points={{60,-20},{60,-24}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection9.flowPortOut, petersleiHouse9.flowPort_supply)
     annotation (Line(
-      points={{64,-34},{86,-34},{86,-30}},
+      points={{64,-36},{86,-36},{86,-30}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection9.port_a2, dHConnection10.port_b2) annotation (Line(
-      points={{48,-42},{48,-46}},
+      points={{48,-44},{48,-48}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection9.port_b1, dHConnection10.port_a1) annotation (Line(
-      points={{60,-42},{60,-46}},
+      points={{60,-44},{60,-48}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection10.flowPortIn, petersleiHouse10.flowPort_return)
     annotation (Line(
-      points={{64,-54},{82,-54}},
+      points={{64,-56},{82,-56},{82,-54},{82,-54}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection10.flowPortOut, petersleiHouse10.flowPort_supply)
     annotation (Line(
-      points={{64,-58},{86,-58},{86,-54}},
+      points={{64,-60},{86,-60},{86,-54}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection11.port_b2, dHConnection10.port_a2) annotation (Line(
-      points={{48,-70},{48,-66}},
+      points={{48,-72},{48,-68}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection11.port_a1, dHConnection10.port_b1) annotation (Line(
-      points={{60,-70},{60,-66}},
+      points={{60,-72},{60,-68}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection11.flowPortIn, petersleiHouse11.flowPort_return)
     annotation (Line(
-      points={{64,-78},{82,-78}},
+      points={{64,-80},{82,-80},{82,-78},{82,-78}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection11.flowPortOut, petersleiHouse11.flowPort_supply)
     annotation (Line(
-      points={{64,-82},{86,-82},{86,-78}},
+      points={{64,-84},{86,-84},{86,-78}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(port_b, dHConnection1.port_b2) annotation (Line(
@@ -632,9 +663,66 @@ equation
       color={255,0,255},
       smooth=Smooth.None));
   connect(u, haarhakkerHouse1.u) annotation (Line(
-      points={{-120,40},{-92,40},{-92,98},{-80,98},{-80,90},{-73,90}},
+      points={{-120,60},{-92,60},{-92,98},{-80,98},{-80,90},{-73,90}},
       color={255,0,255},
       smooth=Smooth.None));
+  connect(haarhakkerHouse1.valveOpening, valveOpenings[1]) annotation (Line(
+      points={{-73,88},{-90,88},{-90,49.0909},{-110,49.0909}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(haarhakkerHouse2.valveOpening, valveOpenings[2]) annotation (Line(
+      points={{-49,88},{-54,88},{-54,47.2727},{-110,47.2727}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(haarhakkerHouse3.valveOpening, valveOpenings[3]) annotation (Line(
+      points={{-25,88},{-30,88},{-30,45.4545},{-110,45.4545}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(haarhakkerHouse4.valveOpening, valveOpenings[4]) annotation (Line(
+      points={{-1,88},{-6,88},{-6,43.6364},{-110,43.6364}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(haarhakkerHouse5.valveOpening, valveOpenings[5]) annotation (Line(
+      points={{23,88},{18,88},{18,41.8182},{-110,41.8182}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(petersleiHouse6.valveOpening, valveOpenings[6]) annotation (Line(
+      points={{77,52},{42,52},{42,40},{-110,40}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(petersleiHouse7.valveOpening, valveOpenings[7]) annotation (Line(
+      points={{77,26},{42,26},{42,38.1818},{-110,38.1818}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(petersleiHouse8.valveOpening, valveOpenings[8]) annotation (Line(
+      points={{77,2},{40,2},{40,36.3636},{-110,36.3636}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(petersleiHouse9.valveOpening, valveOpenings[9]) annotation (Line(
+      points={{77,-22},{38,-22},{38,34.5455},{-110,34.5455}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(petersleiHouse10.valveOpening, valveOpenings[10]) annotation (Line(
+      points={{77,-46},{36,-46},{36,32.7273},{-110,32.7273}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(petersleiHouse11.valveOpening, valveOpenings[11]) annotation (Line(
+      points={{77,-70},{34,-70},{34,30.9091},{-110,30.9091}},
+      color={0,0,127},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics));
+            -100},{100,100}}), graphics), Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
+        Line(
+          points={{-100,60},{-40,60},{-40,40}},
+          color={0,0,255},
+          smooth=Smooth.None),
+        Line(
+          points={{-40,60},{0,60},{0,40}},
+          color={0,0,255},
+          smooth=Smooth.None),
+        Line(
+          points={{0,60},{40,60},{40,40}},
+          color={0,0,255},
+          smooth=Smooth.None)}));
 end FullGrid;

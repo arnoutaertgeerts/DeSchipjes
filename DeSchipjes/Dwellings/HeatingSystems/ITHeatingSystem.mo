@@ -58,7 +58,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(HT, onOff.u) annotation (Line(
-      points={{50,-104},{50,-60},{4,-60},{4,64}},
+      points={{60,-104},{60,-60},{4,-60},{4,64}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(conPID.y, onOff1.u1) annotation (Line(
@@ -76,7 +76,7 @@ equation
 
   for i in 1:nZones loop
     connect(HT, not1[i].u)   annotation (Line(
-      points={{50,-104},{50,-60},{4,-60},{4,14},{-60,14}},
+      points={{60,-104},{60,-60},{4,-60},{4,14},{-60,14}},
       color={255,0,255},
       smooth=Smooth.None));
   end for;
@@ -88,12 +88,8 @@ equation
       points={{-204,-60},{-120,-60},{-120,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heatExchanger.massFlow2, PIDSupplyT.u_m) annotation (Line(
-      points={{43.2,-27.4},{43.2,-16},{70,-16},{70,-2}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(PIDSupplyT.y, slewRateLimiter.u) annotation (Line(
-      points={{81,10},{88,10}},
+      points={{81,10},{91.2,10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(const1.y, switch1.u3) annotation (Line(
@@ -135,7 +131,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.portHex_b, bou1.ports[2]) annotation (Line(
-      points={{88,48},{80,48},{80,36},{138,36},{138,32}},
+      points={{88,48},{80,48},{80,36},{140,36},{140,32}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -145,6 +141,10 @@ equation
       smooth=Smooth.None));
   connect(slewRateLimiter1.y, pumpDHW.u) annotation (Line(
       points={{-20.4,76},{-24,76},{-24,60.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(heatExchanger.Tsup, PIDSupplyT.u_m) annotation (Line(
+      points={{40.4,-27.6},{40.4,-12},{70,-12},{70,-2}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,

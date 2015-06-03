@@ -34,20 +34,14 @@ model ITHeatingSystemReverse
         origin={-100,14})));
   Modelica.Blocks.Logical.Not not1[nZones]
     annotation (Placement(transformation(extent={{-62,4},{-82,24}})));
-  IDEAS.Controls.Continuous.LimPID PIDSupplyT(
-    controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    Ti=180,
-    k=0.5,
-    yMax=1)
-    annotation (Placement(transformation(extent={{60,0},{80,20}})));
   Modelica.Blocks.Sources.Constant const1(k=273.15 + 40)
-    annotation (Placement(transformation(extent={{12,-2},{20,6}})));
+    annotation (Placement(transformation(extent={{12,2},{20,10}})));
   Modelica.Blocks.Sources.Constant const2(k=273.15 + 70)
-    annotation (Placement(transformation(extent={{12,14},{20,22}})));
+    annotation (Placement(transformation(extent={{12,18},{20,26}})));
   Modelica.Blocks.Logical.Switch switch1 annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={40,10})));
+        origin={40,14})));
   Modelica.Blocks.Nonlinear.SlewRateLimiter slewRateLimiter1(
                                                             Td=30, Rising=
         m_flow_dhw)
@@ -92,28 +86,16 @@ equation
       points={{-204,-60},{-120,-60},{-120,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(heatExchanger.massFlow2, PIDSupplyT.u_m) annotation (Line(
-      points={{43.2,-27.4},{43.2,-16},{70,-16},{70,-2}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(PIDSupplyT.y, slewRateLimiter.u) annotation (Line(
-      points={{81,10},{88,10}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(const1.y, switch1.u3) annotation (Line(
-      points={{20.4,2},{28,2}},
+      points={{20.4,6},{28,6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(const2.y, switch1.u1) annotation (Line(
-      points={{20.4,18},{28,18}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(switch1.y, PIDSupplyT.u_s) annotation (Line(
-      points={{51,10},{58,10}},
+      points={{20.4,22},{28,22}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(switch1.u2, onOff.u) annotation (Line(
-      points={{28,10},{4,10},{4,64}},
+      points={{28,14},{4,14},{4,64}},
       color={255,0,255},
       smooth=Smooth.None));
   connect(temperatureSensor.port, tan.heaPorVol[4]) annotation (Line(
@@ -138,7 +120,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.port_b, bou1.ports[2]) annotation (Line(
-      points={{108,56},{120,56},{120,36},{138,36},{138,32}},
+      points={{108,56},{120,56},{120,36},{140,36},{140,32}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -148,6 +130,10 @@ equation
       smooth=Smooth.None));
   connect(slewRateLimiter1.y, pumpDHW.u) annotation (Line(
       points={{-20.4,76},{-24,76},{-24,60.8}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(switch1.y, PIDSupplyT.u_s) annotation (Line(
+      points={{51,14},{64,14}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,

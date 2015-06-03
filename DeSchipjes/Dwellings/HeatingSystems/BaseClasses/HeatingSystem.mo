@@ -9,10 +9,18 @@ model HeatingSystem
         transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={50,-104}), iconTransformation(
+        origin={60,-104}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
-        origin={30,-102})));
+        origin={38,-102})));
+  Modelica.Blocks.Interfaces.RealOutput valveOpening annotation (Placement(
+        transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={40,-104}), iconTransformation(
+        extent={{-10,-10},{10,10}},
+        rotation=270,
+        origin={22,-102})));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-200,-100},{200,100}}), graphics));

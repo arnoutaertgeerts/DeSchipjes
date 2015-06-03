@@ -8,27 +8,38 @@ package Full
   model ITFullGrid
     extends DeSchipjes.Grids.FullGrid(
       haarhakkerHouse1(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       haarhakkerHouse2(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       haarhakkerHouse3(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       haarhakkerHouse4(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       haarhakkerHouse5(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       petersleiHouse6(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       petersleiHouse7(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       petersleiHouse8(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       petersleiHouse9(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       petersleiHouse10(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem),
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
       petersleiHouse11(redeclare replaceable
-          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem));
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem));
 
   end ITFullGrid;
 
