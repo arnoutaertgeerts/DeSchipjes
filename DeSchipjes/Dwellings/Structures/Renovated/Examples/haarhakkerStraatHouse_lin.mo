@@ -100,7 +100,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(woonruimteWindow.winBus, winBus1[1]) annotation (Line(
-      points={{-69.8,42},{-58,42},{-58,56},{-40,56}},
+      points={{-68.6,42},{-58,42},{-58,56},{-40,56}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -108,7 +108,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(keukenWindowLarge.winBus, winBus1[2]) annotation (Line(
-      points={{-69.8,16},{-56,16},{-56,48},{-40,48}},
+      points={{-68.6,16},{-56,16},{-56,48},{-40,48}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -116,7 +116,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(keukenWindowSmall.winBus, winBus1[3]) annotation (Line(
-      points={{-69.8,-10},{-54,-10},{-54,40},{-40,40}},
+      points={{-68.6,-10},{-54,-10},{-54,40},{-40,40}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -124,7 +124,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(raamwc.winBus, winBus1[4]) annotation (Line(
-      points={{-69.8,-36},{-52,-36},{-52,32},{-40,32}},
+      points={{-68.6,-36},{-52,-36},{-52,32},{-40,32}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -157,7 +157,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(slaapkamerRaam.winBus, winBus1[5]) annotation (Line(
-      points={{-69.8,-64},{-46,-64},{-46,24},{-40,24}},
+      points={{-68.6,-64},{-46,-64},{-46,24},{-40,24}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None), Text(
@@ -186,7 +186,7 @@ equation
       thickness=0.5,
       smooth=Smooth.None));
   connect(ssm.Q_flowConv, sine.y) annotation (Line(
-      points={{-10.6,0},{-19,0},{-19,-30}},
+      points={{-10.8,-2.8},{-19,-2.8},{-19,-30}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(building.Q_flowConv, sine.y) annotation (Line(
@@ -198,7 +198,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(ssm.Q_flowRad, sine.y) annotation (Line(
-      points={{-10.6,-6},{-19,-6},{-19,-30}},
+      points={{-10.8,-8.8},{-19,-8.8},{-19,-30}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

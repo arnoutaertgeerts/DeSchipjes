@@ -1,13 +1,9 @@
-function [ variable ] = findOutput( filename, variablename, isVariable )
+function [ variable ] = findOutput( filename, variablename )
 %FINDOUTPUTFUNC Finds an output from a Dymola outputfile
 % first input: name of the datafile  
 % second input: name of the variable
 % third input: true if the asked is a variable, false if a parameter is
 % asked
-
-if isempty(isVariable)
-    isVariable = true;
-end
 
 
 load(filename)          % name of the saved file
@@ -31,14 +27,15 @@ if position ==0
     error('Variable not found')
 end
 
+typeVar = abs(dataInfo(1,position));
 sec_position = abs(dataInfo(2,position));
 
-if isVariable
+if typeVar == 1 % parameter
+    %data_1(sec_position,:)
+    var = data_1(sec_position,:);
+    variable = var(1);
+elseif typeVar == 2 || typeVar == 0
     variable = data_2(sec_position,:);
-end
-
-if not(isVariable)
-    variable = data_1(sec_position,:);
 end
 
 %figure;
