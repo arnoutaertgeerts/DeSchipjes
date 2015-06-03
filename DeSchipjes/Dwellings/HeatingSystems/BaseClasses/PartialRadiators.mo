@@ -56,14 +56,14 @@ partial model PartialRadiators
     redeclare package Medium = Medium,
     measureReturnT=false,
     efficiency=0.9,
-    dp=50,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     dynamicBalance=true,
     tauTSensor=0,
     T_start=TSupply,
     includePipes=true,
-    m=10)                                          annotation (Placement(
+    m=50,
+    dp=0)                                          annotation (Placement(
         transformation(
         extent={{-10,10},{10,-10}},
         rotation=180,
@@ -144,7 +144,7 @@ protected
     nPorts=1)
     annotation (Placement(transformation(extent={{4,4},{-4,-4}},
         rotation=90,
-        origin={0,-24})));
+        origin={12,-24})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
     KvReturn=5,
@@ -243,7 +243,7 @@ equation
       color={191,0,0},
       smooth=Smooth.None));
   connect(bou.ports[1], parallelPipesSplitter.port_a) annotation (Line(
-      points={{-2.22045e-16,-28},{-2.22045e-16,-32},{-60,-32}},
+      points={{12,-28},{12,-32},{-60,-32}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(pumpDHW.port_b2, heatExchanger.port_a2) annotation (Line(

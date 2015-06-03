@@ -5,9 +5,7 @@ model ITHeatingSystemReverseIDEAS
     modulation=true,
     pumpDHW(measureSupplyT=true, measureReturnT=true),
     heatExchanger(
-      includePipes=true,
-      UA=0.1,
-      m=10),
+      includePipes=true),
     rad(Q_flow_nominal={2113,1409,1,1025,804,1}),
     bou1(nPorts=2));
 
