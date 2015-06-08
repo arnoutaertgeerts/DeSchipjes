@@ -640,28 +640,12 @@ equation
       points={{106,106},{142,106},{142,-25},{150,-25}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(wc.gainCon, heatPortCon[3]) annotation (Line(
-      points={{108,53},{118,53},{118,66},{150,66},{150,18.3333}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(wc.gainRad, heatPortRad[3]) annotation (Line(
-      points={{108,50},{164,50},{164,-21.6667},{150,-21.6667}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(slaapkamer.gainCon, heatPortCon[4]) annotation (Line(
       points={{110,3},{120,3},{120,4},{132,4},{132,21.6667},{150,21.6667}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(slaapkamer.gainRad, heatPortRad[4]) annotation (Line(
       points={{110,0},{188,0},{188,-18.3333},{150,-18.3333}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(badkamer.gainCon, heatPortCon[5]) annotation (Line(
-      points={{110,-41},{134,-41},{134,-40},{148,-40},{148,25},{150,25}},
-      color={191,0,0},
-      smooth=Smooth.None));
-  connect(badkamer.gainRad, heatPortRad[5]) annotation (Line(
-      points={{110,-44},{170,-44},{170,-15},{150,-15}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(woonruimte.TSensor, TSensor[1]) annotation (Line(
@@ -672,16 +656,8 @@ equation
       points={{106.6,112},{160,112},{160,-65},{156,-65}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(wc.TSensor, TSensor[3]) annotation (Line(
-      points={{108.6,56},{164,56},{164,-61.6667},{156,-61.6667}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(slaapkamer.TSensor, TSensor[4]) annotation (Line(
       points={{110.6,6},{166,6},{166,-58.3333},{156,-58.3333}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(badkamer.TSensor, TSensor[5]) annotation (Line(
-      points={{110.6,-38},{166,-38},{166,-55},{156,-55}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(nachthal.TSensor, TSensor[6]) annotation (Line(
@@ -749,6 +725,30 @@ equation
   connect(nachthal.flowPort_Out, flowPort_Out[6]) annotation (Line(
       points={{82,-70},{78,-70},{78,18},{-20,18},{-20,108.333}},
       color={0,0,0},
+      smooth=Smooth.None));
+  connect(badkamer.TSensor, TSensor[3]) annotation (Line(
+      points={{110.6,-38},{134,-38},{134,-61.6667},{156,-61.6667}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(badkamer.gainCon, heatPortCon[3]) annotation (Line(
+      points={{110,-41},{178,-41},{178,18.3333},{150,18.3333}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(badkamer.gainRad, heatPortRad[3]) annotation (Line(
+      points={{110,-44},{150,-44},{150,-21.6667}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(wc.TSensor, TSensor[5]) annotation (Line(
+      points={{108.6,56},{128,56},{128,-55},{156,-55}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(wc.gainCon, heatPortCon[5]) annotation (Line(
+      points={{108,53},{150,53},{150,52},{150,52},{150,25}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(wc.gainRad, heatPortRad[5]) annotation (Line(
+      points={{108,50},{120,50},{120,-15},{150,-15}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
             -100},{220,200}}), graphics));

@@ -4,7 +4,7 @@ partial model Scenario
   //Parameters
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=1
     "Nominal massflow rate at the production site";
-  parameter Modelica.SIunits.Power QNom[:] = {2113,1409,1,1025,804,1}
+  parameter Modelica.SIunits.Power QNom[:] = {2113,1409,804,1025,10,10}
     "Average heat losses for each zone";
 
   parameter Modelica.SIunits.Temperature TRadSupply(displayUnit="Celsius")

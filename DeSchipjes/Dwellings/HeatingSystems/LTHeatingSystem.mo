@@ -68,8 +68,6 @@ model LTHeatingSystem
   Modelica.Blocks.Sources.BooleanExpression booleanExpression(y=heatExchanger.Tsup
          > THPmin)
     annotation (Placement(transformation(extent={{-60,60},{-40,80}})));
-  Modelica.Blocks.Sources.Constant const1(k=TSupply - 5)
-    annotation (Placement(transformation(extent={{50,10},{58,18}})));
 equation
   connect(hysteresis1.y, pumpDHW.u) annotation (Line(
       points={{43.2,76},{-24,76},{-24,60.8}},
@@ -152,10 +150,6 @@ equation
   connect(tan.portHex_b, bou1.ports[2]) annotation (Line(
       points={{88,48},{84,48},{84,36},{140,36},{140,32}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(PIDSupplyT.u_s, const1.y) annotation (Line(
-      points={{64,14},{58.4,14}},
-      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));
