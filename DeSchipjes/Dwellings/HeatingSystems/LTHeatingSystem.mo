@@ -2,7 +2,7 @@ within DeSchipjes.Dwellings.HeatingSystems;
 model LTHeatingSystem
   //Extensions
   extends BaseClasses.PartialStorage(
-    modulation=false,
+    modulating=false,
     tan(
       redeclare package Medium = Medium,
       m_flow_nominal=m_flow_dhw,
@@ -115,17 +115,9 @@ equation
       points={{18,50},{22,50},{22,90},{103.6,90},{103.6,56}},
       smooth=Smooth.None,
       color={255,170,170}));
-  connect(conPID.y, pumpRadiators.u) annotation (Line(
-      points={{-109,40},{-100,40},{-100,-27.2}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
       points={{120,96},{103.6,96},{103.6,56}},
       color={191,0,0},
-      smooth=Smooth.None));
-  connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(
-      points={{-81,-68},{-164,-68},{-164,40},{-132,40}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(TSensor, conPID.u_m) annotation (Line(
       points={{-204,-60},{-120,-60},{-120,28}},
@@ -150,6 +142,10 @@ equation
   connect(tan.portHex_b, bou1.ports[2]) annotation (Line(
       points={{88,48},{84,48},{84,36},{140,36},{140,32}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(conPID.y, pumpRadiators.u) annotation (Line(
+      points={{-109,40},{-100,40},{-100,-27.2}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));

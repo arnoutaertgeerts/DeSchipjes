@@ -1,6 +1,8 @@
 within DeSchipjes.Dwellings.Structures.Renovated;
 model HaarhakkerStraatHouse "House in the direction of the Haarhakkerstraat"
   extends RowHouse(
-    streetAzi=55+90,
-    perpendicularAzi=145+90);
+    right=243,
+    left=63,
+    front=153,
+    back=-27);
 end HaarhakkerStraatHouse;

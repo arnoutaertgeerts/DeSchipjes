@@ -1,0 +1,395 @@
+<!-- External plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.17/require.min.js"></script>
+
+<script type="text/javascript">
+    requirejs.config({
+        paths: {
+            'highstock': "http://code.highcharts.com/stock/highstock",
+            'standalone': "http://code.highcharts.com/adapters/standalone-framework",
+            'export': "http://code.highcharts.com/stock/modules/exporting",
+
+            'angular': "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min",
+            'underscore': "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min",
+            'animate': "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-animate.min",
+            'aria': "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-aria.min",
+            'material': "https://cdnjs.cloudflare.com/ajax/libs/angular-material/0.9.4/angular-material.min",
+            'accordion': "https://cdn.rawgit.com/LukaszWatroba/v-accordion/v1.2.3/dist/v-accordion.min",
+            'json-editor': "https://cdn.rawgit.com/arnoutaertgeerts/jsoneditor/v4.2.0/dist/jsoneditor",
+            'select': "https://cdn.rawgit.com/arnoutaertgeerts/angular-multi-select/master/isteven-multi-select"
+        },
+
+        shim: {
+            'highstock': {
+                deps: ['standalone'],
+                exports: 'Highcharts'
+            },
+            'export': {
+                deps: ['highstock']
+            },
+            'angular': {
+                exports: 'angular'
+            },
+            'underscore': {
+                exports: '_'
+            },
+            'animate': ['angular'],
+            'aria': ['angular'],
+            'material': ['angular', 'animate', 'aria'],
+            'accordion': ['angular'],
+            'select': ['angular']
+        }
+    });
+</script>
+
+<!-- Stylesheets -->
+<link rel="stylesheet"
+      href="https://cdn.rawgit.com/arnoutaertgeerts/angular-multi-select/master/isteven-multi-select.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/0.9.4/angular-material.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.rawgit.com/LukaszWatroba/v-accordion/v1.2.3/dist/v-accordion.min.css"/>
+<link rel="stylesheet" href="https://cdn.rawgit.com/arnoutaertgeerts/jsoneditor/master/dist/jsoneditor.min.css"/>
+
+
+<style>
+    .md-chips .md-chip-input-container input:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    md-input-container .md-input:focus {
+        box-shadow: none;
+    }
+
+    .jsoneditor td.tree, .jsoneditor td, .jsoneditor tr, .jsoneditor table {
+        border: none;
+        margin: 0;
+    }
+</style>
+
+<script type="text/javascript">
+    require(['json-editor', 'angular'], function (JSONEditor) {
+        var module = angular.module('ng.jsoneditor', []);
+        module.constant('ngJsoneditorConfig', {});
+
+        module.directive('ngJsoneditor', ['ngJsoneditorConfig', '$timeout', function (ngJsoneditorConfig, $timeout) {
+            var defaults = ngJsoneditorConfig || {};
+
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                scope: {'options': '=', 'ngJsoneditor': '=', 'preferText': '='},
+                link: function ($scope, element, attrs, ngModel) {
+                    var editor;
+
+                    if (!angular.isDefined(JSONEditor)) {
+                        throw new Error("Please add the jsoneditor.js script first!");
+                    }
+
+                    function _createEditor(options) {
+                        var settings = angular.extend({}, defaults, options);
+                        var theOptions = angular.extend({}, settings, {
+                            change: function () {
+                                $timeout(function () {
+                                    if (editor) {
+                                        ngModel.$setViewValue($scope.preferText === true ? editor.getText() : editor.get());
+
+                                        if (settings && settings.hasOwnProperty('change')) {
+                                            settings.change();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                        element.html('');
+
+                        var instance = new JSONEditor(element[0], theOptions);
+
+                        if ($scope.ngJsoneditor instanceof Function) {
+                            $timeout(function () {
+                                $scope.ngJsoneditor(instance);
+                            });
+                        }
+
+                        return instance;
+                    }
+
+                    $scope.$watch('options', function (newValue, oldValue) {
+                        for (var k in newValue) {
+                            if (newValue.hasOwnProperty(k)) {
+                                var v = newValue[k];
+
+                                if (newValue[k] !== oldValue[k]) {
+                                    if (k === 'mode') {
+                                        editor.setMode(v);
+                                    } else if (k === 'name') {
+                                        editor.setName(v);
+                                    } else { //other settings cannot be changed without re-creating the JsonEditor
+                                        editor = _createEditor(newValue);
+                                        ngModel.$render();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }, true);
+
+                    $scope.$on('$destroy', function () {
+                        //remove jsoneditor?
+                    });
+
+                    ngModel.$render = function () {
+                        if (($scope.preferText === true) && !angular.isObject(ngModel.$viewValue)) {
+                            editor.setText(ngModel.$viewValue || '{}');
+                        } else {
+                            editor.set(ngModel.$viewValue || {});
+                        }
+                    };
+
+                    editor = _createEditor($scope.options);
+                }
+            };
+        }]);
+    })
+</script>
+
+<script type="text/javascript">
+    //inject:js
+    require([
+        'highstock',
+        'angular',
+        'underscore',
+        'animate',
+        'aria',
+        'material',
+        'export',
+        'accordion',
+        'select'
+    ], function () {
+
+        //Count the number of apps / charts on the page
+        if (window.counter == undefined) {
+            window.counter = 0;
+        } else {
+            window.counter++;
+        }
+
+        //Create different containers for the apps and charts
+        var chartContainer = document.getElementById("container");
+        chartContainer.id = "chart" + window.counter.toString();
+
+        var appContainer = document.getElementById("appid");
+        appContainer.id = "app" + window.counter.toString();
+
+        //The angular app
+        var app = angular.module('myApp', [
+            "ngMaterial",
+            "vAccordion",
+            "ng.jsoneditor",
+            "isteven-multi-select"
+        ]);
+
+        app.controller('MyController', ['$scope', function ($scope) {
+
+            var series = [{"data": [[86400000.0, 0.17926166167578722], [87300000.0, 0.18004379235311227], [88200000.0, 0.18081945614210693], [89100000.0, 0.18158873797124156], [90000000.0, 0.18235385744255167], [90900000.0, 0.1831154124435707], [91800000.0, 0.1838739014622535], [92700000.0, 0.18463057987498127], [93600000.0, 0.185386026654851], [94500000.0, 0.18459839496344818], [95400000.0, 0.1853717481099874], [96300000.0, 0.18616345869817374], [97200000.0, 0.18696070042868046], [98100000.0, 0.1877589846717918], [99000000.0, 0.18855954053548873], [99900000.0, 0.18589463694478328], [100800000.0, 0.18391221560913], [101700000.0, 0.1837207945967232], [102600000.0, 0.18360518346850122], [103500000.0, 0.18349960538422902], [104400000.0, 0.18343307433295478], [105300000.0, 0.18015366363019472], [106200000.0, 0.17663575567532208], [107100000.0, 0.17538162021004375], [108000000.0, 0.17459177387494473], [108900000.0, 0.1738255352914287], [109800000.0, 0.1730844816658193], [110700000.0, 0.17202893989791412], [111600000.0, 0.17143586662474947], [112500000.0, 0.17081980813980768], [113400000.0, 0.17007011742431094], [114300000.0, 0.16882990951441698], [115200000.0, 0.16860740038211883], [116100000.0, 0.16757630213376906], [117000000.0, 0.1670745095600854], [117900000.0, 0.16690822684010942], [118800000.0, 0.1660903025057847], [119700000.0, 0.1655232696251528], [120600000.0, 0.16528929273847598], [121500000.0, 0.1645797689005493], [122400000.0, 0.16419740438387348], [123300000.0, 0.16377561188038145], [124200000.0, 0.1638459943076333], [125100000.0, 0.16386771410355686], [126000000.0, 0.16391039693492115], [126900000.0, 0.1637052212253729], [127800000.0, 0.1634675401109644], [128700000.0, 0.16296701984752274], [129600000.0, 0.16330947387977035], [130500000.0, 0.15933168638263343], [131400000.0, 0.1562512459453312], [132300000.0, 0.15493600056785997], [133200000.0, 0.15525231773937972], [134100000.0, 0.15170963471590918], [135000000.0, 0.15138807190553932], [135900000.0, 0.15168270981332288], [136800000.0, 0.15193045248402676], [137700000.0, 0.15029166417086964], [138600000.0, 0.1500543129445085], [139500000.0, 0.15018719998557542], [140400000.0, 0.1497301400304609], [141300000.0, 0.1494691663534385], [142200000.0, 0.14943250723048657], [143100000.0, 0.14896162111865816], [144000000.0, 0.1487314021742654], [144900000.0, 0.14856106197333996], [145800000.0, 0.14817572727188646], [146700000.0, 0.14795134032196738], [147600000.0, 0.1476593723509979], [148500000.0, 0.14744586159343664], [149400000.0, 0.14728757779491894], [150300000.0, 0.14702564127412784], [151200000.0, 0.146938646531804], [152100000.0, 0.14670245166187246], [153000000.0, 0.1462581408479889], [153900000.0, 0.14623621879748977], [154800000.0, 0.1463897591981797], [155700000.0, 0.14639873120751115], [156600000.0, 0.14691490487710715], [157500000.0, 0.1476005452373095], [158400000.0, 0.1482857132143084], [159300000.0, 0.1489453962192588], [160200000.0, 0.14799868458042542], [161100000.0, 0.14782693755089993], [162000000.0, 0.14826477666235283], [162900000.0, 0.1482508770257964], [163800000.0, 0.1484690555392741], [164700000.0, 0.14848506786233864], [165600000.0, 0.1488962354217356], [166500000.0, 0.14923001649601625], [167400000.0, 0.14949007503236977], [168300000.0, 0.14969869221327495], [169200000.0, 0.1498916851081827], [170100000.0, 0.150025376628012], [171000000.0, 0.15011977965440945], [171900000.0, 0.15021209035679212]], "name": "Losses", "display": true}];
+            var options = {"chart": {"zoomType": "xy", "type": "line"}, "legend": {"enabled": true}};
+            var useHighStock = true;
+
+            //Choose a chart type
+            var ChartType = useHighStock ? Highcharts.StockChart : Highcharts.Chart;
+
+            var keys = [];
+            angular.forEach(series, function (serie) {
+                keys.push({
+                    name: serie.name,
+                    selected: serie.display
+                })
+            });
+
+            $scope.keys = keys;
+            $scope.selectedItem = null;
+            $scope.searchText = null;
+            $scope.querySearch = querySearch;
+            $scope.keys = keys;
+            $scope.selected = {};
+            $scope.selected.keys = [];
+
+            $scope.options = null;
+            $scope.setOptions = setOptions;
+
+            $scope.$watch('selected.keys', updateSeries, true);
+
+            if (typeof options.chart === "undefined") {
+                var chartOptions = {renderTo: chartContainer.id};
+            } else {
+                var chartOptions = angular.extend(options["chart"], {renderTo: chartContainer.id});
+            }
+
+            //Initial rendered series
+            var renderedSeries = [];
+            options = angular.extend(options, {chart: chartOptions}, {series: renderedSeries});
+            var chart = new ChartType(options);
+
+            //JSONEditor object
+            $scope.obj = {data: chart.options, options: { mode: 'tree' }};
+
+            //Default highchart colors
+            var colors = {};
+            colors.available = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9',
+                '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1'];
+            colors.used = [];
+
+            //Show first series
+            $scope.selected.keys = _.filter(series,function (obj) {
+                return obj.display == true || obj.display === true
+            }).map(function (serie) {
+                return {
+                    name: serie.name,
+                    selected: true
+                }
+            });
+
+            updateSeries($scope.selected.keys, []);
+
+            function setOptions(options) {
+                newChart(angular.extend(chart.options, options), renderedSeries);
+                $scope.accordion.toggle(0);
+            }
+
+            function querySearch(query) {
+                var availableKeys = _.difference($scope.keys, $scope.selected.keys);
+                return query ? availableKeys.filter(createFilterFor(query)) : [];
+            }
+
+            function createFilterFor(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(key) {
+                    return (angular.lowercase(key).indexOf(lowercaseQuery) > -1);
+                };
+            }
+
+            // Update the series
+            function updateSeries(newValue, oldValue) {
+                newValue = newValue.map(function (element) {
+                    return element.name
+                });
+
+                oldValue = oldValue.map(function (element) {
+                    return element.name
+                });
+
+                if (newValue.length > oldValue.length) {
+                    var newKeys = _.difference(newValue, oldValue);
+                    angular.forEach(newKeys, function (newKey) {
+                        var index = findSeries(series, newKey);
+                        var newSeries = series[index];
+                        addSeries(newSeries);
+                    });
+                    newChart(chart.options, renderedSeries);
+
+                } else if (newValue.length < oldValue.length) {
+                    var removedKeys = _.difference(oldValue, newValue);
+                    angular.forEach(removedKeys, function (removedKey) {
+                        deleteSeries(removedKey);
+                    });
+
+                    newChart(chart.options, renderedSeries)
+                }
+            }
+
+            function findSeries(series, key) {
+                var index = {};
+
+                var arrayLength = series.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    if (series[i].name == key) {
+                        index = i
+                    }
+                }
+                return index
+            }
+
+            function newChart(options, series) {
+                //Disable animation
+                newOptions = angular.extend(options, {series: series});
+                newOptions.plotOptions['series'] = {animation: false};
+
+                //Get zoom
+                var xExtremes = chart.xAxis[0].getExtremes();
+
+                //Re-plot the chart
+                chart.destroy();
+                chart = new ChartType(newOptions);
+
+                //Reset the zoom
+                chart.xAxis[0].setExtremes(xExtremes.min, xExtremes.max, false, false);
+
+                //Re-draw chart
+                chart.redraw();
+            }
+
+            function addSeries(newSeries) {
+                renderedSeries.push(angular.extend(newSeries, {color: colors.available[0]}));
+                colors.used.push(colors.available.splice(0, 1)[0]);
+            }
+
+            function deleteSeries(name) {
+                var index = findSeries(renderedSeries, name);
+                var deletedColor = renderedSeries.splice(index, 1).color;
+                var colorIndex = colors.used.indexOf(deletedColor);
+                colors.available.push(colors.used.splice(colorIndex, 1)[0]);
+            }
+
+        }]);
+
+        angular.bootstrap(appContainer, ['myApp']);
+    });
+</script>
+
+
+<div id="appid">
+
+    <div ng-controller="MyController">
+        <section flex>
+            <div layout="column">
+                <div class="md-padding" layout="row" flex>
+                    <div flex="80">
+                        <isteven-multi-select
+                                input-model="keys"
+                                output-model="selected.keys"
+                                button-label="name"
+                                item-label="name"
+                                tick-property="selected"
+                                max-height="250px"
+                                >
+                        </isteven-multi-select>
+                    </div>
+                    <div flex="20" layout-align="end center" layout="row">
+                        <md-button ng-click="accordion.toggle(0)">Settings</md-button>
+                    </div>
+                </div>
+
+                <md-content class="md-padding" flex>
+                    <v-accordion class="vAccordion--default" control="accordion">
+                        <v-pane>
+                            <v-pane-header style="display:none"></v-pane-header>
+                            <v-pane-content>
+                                <div ng-jsoneditor ng-model="obj.data" options="obj.options"
+                                     style="width: 100%; height: 300px;"></div>
+
+                                <md-button class="md-raised md-primary no-padding" style="margin-left: 0;"
+                                           ng-click="setOptions(obj.data)">Apply
+                                </md-button>
+                            </v-pane-content>
+                        </v-pane>
+
+                    </v-accordion>
+                </md-content>
+                <md-content class="md-padding" flex>
+                    <div id="container" style="height: 550px; min-width: 310px"></div>
+                </md-content>
+            </div>
+        </section>
+    </div>
+</div>

@@ -18,7 +18,7 @@ model ModulationTemperature "A complete building model for testing"
     isDH=true,
     redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
       building,
-    modulation=true,
+    modulating=true,
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
         id=1),
     redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
@@ -82,11 +82,11 @@ public
     isDH=true,
     redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
       building,
-    modulation=true,
-    redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
-        id=2),
+    modulating=true,
     redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
-      heatingSystem(QNom={2113,1409,804,1025,10,10}))
+      heatingSystem(QNom={2113,1409,804,1025,10,10}),
+    redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
+        id=3))
     annotation (Placement(transformation(extent={{56,58},{36,78}})));
   Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
     redeclare package Medium = Buildings.Media.Water,
