@@ -34,7 +34,7 @@ model HaarhakkerStraatHouse_lin
     annotation (Placement(transformation(extent={{-130,-58},{-90,-18}})));
 
   input IDEAS.BoundaryConditions.WeatherData.Bus weaBus1(numSolBus=sim.numAzi +
-        1)
+        1, linearize=sim.linearize)
     annotation (Placement(transformation(
         extent={{-16,-16},{16,16}},
         rotation=270,
@@ -103,7 +103,7 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics),
+            -100},{100,100}})),
     experiment(StopTime=10000),
     __Dymola_experimentSetupOutput,
     Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

@@ -32,3 +32,32 @@ u(:,1:nCtrlInp) = sin(2*pi()*t_sim/(86400/2))*ones(1,nCtrlInp).*100;
 
 plot(t,y(:,1:6))
 legend(xuyName(nx+nu+1:nx+nu+ny,:))
+
+
+%  visualisation of B matrix - effect of inputs on states
+xlin = linspace(1, size(B,2), size(B,2));
+ylin = linspace(1, size(B,1), size(B,1));
+[X,Y] = meshgrid(xlin,ylin);
+
+figure
+stem3(X,Y,B,'MarkerFaceColor','g')
+ylabel('states')
+xlabel('inputs')
+zlabel('effect')
+
+figure
+plot3(X,Y,B)
+ylabel('states')
+xlabel('inputs')
+zlabel('effect')
+
+figure
+surf(X,Y,B,'FaceColor','interp',...
+   'EdgeColor','none',...
+   'FaceLighting','gouraud')
+ylabel('states')
+xlabel('inputs')
+zlabel('effect')
+
+
+

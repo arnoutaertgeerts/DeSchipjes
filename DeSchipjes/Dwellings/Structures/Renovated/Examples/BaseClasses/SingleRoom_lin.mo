@@ -98,7 +98,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
    connect(keukenWindowLarge.winBus, winBus1[1]) annotation (Line(
-       points={{-55.8,-12},{-36,-12},{-36,-25},{-100,-25}},
+       points={{-54.6,-12},{-36,-12},{-36,-25},{-100,-25}},
        color={255,204,51},
        thickness=0.5,
        smooth=Smooth.None));
