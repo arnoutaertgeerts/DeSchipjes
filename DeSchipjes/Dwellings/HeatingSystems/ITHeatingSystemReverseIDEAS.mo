@@ -4,8 +4,6 @@ model ITHeatingSystemReverseIDEAS
     m_flow_dhw=0.06,
     modulation=true,
     pumpDHW(measureSupplyT=true, measureReturnT=true),
-    heatExchanger(
-      includePipes=true),
     rad(Q_flow_nominal={2113,1409,1,1025,804,1}),
     bou1(nPorts=2));
 
@@ -24,14 +22,6 @@ model ITHeatingSystemReverseIDEAS
         origin={-100,14})));
   Modelica.Blocks.Logical.Not not1[nZones]
     annotation (Placement(transformation(extent={{-62,4},{-82,24}})));
-  Modelica.Blocks.Sources.Constant const1(k=TSupply - 5)
-    annotation (Placement(transformation(extent={{12,2},{20,10}})));
-  Modelica.Blocks.Sources.Constant const2(k=273.15 + 70)
-    annotation (Placement(transformation(extent={{12,18},{20,26}})));
-  Modelica.Blocks.Logical.Switch switch1 annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=0,
-        origin={40,14})));
 equation
   connect(hysteresis1.y, onOff.u1) annotation (Line(
       points={{37.2,76},{4.8,76}},
@@ -68,18 +58,6 @@ equation
       points={{-204,-60},{-120,-60},{-120,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(const1.y, switch1.u3) annotation (Line(
-      points={{20.4,6},{28,6}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(const2.y, switch1.u1) annotation (Line(
-      points={{20.4,22},{28,22}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(switch1.u2, onOff.u) annotation (Line(
-      points={{28,14},{0,14},{0,71.2}},
-      color={255,0,255},
-      smooth=Smooth.None));
   connect(tan.heatExchEnv, fixedTemperature.port) annotation (Line(
       points={{95,55.8},{110,55.8},{110,96},{120,96}},
       color={191,0,0},
@@ -105,10 +83,6 @@ equation
   connect(tan.port_a, dHWTap.port_hot) annotation (Line(
       points={{98.2,66.2},{180,66.2},{180,36},{172,36}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(switch1.y, PIDSupplyT.u_s) annotation (Line(
-      points={{51,14},{64,14}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(onOff.y, pumpDHW.u) annotation (Line(
       points={{-4.4,76},{-24,76},{-24,60.8}},

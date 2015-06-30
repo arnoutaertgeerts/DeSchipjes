@@ -7,13 +7,13 @@ partial model FullGrid
       StROBe_P=true,
       FilNam_P="P.txt"));
 
-  parameter Boolean modulation=true;
+  parameter Boolean modulating=true;
   parameter Modelica.SIunits.Length length = 15 "Lengths of the DH connections";
 
   parameter Real KVs[11] = ones(11) "KV values of the main house valves";
 
   Dwellings.Building        haarhakkerHouse1(
-    modulation=modulation,
+    modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(
         branch(heatLosses=false)),
@@ -26,7 +26,7 @@ partial model FullGrid
       TSupply=TSupplyRad,
       TReturn=TReturnRad,
       KV=KVs[1],
-      modulation=false)   constrainedby
+      modulating=false)   constrainedby
       DeSchipjes.Dwellings.HeatingSystems.BaseClasses.PartialRadiators(
         KV=KVs[1],
         QNom=QNom,
@@ -41,7 +41,7 @@ partial model FullGrid
           haarhakkerHouse1.building.VZones))
     annotation (Placement(transformation(extent={{-76,80},{-56,100}})));
   Dwellings.Building petersleiHouse6(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(
         branch(heatLosses=false)),
@@ -71,14 +71,15 @@ partial model FullGrid
     length=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100)) annotation (Placement(transformation(
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+                                           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-66,62})));
 
   Dwellings.Building haarhakkerHouse2(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
@@ -105,7 +106,7 @@ partial model FullGrid
           haarhakkerHouse2.building.VZones))
     annotation (Placement(transformation(extent={{-52,80},{-32,100}})));
   Dwellings.Building petersleiHouse7(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
@@ -132,7 +133,7 @@ partial model FullGrid
           petersleiHouse7.building.VZones))
     annotation (Placement(transformation(extent={{74,18},{94,38}})));
   Dwellings.Building haarhakkerHouse3(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
@@ -159,7 +160,7 @@ partial model FullGrid
           haarhakkerHouse3.building.VZones))
     annotation (Placement(transformation(extent={{-28,80},{-8,100}})));
   Dwellings.Building haarhakkerHouse4(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
@@ -186,7 +187,7 @@ partial model FullGrid
           haarhakkerHouse4.building.VZones))
     annotation (Placement(transformation(extent={{-4,80},{16,100}})));
   Dwellings.Building petersleiHouse9(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(
         branch(heatLosses=false)),
@@ -213,7 +214,7 @@ partial model FullGrid
           petersleiHouse9.building.VZones))
     annotation (Placement(transformation(extent={{74,-30},{94,-10}})));
   Dwellings.Building petersleiHouse8(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
@@ -240,7 +241,7 @@ partial model FullGrid
           petersleiHouse8.building.VZones))
     annotation (Placement(transformation(extent={{74,-6},{94,14}})));
   Dwellings.Building haarhakkerHouse5(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
           heatLosses=false)),
@@ -267,7 +268,7 @@ partial model FullGrid
           haarhakkerHouse5.building.VZones))
     annotation (Placement(transformation(extent={{20,80},{40,100}})));
   Dwellings.Building petersleiHouse10(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(
         branch(heatLosses=false)),
@@ -294,7 +295,7 @@ partial model FullGrid
           petersleiHouse10.building.VZones))
     annotation (Placement(transformation(extent={{74,-54},{94,-34}})));
   Dwellings.Building petersleiHouse11(
-  modulation=modulation,
+  modulating=modulating,
     each standAlone=true,
     redeclare each IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(
         branch(heatLosses=false)),
@@ -323,105 +324,79 @@ partial model FullGrid
   DistrictHeating.Interfaces.DHConnection dHConnection2(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-42,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection3(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-18,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection4(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={6,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection5(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={30,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection6(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,38})));
   DistrictHeating.Interfaces.DHConnection dHConnection7(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,14})));
   DistrictHeating.Interfaces.DHConnection dHConnection8(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,-10})));
   DistrictHeating.Interfaces.DHConnection dHConnection9(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,-34})));
   DistrictHeating.Interfaces.DHConnection dHConnection10(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100)) annotation (Placement(transformation(
+    redeclare each package Medium = Medium)
+                                           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,-58})));
   DistrictHeating.Interfaces.DHConnection dHConnection11(
     length=length,
     m_flow_nominal=m_flow_nominal,
-    redeclare each package Medium = Medium,
-    redeclare each DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe(dp_nominal=100))
+    redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,-82})));
-  Modelica.Blocks.Interfaces.BooleanInput u annotation (Placement(
+  Modelica.Blocks.Interfaces.RealInput u if modulating annotation (Placement(
         transformation(extent={{-140,40},{-100,80}}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={0,90})));
-  Modelica.Blocks.Interfaces.RealOutput valveOpenings[11] annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={-110,40}), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=180,
-        origin={-110,60})));
 equation
   connect(port_a, dHConnection1.port_a1) annotation (Line(
       points={{-100,0},{-86,0},{-86,68},{-76,68}},
@@ -440,7 +415,7 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection2.port_a2, dHConnection3.port_b2) annotation (Line(
-      points={{-32,56},{-32,56},{-30,56},{-30,56},{-28,56}},
+      points={{-32,56},{-28,56}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHConnection3.port_b1, dHConnection4.port_a1) annotation (Line(
@@ -535,7 +510,7 @@ equation
       smooth=Smooth.None));
   connect(dHConnection7.flowPortIn, petersleiHouse7.flowPort_return)
     annotation (Line(
-      points={{64,16},{82,16},{82,18},{82,18}},
+      points={{64,16},{82,16},{82,18}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection6.flowPortIn, petersleiHouse6.flowPort_return)
@@ -555,7 +530,7 @@ equation
       smooth=Smooth.None));
   connect(dHConnection8.flowPortIn, petersleiHouse8.flowPort_return)
     annotation (Line(
-      points={{64,-8},{82,-8},{82,-6},{82,-6}},
+      points={{64,-8},{82,-8},{82,-6}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection8.flowPortOut, petersleiHouse8.flowPort_supply)
@@ -565,7 +540,7 @@ equation
       smooth=Smooth.None));
   connect(dHConnection9.flowPortIn, petersleiHouse9.flowPort_return)
     annotation (Line(
-      points={{64,-32},{82,-32},{82,-30},{82,-30}},
+      points={{64,-32},{82,-32},{82,-30}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection8.port_a2, dHConnection9.port_b2) annotation (Line(
@@ -591,7 +566,7 @@ equation
       smooth=Smooth.None));
   connect(dHConnection10.flowPortIn, petersleiHouse10.flowPort_return)
     annotation (Line(
-      points={{64,-56},{82,-56},{82,-54},{82,-54}},
+      points={{64,-56},{82,-56},{82,-54}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection10.flowPortOut, petersleiHouse10.flowPort_supply)
@@ -609,7 +584,7 @@ equation
       smooth=Smooth.None));
   connect(dHConnection11.flowPortIn, petersleiHouse11.flowPort_return)
     annotation (Line(
-      points={{64,-80},{82,-80},{82,-78},{82,-78}},
+      points={{64,-80},{82,-80},{82,-78}},
       color={0,0,0},
       smooth=Smooth.None));
   connect(dHConnection11.flowPortOut, petersleiHouse11.flowPort_supply)
@@ -622,107 +597,51 @@ equation
       color={0,127,255},
       smooth=Smooth.None));
 
-  connect(haarhakkerHouse2.u, haarhakkerHouse1.u) annotation (Line(
-      points={{-49,90},{-54,90},{-54,98},{-80,98},{-80,90},{-73,90}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(haarhakkerHouse3.u, haarhakkerHouse5.u) annotation (Line(
-      points={{-25,90},{-30,90},{-30,98},{18,98},{18,90},{23,90}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(haarhakkerHouse4.u, haarhakkerHouse5.u) annotation (Line(
-      points={{-1,90},{-6,90},{-6,98},{18,98},{18,90},{23,90}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(petersleiHouse6.u, petersleiHouse7.u) annotation (Line(
-      points={{77,54},{72,54},{72,28},{77,28}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(petersleiHouse8.u, petersleiHouse7.u) annotation (Line(
-      points={{77,4},{72,4},{72,28},{77,28}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(petersleiHouse9.u, petersleiHouse7.u) annotation (Line(
-      points={{77,-20},{72,-20},{72,4},{72,4},{72,28},{77,28}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(petersleiHouse10.u, petersleiHouse7.u) annotation (Line(
-      points={{77,-44},{72,-44},{72,28},{77,28}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(petersleiHouse11.u, petersleiHouse7.u) annotation (Line(
-      points={{77,-68},{72,-68},{72,28},{77,28}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(haarhakkerHouse3.u, haarhakkerHouse1.u) annotation (Line(
-      points={{-25,90},{-30,90},{-30,98},{-80,98},{-80,90},{-73,90}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(petersleiHouse6.u, haarhakkerHouse5.u) annotation (Line(
-      points={{77,54},{72,54},{72,98},{18,98},{18,90},{23,90}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(u, haarhakkerHouse1.u) annotation (Line(
-      points={{-120,60},{-92,60},{-92,98},{-80,98},{-80,90},{-73,90}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(haarhakkerHouse1.valveOpening, valveOpenings[1]) annotation (Line(
-      points={{-73,88},{-90,88},{-90,49.0909},{-110,49.0909}},
+  connect(petersleiHouse6.supplyT, petersleiHouse7.supplyT) annotation (Line(
+      points={{77,54},{74,54},{74,28},{77,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(haarhakkerHouse2.valveOpening, valveOpenings[2]) annotation (Line(
-      points={{-49,88},{-54,88},{-54,47.2727},{-110,47.2727}},
+  connect(petersleiHouse11.supplyT, petersleiHouse7.supplyT) annotation (Line(
+      points={{77,-68},{74,-68},{74,28},{77,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(haarhakkerHouse3.valveOpening, valveOpenings[3]) annotation (Line(
-      points={{-25,88},{-30,88},{-30,45.4545},{-110,45.4545}},
+  connect(petersleiHouse8.supplyT, petersleiHouse7.supplyT) annotation (Line(
+      points={{77,4},{74,4},{74,28},{77,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(haarhakkerHouse4.valveOpening, valveOpenings[4]) annotation (Line(
-      points={{-1,88},{-6,88},{-6,43.6364},{-110,43.6364}},
+  connect(petersleiHouse9.supplyT, petersleiHouse7.supplyT) annotation (Line(
+      points={{77,-20},{74,-20},{74,28},{77,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(haarhakkerHouse5.valveOpening, valveOpenings[5]) annotation (Line(
-      points={{23,88},{18,88},{18,41.8182},{-110,41.8182}},
+  connect(petersleiHouse10.supplyT, petersleiHouse7.supplyT) annotation (Line(
+      points={{77,-44},{74,-44},{74,28},{77,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(petersleiHouse6.valveOpening, valveOpenings[6]) annotation (Line(
-      points={{77,52},{42,52},{42,40},{-110,40}},
+  connect(haarhakkerHouse5.supplyT, haarhakkerHouse1.supplyT) annotation (Line(
+      points={{23,90},{20,90},{20,98},{-78,98},{-78,90},{-73,90}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(petersleiHouse7.valveOpening, valveOpenings[7]) annotation (Line(
-      points={{77,26},{42,26},{42,38.1818},{-110,38.1818}},
+  connect(haarhakkerHouse2.supplyT, haarhakkerHouse1.supplyT) annotation (Line(
+      points={{-49,90},{-54,90},{-54,98},{-78,98},{-78,90},{-73,90}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(petersleiHouse8.valveOpening, valveOpenings[8]) annotation (Line(
-      points={{77,2},{40,2},{40,36.3636},{-110,36.3636}},
+  connect(haarhakkerHouse3.supplyT, haarhakkerHouse1.supplyT) annotation (Line(
+      points={{-25,90},{-30,90},{-30,98},{-78,98},{-78,90},{-73,90}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(petersleiHouse9.valveOpening, valveOpenings[9]) annotation (Line(
-      points={{77,-22},{38,-22},{38,34.5455},{-110,34.5455}},
+  connect(haarhakkerHouse4.supplyT, haarhakkerHouse1.supplyT) annotation (Line(
+      points={{-1,90},{-4,90},{-4,98},{-78,98},{-78,90},{-73,90}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(petersleiHouse10.valveOpening, valveOpenings[10]) annotation (Line(
-      points={{77,-46},{36,-46},{36,32.7273},{-110,32.7273}},
+  connect(petersleiHouse6.supplyT, haarhakkerHouse1.supplyT) annotation (Line(
+      points={{77,54},{74,54},{74,98},{-78,98},{-78,90},{-73,90}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(petersleiHouse11.valveOpening, valveOpenings[11]) annotation (Line(
-      points={{77,-70},{34,-70},{34,30.9091},{-110,30.9091}},
+  connect(u, haarhakkerHouse1.supplyT) annotation (Line(
+      points={{-120,60},{-92,60},{-92,98},{-78,98},{-78,90},{-73,90}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
-        Line(
-          points={{-100,60},{-40,60},{-40,40}},
-          color={0,0,255},
-          smooth=Smooth.None),
-        Line(
-          points={{-40,60},{0,60},{0,40}},
-          color={0,0,255},
-          smooth=Smooth.None),
-        Line(
-          points={{0,60},{40,60},{40,40}},
-          color={0,0,255},
-          smooth=Smooth.None)}));
+          preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics));
 end FullGrid;

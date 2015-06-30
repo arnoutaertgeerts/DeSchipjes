@@ -7,24 +7,8 @@ partial model ProductionSite
     "Nominal pressure drop over the grid";
   parameter Modelica.SIunits.Temperature TSupplyGrid = 273.15+80
     "Supply temperature of the Grid";
-  parameter Boolean modulating=false;
   parameter Integer nBuildings = 11;
 
-  Modelica.Blocks.Interfaces.BooleanOutput y if modulating annotation (Placement(
-        transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={20,110}),iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={20,110})));
-  Modelica.Blocks.Interfaces.RealInput u[nBuildings] annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=0,
-        origin={-112,-80}), iconTransformation(
-        extent={{-10,-10},{10,10}},
-        rotation=270,
-        origin={-20,110})));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

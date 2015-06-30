@@ -3,7 +3,8 @@ partial model PartialStorage
   //Extensions
   extends PartialRadiators(dHWTap(m_flow_nominal=m_flow_dhw, redeclare package
         Medium = Medium,
-      TDHWSet=273.15 + 38), gain(k=(38 - 10)/(60 - 10)));
+      TDHWSet=273.15 + 38), gain(k=(38 - 10)/(60 - 10)),
+    const(k=sum(m_flow_nominal)));
 
   //Parameters
   parameter Modelica.SIunits.Length hTan=1.5 "Height of the storage tank";

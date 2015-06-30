@@ -28,29 +28,6 @@ model LowTemperature "A complete building model for testing"
     modulation=false)
     annotation (Placement(transformation(extent={{-30,20},{30,80}})));
 
-  IDEAS.Fluid.BaseCircuits.PumpSupply_dp pumpSupply_dp(
-    KvReturn=10,
-    redeclare package Medium = IDEAS.Media.Water.Simple,
-    m=25,
-    measurePower=false,
-    tauTSensor=0,
-    dynamicBalance=false,
-    includePipes=false,
-    filteredSpeed=true,
-    riseTime=180,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    m_flow_nominal=0.15)
-                        annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=90,
-        origin={0,0})));
-  Modelica.Blocks.Sources.Constant const(k=2500)
-    annotation (Placement(transformation(extent={{48,-10},{28,10}})));
-  IDEAS.Fluid.Sources.FixedBoundary bou(
-    nPorts=1,
-    redeclare package Medium = IDEAS.Media.Water.Simple,
-    use_T=false)
-    annotation (Placement(transformation(extent={{34,-36},{14,-16}})));
   Modelica.Blocks.Sources.Constant const1(k=273.15 + 55)
     annotation (Placement(transformation(extent={{-60,-58},{-40,-38}})));
 public
@@ -71,35 +48,48 @@ protected
     FilNam_QCon="Q.txt",
     filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
+public
+  DistrictHeating.Interfaces.DHConnection dHConnection(
+    redeclare package Medium = Buildings.Media.Water,
+    m_flow_nominal=0.5,
+    length=20,
+    measureSupplyT=false,
+    measureReturnT=false,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe)
+                         annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=90,
+        origin={0,-4})));
+  Buildings.Fluid.Sources.FixedBoundary bou(
+    redeclare package Medium = Buildings.Media.Water,
+    use_T=false,
+    nPorts=1) annotation (Placement(transformation(extent={{52,-56},{32,-36}})));
 equation
   der(ETot) = hea.Q_flow;
 
-  connect(const.y, pumpSupply_dp.u) annotation (Line(
-      points={{27,0},{20,0},{20,-6.66134e-16},{10.8,-6.66134e-16}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(bou.ports[1], pumpSupply_dp.port_a1) annotation (Line(
-      points={{14,-26},{6,-26},{6,-10}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumpSupply_dp.port_b2, hea.port_a) annotation (Line(
-      points={{-6,-10},{-6,-38},{-18,-38},{-18,-54},{-8,-54}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(hea.port_b, pumpSupply_dp.port_a1) annotation (Line(
-      points={{12,-54},{20,-54},{20,-38},{6,-38},{6,-10}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(const1.y, hea.TSet) annotation (Line(
       points={{-39,-48},{-10,-48}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(pumpSupply_dp.port_a2, buildingTest.flowPort_return) annotation (Line(
-      points={{-6,10},{-6,20}},
+  connect(hea.port_b, dHConnection.port_a1) annotation (Line(
+      points={{12,-54},{20,-54},{20,-34},{6,-34},{6,-14}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(pumpSupply_dp.port_b1, buildingTest.flowPort_supply) annotation (Line(
-      points={{6,10},{6,20}},
+  connect(dHConnection.port_b2, hea.port_a) annotation (Line(
+      points={{-6,-14},{-6,-34},{-16,-34},{-16,-54},{-8,-54}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(buildingTest.flowPort_return, dHConnection.port_a2) annotation (Line(
+      points={{-6,20},{-6,6}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(buildingTest.flowPort_supply, dHConnection.port_b1) annotation (Line(
+      points={{6,20},{6,6}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(bou.ports[1], dHConnection.port_a1) annotation (Line(
+      points={{32,-46},{20,-46},{20,-34},{6,-34},{6,-14}},
       color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

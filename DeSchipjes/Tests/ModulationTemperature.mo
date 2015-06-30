@@ -22,40 +22,11 @@ model ModulationTemperature "A complete building model for testing"
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
         id=1),
     redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
-      heatingSystem(QNom={2113,1409,1,1025,804,1}))
-    annotation (Placement(transformation(extent={{-30,20},{30,80}})));
+      heatingSystem(QNom={2113,1409,804,1025,10,10}))
+    annotation (Placement(transformation(extent={{56,28},{36,48}})));
 
-  IDEAS.Fluid.BaseCircuits.PumpSupply_dp pumpSupply_dp(
-    KvReturn=10,
-    redeclare package Medium = IDEAS.Media.Water.Simple,
-    m=25,
-    measurePower=false,
-    tauTSensor=0,
-    dynamicBalance=false,
-    includePipes=false,
-    filteredSpeed=true,
-    riseTime=180,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    m_flow_nominal=0.15)
-                        annotation (Placement(transformation(
-        extent={{-10,10},{10,-10}},
-        rotation=90,
-        origin={0,0})));
-  Modelica.Blocks.Sources.Constant const(k=2500)
-    annotation (Placement(transformation(extent={{48,-10},{28,10}})));
-  IDEAS.Fluid.Sources.FixedBoundary bou(
-    nPorts=1,
-    redeclare package Medium = IDEAS.Media.Water.Simple,
-    use_T=false)
-    annotation (Placement(transformation(extent={{34,-36},{14,-16}})));
   Modelica.Blocks.Sources.Constant low(k=273.15 + 55)
-    annotation (Placement(transformation(extent={{-68,-62},{-60,-54}})));
-public
-  Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
-    m_flow_nominal=m_flow_nominal,
-    dp_nominal=0,
-    redeclare package Medium = IDEAS.Media.Water.Simple)
-    annotation (Placement(transformation(extent={{-8,-66},{12,-46}})));
+    annotation (Placement(transformation(extent={{-64,-62},{-56,-54}})));
 protected
   inner IDEAS.Occupants.Extern.StrobeInfoManager                strobe(
     FilNam_mDHW="mDHW.txt",
@@ -70,58 +41,145 @@ protected
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
 public
   Controls.Modulator modulator
-    annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
+    annotation (Placement(transformation(extent={{-94,-60},{-74,-40}})));
   Modelica.Blocks.Sources.Constant high(k=273.15 + 75)
-    annotation (Placement(transformation(extent={{-68,-46},{-60,-38}})));
+    annotation (Placement(transformation(extent={{-64,-46},{-56,-38}})));
   Modelica.Blocks.Logical.Switch switch1 annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
-        origin={-36,-50})));
+        origin={-32,-50})));
+
+  DistrictHeating.Interfaces.DHConnection dHConnection(
+    redeclare package Medium = Buildings.Media.Water,
+    m_flow_nominal=0.5,
+    length=20,
+    allowFlowReversal=false,
+    tau=60,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe)
+               annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=90,
+        origin={20,22})));
+  DistrictHeating.Interfaces.DHConnection dHConnection1(
+    redeclare package Medium = Buildings.Media.Water,
+    m_flow_nominal=0.5,
+    length=20,
+    allowFlowReversal=false,
+    tau=60,
+    redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
+      districtHeatingPipe)
+               annotation (Placement(transformation(
+        extent={{-10,10},{10,-10}},
+        rotation=90,
+        origin={20,50})));
+  Dwellings.Building        buildingTest1(
+    redeclare IDEAS.Buildings.Validation.BaseClasses.VentilationSystem.None
+      ventilationSystem,
+    standAlone=true,
+    redeclare IDEAS.Interfaces.BaseClasses.CausalInhomeFeeder inHomeGrid(branch(
+          heatLosses=false)),
+    isDH=true,
+    redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
+      building,
+    modulation=true,
+    redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
+        id=2),
+    redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+      heatingSystem(QNom={2113,1409,804,1025,10,10}))
+    annotation (Placement(transformation(extent={{56,58},{36,78}})));
+  Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
+    redeclare package Medium = Buildings.Media.Water,
+    m_flow_nominal=0.5,
+    dp_nominal=20,
+    homotopyInitialization=true)
+    annotation (Placement(transformation(extent={{12,-50},{32,-30}})));
+  Annex60.Fluid.Sources.FixedBoundary bou(
+    nPorts=1,
+    redeclare package Medium = Buildings.Media.Water,
+    use_T=false)
+    annotation (Placement(transformation(extent={{-20,-20},{0,0}})));
+  Modelica.Blocks.Math.Add add annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={74,-14})));
+  Modelica.Blocks.Sources.Constant high1(k=-5)
+    annotation (Placement(transformation(extent={{-4,-4},{4,4}},
+        rotation=90,
+        origin={80,-38})));
 equation
   der(ETot) = hea.Q_flow;
 
-  connect(const.y, pumpSupply_dp.u) annotation (Line(
-      points={{27,0},{20,0},{20,-6.66134e-16},{10.8,-6.66134e-16}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(bou.ports[1], pumpSupply_dp.port_a1) annotation (Line(
-      points={{14,-26},{6,-26},{6,-10}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumpSupply_dp.port_b2, hea.port_a) annotation (Line(
-      points={{-6,-10},{-6,-38},{-18,-38},{-18,-56},{-8,-56}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(hea.port_b, pumpSupply_dp.port_a1) annotation (Line(
-      points={{12,-56},{20,-56},{20,-38},{6,-38},{6,-10}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumpSupply_dp.port_a2, buildingTest.flowPort_return) annotation (Line(
-      points={{-6,10},{-6,20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(pumpSupply_dp.port_b1, buildingTest.flowPort_supply) annotation (Line(
-      points={{6,10},{6,20}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(modulator.on, buildingTest.u) annotation (Line(
-      points={{-69,40},{-54,40},{-54,50},{-21,50}},
-      color={255,0,255},
-      smooth=Smooth.None));
   connect(modulator.on, switch1.u2) annotation (Line(
-      points={{-69,40},{-54,40},{-54,-50},{-48,-50}},
+      points={{-73,-50},{-44,-50}},
       color={255,0,255},
-      smooth=Smooth.None));
-  connect(hea.TSet, switch1.y) annotation (Line(
-      points={{-10,-50},{-25,-50}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(low.y, switch1.u3) annotation (Line(
-      points={{-59.6,-58},{-48,-58}},
+      points={{-55.6,-58},{-44,-58}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(high.y, switch1.u1) annotation (Line(
-      points={{-59.6,-42},{-48,-42}},
+      points={{-55.6,-42},{-44,-42}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(dHConnection.flowPortOut, buildingTest.flowPort_supply) annotation (
+      Line(
+      points={{30,24},{44,24},{44,28}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection.flowPortIn, buildingTest.flowPort_return) annotation (
+      Line(
+      points={{30,20},{48,20},{48,28}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.port_b2, dHConnection.port_a2) annotation (Line(
+      points={{14,40},{14,32}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHConnection1.port_a1, dHConnection.port_b1) annotation (Line(
+      points={{26,40},{26,32}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPortOut, buildingTest1.flowPort_supply) annotation (
+     Line(
+      points={{30,52},{44,52},{44,58}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection1.flowPortIn, buildingTest1.flowPort_return) annotation (
+      Line(
+      points={{30,48},{48,48},{48,58}},
+      color={0,0,0},
+      smooth=Smooth.None));
+  connect(dHConnection.port_b2, hea.port_a) annotation (Line(
+      points={{14,12},{14,-24},{0,-24},{0,-40},{12,-40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(dHConnection.port_a1, hea.port_b) annotation (Line(
+      points={{26,12},{26,-22},{40,-22},{40,-40},{32,-40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(hea.TSet, switch1.y) annotation (Line(
+      points={{10,-34},{-12,-34},{-12,-50},{-21,-50}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(bou.ports[1], hea.port_a) annotation (Line(
+      points={{0,-10},{14,-10},{14,-24},{0,-24},{0,-40},{12,-40}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(switch1.y, add.u1) annotation (Line(
+      points={{-21,-50},{-12,-50},{-12,-60},{68,-60},{68,-26}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(add.y, buildingTest.supplyT) annotation (Line(
+      points={{74,-3},{74,38},{53,38}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(buildingTest1.supplyT, buildingTest.supplyT) annotation (Line(
+      points={{53,68},{74,68},{74,38},{53,38}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(add.u2, high1.y) annotation (Line(
+      points={{80,-26},{80,-33.6}},
       color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
