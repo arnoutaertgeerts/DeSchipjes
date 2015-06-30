@@ -173,6 +173,13 @@ equation
   P[1] = 0;
   Q[1] = 0;
 
+  for i in 1:nZones loop
+      connect(toKelvin[i].Celsius, TSet[1]) annotation (Line(
+      points={{-58,-68},{20,-68},{20,-104}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  end for;
+
   connect(pumpDHW.port_a1, parallelPipesSplitter.port_a) annotation (Line(
       points={{-34,56},{-54,56},{-54,-32},{-60,-32}},
       color={0,127,255},
@@ -182,7 +189,7 @@ equation
       color={175,175,175},
       smooth=Smooth.None));
   connect(gain.y, dHWTap.mDHW60C) annotation (Line(
-      points={{80,-71.6},{80,-60},{132,-60},{132,54},{159,54},{159,46}},
+      points={{80,-71.6},{80,-62},{132,-62},{132,52},{159,52},{159,46}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(dHWTap.port_cold, bou1.ports[1]) annotation (Line(
@@ -279,10 +286,7 @@ equation
       points={{-200,-20},{-136,-20},{-136,-24.8}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(toKelvin.Celsius, TSet) annotation (Line(
-      points={{-58,-68},{20,-68},{20,-104}},
-      color={0,0,127},
-      smooth=Smooth.None));
+
   connect(TSensor, conPID.u_m) annotation (Line(
       points={{-204,-60},{-120,-60},{-120,28}},
       color={0,0,127},

@@ -3,44 +3,48 @@ model RowHouse
   "Renovated house not in a corner. These houses include: 152, 154, 156, 148, 146, 144, 142, 140, 138"
   extends PartialRenovated(
     woonruimteHal(azi=0),
-    woonruimteKeuken(azi=perpendicularAzi),
-    woonruimteGemeenschappelijk(azi=perpendicularAzi),
-    woonruimteAchtergevel(azi=streetAzi),
-    woonruimteVoorgevel(azi=streetAzi),
-    woonruimteKoer(azi=perpendicularAzi),
-    keukenAchtergevel(azi=streetAzi),
-    keukenWindowLarge(azi=streetAzi),
-    keukenWindowSmall(azi=streetAzi),
-    keukenGemeenschappelijk(azi=perpendicularAzi),
-    keukenWC(azi=streetAzi),
-    WCKoer(azi=perpendicularAzi),
-    WCVoorgevel(azi=streetAzi),
-    raamwc(azi=streetAzi),
-    WCGemeenschappelijk(azi=perpendicularAzi),
-    slaapkamerZijgevel(azi=perpendicularAzi),
-    slaapkamerVoorgevel(azi=streetAzi),
-    slaapkamerGemeenschappelijk(azi=perpendicularAzi),
-    slaapkamerBadLiggend(azi=streetAzi),
-    slaapkamerBadStaand(azi=perpendicularAzi),
-    slaapkamerDakLinks(azi=perpendicularAzi),
-    slaapkamerDakRechts(azi=perpendicularAzi),
-    slaapkamerHal(azi=streetAzi),
-    slaapkamerRaam(azi=streetAzi),
-    badkamerAchtergevel(azi=streetAzi),
-    badkamerZijgevel(azi=perpendicularAzi),
-    badkamerHal(azi=perpendicularAzi),
-    badkamerDak(azi=streetAzi, inc=306),
-    WCDak(azi=streetAzi),
-    halAchtergevel(azi=streetAzi),
-    halGemeenschappelijk(azi=perpendicularAzi),
-    halDak(azi=streetAzi),
-    keukenDak(azi=streetAzi),
-    woonruimteWindow(inc=1.5707963267949, azi=perpendicularAzi));
+    woonruimteKeuken(azi=leftRad),
+    woonruimteGemeenschappelijk(azi=rightRad),
+    woonruimteAchtergevel(azi=backRad),
+    woonruimteVoorgevel(azi=frontRad),
+    woonruimteKoer(azi=leftRad),
+    keukenAchtergevel(azi=backRad),
+    keukenWindowLarge(azi=frontRad),
+    keukenWindowSmall(azi=frontRad),
+    keukenGemeenschappelijk(azi=leftRad),
+    keukenWC(azi=frontRad),
+    WCKoer(azi=rightRad),
+    WCVoorgevel(azi=frontRad),
+    raamwc(azi=frontRad),
+    WCGemeenschappelijk(azi=leftRad),
+    slaapkamerZijgevel(azi=leftRad),
+    slaapkamerVoorgevel(azi=frontRad),
+    slaapkamerGemeenschappelijk(azi=rightRad),
+    slaapkamerBadLiggend(azi=backRad),
+    slaapkamerBadStaand(azi=backRad),
+    slaapkamerDakLinks(azi=leftRad),
+    slaapkamerDakRechts(azi=rightRad),
+    slaapkamerHal(azi=backRad),
+    slaapkamerRaam(azi=frontRad),
+    badkamerAchtergevel(azi=backRad),
+    badkamerZijgevel(azi=leftRad),
+    badkamerHal(azi=rightRad),
+    badkamerDak(azi=rightRad),
+    WCDak(azi=0),
+    halAchtergevel(azi=backRad),
+    halGemeenschappelijk(azi=rightRad),
+    halDak(azi=0),
+    keukenDak(azi=0));
 
-  parameter Modelica.SIunits.Angle streetAzi
-    "Azimuth parallel to the street direction";
-  parameter Modelica.SIunits.Angle perpendicularAzi
-    "Azimuth perpendicular on the street direction";
+  parameter Real left;
+  parameter Real right;
+  parameter Real front;
+  parameter Real back;
+
+  final parameter Real leftRad=left/180*Modelica.Constants.pi;
+  final parameter Real rightRad=right/180*Modelica.Constants.pi;
+  final parameter Real frontRad=front/180*Modelica.Constants.pi;
+  final parameter Real backRad=back/180*Modelica.Constants.pi;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
             -100},{220,200}}), graphics));

@@ -4,11 +4,10 @@ model ITHeatingSystemIDEAS
     m_flow_dhw=0.06,
     final modulating=true,
     pumpDHW(measureSupplyT=true, measureReturnT=true),
-    rad(Q_flow_nominal=QNom),
     bou1(nPorts=2),
     hex(m2_flow(fixed=false)),
-    senMasFlo(redeclare package Medium = Medium),
-    supplyPID(yMin=0));
+    senMasFlo,
+    supplyPID);
 
   DistrictHeating.HeatingSystems.Control.Hysteresis hysteresis1(
     realTrue=0,
