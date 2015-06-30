@@ -1,8 +1,5 @@
 ScenarioTest
-DHConstantSupplyT
-Current
-Building140
-Renovated
-RenovatedMFlow
-DHTestGrid
-WeatherData
+LowTemperature
+ModulationTemperature
+ModulationTemperatureReverse
+HighTemperature

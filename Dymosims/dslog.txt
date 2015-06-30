@@ -1,5 +1,5 @@
-Log-file of program C:\Users\u0098668\Documents\Modelica\DeSchipjes\Dymosims\ChuaCircuit.exe
-(generated: Mon Apr 27 10:48:00 2015)
+Log-file of program ../Dymosims\peterslei.exe
+(generated: Fri May 01 12:43:26 2015)
 
-ChuaCircuit.exe started
-... "ChuaCircuit_dsin.txt" creating (dymosim input file).
+peterslei.exe started
+... "peterslei_dsin.txt" creating (dymosim input file).

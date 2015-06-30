@@ -28,7 +28,7 @@ protected
     FilNam_TSet2="sh_night.txt",
     FilNam_P="P.txt",
     StROBe_P=true,
-    filDir="C://Users//u0098668//Documents//Modelica//Occupants/")
+    filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
     annotation (Placement(transformation(extent={{-80,-100},{-60,-80}})));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(

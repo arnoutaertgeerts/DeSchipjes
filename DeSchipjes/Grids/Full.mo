@@ -6,35 +6,106 @@ package Full
   end HTFullGrid;
 
   model ITFullGrid
-    extends DeSchipjes.Grids.FullGrid;
+    extends DeSchipjes.Grids.FullGrid(
+      haarhakkerHouse1(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      haarhakkerHouse2(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      haarhakkerHouse3(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      haarhakkerHouse4(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      haarhakkerHouse5(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      petersleiHouse6(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      petersleiHouse7(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      petersleiHouse8(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      petersleiHouse9(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      petersleiHouse10(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem),
+      petersleiHouse11(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
+          heatingSystem));
 
   end ITFullGrid;
 
+  model ITFullGridReverse
+    extends DeSchipjes.Grids.FullGrid(
+      haarhakkerHouse1(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      haarhakkerHouse2(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      haarhakkerHouse3(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      haarhakkerHouse4(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      haarhakkerHouse5(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      petersleiHouse6(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      petersleiHouse7(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      petersleiHouse8(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      petersleiHouse9(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      petersleiHouse10(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem),
+      petersleiHouse11(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemReverse
+          heatingSystem));
+
+  end ITFullGridReverse;
+
   model LTFullGrid
     extends DeSchipjes.Grids.FullGrid(
-      haarhakkerHouse(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      haarhakkerHouse1(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      haarhakkerHouse2(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      haarhakkerHouse3(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      haarhakkerHouse4(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      petersleiHouse(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      petersleiHouse1(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      petersleiHouse2(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      petersleiHouse3(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      petersleiHouse4(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      petersleiHouse5(redeclare
-          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem),
-      dHConnection(T_start=TGrid),
+      haarhakkerHouse1(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      haarhakkerHouse2(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      haarhakkerHouse3(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      haarhakkerHouse4(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      haarhakkerHouse5(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      petersleiHouse6(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      petersleiHouse7(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      petersleiHouse8(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      petersleiHouse9(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      petersleiHouse10(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      petersleiHouse11(redeclare replaceable
+          DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem             heatingSystem),
+      dHConnection11(T_start=TGrid),
       dHConnection1(T_start=TGrid),
       dHConnection4(T_start=TGrid),
       dHConnection5(T_start=TGrid),
@@ -47,4 +118,5 @@ package Full
       dHConnection10(T_start=TGrid));
 
   end LTFullGrid;
+
 end Full;

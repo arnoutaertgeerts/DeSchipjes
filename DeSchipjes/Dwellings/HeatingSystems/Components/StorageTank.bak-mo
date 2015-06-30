@@ -1,0 +1,13 @@
+within DeSchipjes.Dwellings.HeatingSystems.Components;
+model StorageTank
+
+  //Extensions
+  extends IDEAS.Fluid.Interfaces.FourPort(
+    redeclare package Medium1 = Medium,
+    redeclare package Medium2 = Medium,
+    final allowFlowReversal1 = allowFlowReversal,
+    final allowFlowReversal2 = allowFlowReversal);
+  extends IDEAS.Fluid.Interfaces.LumpedVolumeDeclarations(
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState);
+
+end StorageTank;
