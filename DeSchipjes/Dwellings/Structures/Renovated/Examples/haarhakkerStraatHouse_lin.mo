@@ -1,7 +1,7 @@
 within DeSchipjes.Dwellings.Structures.Renovated.Examples;
 model haarhakkerStraatHouse_lin
   extends Modelica.Icons.Example;
-  BaseClasses.HaarhakkerStraatHouse_lin building
+  BaseClasses.HaarhakkerStraatHouse_lin building(addAngles=true, linearise=true)
     annotation (Placement(transformation(extent={{-10,40},{10,60}})));
   IDEAS.Buildings.Linearization.BaseClasses.StateSpace ssm(
     fileName="ssm.mat",
@@ -23,9 +23,12 @@ model haarhakkerStraatHouse_lin
   Modelica.Blocks.Sources.Sine sine[6](amplitude=100, freqHz=1/(86400*0.5))
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
 public
-  inner IDEAS.SimInfoManager sim(linearize=true, offsetAzi=0.95993108859688)
+  inner IDEAS.SimInfoManager sim(
+    linearise=true,
+    addAngles=true,
+    offsetAzi=0.95993108859688)
     "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-42,70},{-22,90}})));
+    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
   BaseClasses.Disturbances disturbances
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 initial algorithm

@@ -1,29 +1,32 @@
 within DeSchipjes.Dwellings.Structures.Renovated.Examples.BaseClasses;
 model HaarhakkerStraatHouse_lin
   // FIXME: all dynamics are now on steady state to simplify the initialization in matlab. This should be changed.
-  package Medium = Buildings.Media.GasesConstantDensity.SimpleAir;
+  package Medium = IDEAS.Media.SimpleAir;
+  parameter Boolean horInc = true
+    "Set to true to have only horizontal and vertical surfaces.";
   parameter Integer nZones = 6;
   HaarhakkerStraatHouse buiStr(
     redeclare package Medium = Medium,
-    slaapkamerDakLinks(inc=if sim.linearize then 0 else 300/180*Modelica.Constants.pi),
-    slaapkamerDakRechts(inc=if sim.linearize then 0 else 120/180*Modelica.Constants.pi),
-    badkamerDak(inc=if sim.linearize then 0 else 306/180*Modelica.Constants.pi),
-    halDak(inc=if sim.linearize then 0 else 306/180*Modelica.Constants.pi),
+    slaapkamerDakLinks(inc=if horInc then 0 else 300/180*Modelica.Constants.pi),
+    slaapkamerDakRechts(inc=if horInc then 0 else 120/180*Modelica.Constants.pi),
+    badkamerDak(inc=if horInc then 0 else 306/180*Modelica.Constants.pi),
+    halDak(inc=if horInc then 0 else 306/180*Modelica.Constants.pi),
     T_start=293.15*ones(nZones),
-    woonruimte(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
-    keuken(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
-    wc(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
-    slaapkamer(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
-    badkamer(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState),
-    nachthal(massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState))
+    woonruimte,
+    keuken,
+    wc,
+    slaapkamer,
+    badkamer,
+    nachthal,
+    addAngles=addAngles,
+    linearise=linearise)
     annotation (Placement(transformation(extent={{-16,-10},{14,10}})));
 
-  Modelica.Fluid.Sources.FixedBoundary boundary(nPorts=6, redeclare package
-      Medium = Medium)
-    annotation (Placement(transformation(extent={{-40,20},{-20,0}})));
   inner Modelica.Fluid.System system
   annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
-  inner IDEAS.SimInfoManager sim(linearize=true, offsetAzi=2.5307274153918)
+  inner IDEAS.SimInfoManager sim(linearise=linearise,
+    addAngles=addAngles,
+    offsetAzi=1.0995574287564)
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-60,-100},{-40,-80}})));
 
@@ -34,7 +37,7 @@ model HaarhakkerStraatHouse_lin
     annotation (Placement(transformation(extent={{-130,-58},{-90,-18}})));
 
   input IDEAS.BoundaryConditions.WeatherData.Bus weaBus1(numSolBus=sim.numAzi +
-        1, linearize=sim.linearize)
+        1, addAngles=addAngles)
     annotation (Placement(transformation(
         extent={{-16,-16},{16,16}},
         rotation=270,
@@ -61,11 +64,9 @@ model HaarhakkerStraatHouse_lin
   Modelica.SIunits.Temperature TZoneAir[nZones] = {buiStr.woonruimte.TAir,buiStr.keuken.TAir,buiStr.wc.TAir,buiStr.slaapkamer.TAir,buiStr.badkamer.TAir,buiStr.nachthal.TAir};
   Modelica.Blocks.Sources.RealExpression realExpression[nZones](y=TZoneAir)
     annotation (Placement(transformation(extent={{60,-22},{80,-2}})));
+  parameter Boolean addAngles=false;
+  parameter Boolean linearise=true;
 equation
-  connect(boundary.ports[1:6], buiStr.flowPort_In) annotation (Line(
-      points={{-20,13.3333},{1,13.3333},{1,10}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(buiStr.weaBus, weaBus1) annotation (Line(
       points={{21,10},{50,10},{50,60},{100,60}},
       color={255,204,51},

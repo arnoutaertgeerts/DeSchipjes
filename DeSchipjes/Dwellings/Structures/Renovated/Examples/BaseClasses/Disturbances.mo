@@ -6,7 +6,7 @@ model Disturbances
     frac=0.21,
     redeclare Data.Frames.LoofHout fraType,
     use_ctrl=false,
-    linearize=true,
+    linearise=true,
     linOut=true,
     inc=1.5707963267949,
     azi=3.9444441095072)
@@ -16,7 +16,7 @@ model Disturbances
     frac=0.89,
     redeclare Data.Frames.LoofHout fraType,
     use_ctrl=false,
-    linearize=true,
+    linearise=true,
     linOut=true,
     inc=1.5707963267949,
     azi=3.9444441095072)
@@ -26,7 +26,7 @@ model Disturbances
     frac=0.25,
     redeclare Data.Frames.LoofHout fraType,
     use_ctrl=false,
-    linearize=true,
+    linearise=true,
     linOut=true,
     inc=1.5707963267949,
     azi=2.3736477827123)
@@ -36,7 +36,7 @@ model Disturbances
     frac=0.15,
     redeclare Data.Frames.LoofHout fraType,
     use_ctrl=false,
-    linearize=true,
+    linearise=true,
     linOut=true,
     inc=1.5707963267949,
     azi=3.9444441095072)
@@ -46,14 +46,17 @@ model Disturbances
     frac=0.12,
     redeclare Data.Frames.LoofHout fraType,
     use_ctrl=false,
-    linearize=true,
+    linearise=true,
     linOut=true,
     inc=3.9444441095072,
     azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-66,26},{-56,46}})));
 public
-  inner IDEAS.SimInfoManager simWindows(linearize=false, offsetAzi=
-        0.95993108859688) "Simulation information manager for climate data"
+  inner IDEAS.SimInfoManager sim(
+    linearise=false,
+    addAngles=true,
+    offsetAzi=1.0995574287564)
+    "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-78,56},{-58,76}})));
   output IDEAS.Buildings.Components.Interfaces.WinBus winBus1[5](nLay=3) annotation (
       Placement(transformation(
@@ -63,38 +66,34 @@ public
         extent={{-20,20},{20,-20}},
         rotation=90,
         origin={98,-40})));
-public
-  inner IDEAS.SimInfoManager sim(linearize=true, offsetAzi=0.95993108859688)
-    "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-28,58},{-8,78}})));
   output IDEAS.BoundaryConditions.WeatherData.Bus weaBus1(numSolBus=sim.numAzi + 1,
-      linearize=sim.linearize) annotation (Placement(transformation(extent={{0,50},
+      addAngles=true)                                                               annotation (Placement(transformation(extent={{0,50},
             {20,70}}), iconTransformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={100,60})));
 equation
-  connect(slaapkamerRaam.weaBus,simWindows. weaBus) annotation (Line(
+  connect(slaapkamerRaam.weaBus, sim.weaBus) annotation (Line(
       points={{-69,-60},{-80,-60},{-80,80},{-66.6,80},{-66.6,73.2}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(simWindows.weaBus,woonruimteWindow. weaBus) annotation (Line(
+  connect(sim.weaBus, woonruimteWindow.weaBus) annotation (Line(
       points={{-66.6,73.2},{-66.6,80},{-80,80},{-80,46},{-69,46}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(keukenWindowLarge.weaBus,simWindows. weaBus) annotation (Line(
+  connect(keukenWindowLarge.weaBus, sim.weaBus) annotation (Line(
       points={{-69,20},{-80,20},{-80,80},{-66.6,80},{-66.6,73.2}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(keukenWindowSmall.weaBus,simWindows. weaBus) annotation (Line(
+  connect(keukenWindowSmall.weaBus, sim.weaBus) annotation (Line(
       points={{-69,-6},{-80,-6},{-80,80},{-66.6,80},{-66.6,73.2}},
       color={255,204,51},
       thickness=0.5,
       smooth=Smooth.None));
-  connect(raamwc.weaBus,simWindows. weaBus) annotation (Line(
+  connect(raamwc.weaBus, sim.weaBus) annotation (Line(
       points={{-69,-32},{-80,-32},{-80,80},{-66.6,80},{-66.6,73.2}},
       color={255,204,51},
       thickness=0.5,
@@ -140,7 +139,7 @@ equation
       index=1,
       extent={{6,3},{6,3}}));
   connect(sim.weaBus, weaBus1) annotation (Line(
-      points={{-16.6,75.2},{-16.6,80},{10,80},{10,60}},
+      points={{-66.6,73.2},{-66.6,80},{10,80},{10,60}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%second",
