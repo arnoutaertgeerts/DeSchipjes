@@ -7,6 +7,7 @@ model RowHouse
     woonruimteGemeenschappelijk(azi=rightRad),
     woonruimteAchtergevel(azi=backRad),
     woonruimteVoorgevel(azi=frontRad),
+    woonruimteWindow(azi=frontRad),
     woonruimteKoer(azi=leftRad),
     keukenAchtergevel(azi=backRad),
     keukenWindowLarge(azi=frontRad),

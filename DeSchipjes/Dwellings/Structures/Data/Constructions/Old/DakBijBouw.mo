@@ -2,7 +2,7 @@ within DeSchipjes.Dwellings.Structures.Data.Constructions.Old;
 record DakBijBouw "Dak in de bijbouw"
 
   extends IDEAS.Buildings.Data.Interfaces.Construction(
-    nLay=2,
+    nLay=3,
     final mats={
       Materials.Kepers(d=0.14),
       insulationType,
