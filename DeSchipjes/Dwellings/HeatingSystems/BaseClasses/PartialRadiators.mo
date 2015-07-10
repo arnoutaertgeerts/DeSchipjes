@@ -122,10 +122,6 @@ public
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={80,-38})));
-  IDEAS.Fluid.BaseCircuits.Measurements measurementsHouse(redeclare package
-      Medium = Medium, m_flow_nominal=sum(m_flow_nominal),
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
-    annotation (Placement(transformation(extent={{30,-48},{10,-28}})));
 protected
   IDEAS.Fluid.Sources.FixedBoundary bouHouse(
     redeclare package Medium = Medium,
@@ -163,6 +159,9 @@ public
     yMax=m_flow_nominal,
     Ti=180)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
+  IDEAS.Fluid.BaseCircuits.Measurements measurements(redeclare package Medium
+      = Medium, m_flow_nominal=sum(m_flow_nominal))
+    annotation (Placement(transformation(extent={{20,-48},{0,-28}})));
 initial equation
 
 equation
@@ -189,17 +188,6 @@ equation
       points={{146,36},{140,36},{140,32}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(measurementsHouse.port_b1, parallelPipesSplitter.port_a) annotation (
-      Line(
-      points={{10,-32},{-60,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(measurementsHouse.port_a2, parallelPipesSplitter.port_b) annotation (
-      Line(
-      points={{10,-44},{-60,-44}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(pumpDHW.port_b2, parallelPipesSplitter.port_b) annotation (Line(
       points={{-34,44},{-40,44},{-40,-44},{-60,-44}},
       color={0,127,255},
@@ -218,11 +206,6 @@ equation
       points={{-14,-26},{-14,-32},{-60,-32}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(measurementsHouse.port_b2, hex.port_a2) annotation (Line(
-      points={{30,-44},{70,-44},{70,-48},{74,-48}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(hex.port_b1, pumpHex.port_a2) annotation (Line(
       points={{86,-48},{90,-48},{90,-44},{96,-44}},
       color={0,127,255},
@@ -232,20 +215,12 @@ equation
       points={{86,-28},{90,-28},{90,-32},{96,-32}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(measurementsHouse.port_a1, senMasFlo.port_b) annotation (Line(
-      points={{30,-32},{52,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(senMasFlo.port_a, hex.port_b2) annotation (Line(
       points={{64,-32},{70,-32},{70,-28},{74,-28}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(supplyT, supplyPID.u_s) annotation (Line(
       points={{60,-104},{60,-60},{36,-60},{36,10},{48,10}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(measurementsHouse.Tsup, supplyPID.u_m) annotation (Line(
-      points={{12.4,-27.6},{12.4,-14},{60,-14},{60,-2}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(supplyPID.y, pumpHex.u) annotation (Line(
@@ -290,6 +265,22 @@ equation
   connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(
       points={{-81,-68},{-160,-68},{-160,40},{-132,40}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(measurements.port_b1, parallelPipesSplitter.port_a) annotation (Line(
+      points={{0,-32},{-60,-32}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(measurements.port_a1, senMasFlo.port_b) annotation (Line(
+      points={{20,-32},{52,-32}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(measurements.port_b2, hex.port_a2) annotation (Line(
+      points={{20,-44},{70,-44},{70,-48},{74,-48}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(measurements.port_a2, parallelPipesSplitter.port_b) annotation (Line(
+      points={{0,-44},{-60,-44}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics));

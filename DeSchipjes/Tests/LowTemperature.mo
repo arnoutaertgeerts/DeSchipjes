@@ -25,7 +25,8 @@ model LowTemperature "A complete building model for testing"
       building,
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
         id=5),
-    modulation=false)
+    modulation=false,
+    modulating=false)
     annotation (Placement(transformation(extent={{-30,20},{30,80}})));
 
   Modelica.Blocks.Sources.Constant const1(k=273.15 + 55)

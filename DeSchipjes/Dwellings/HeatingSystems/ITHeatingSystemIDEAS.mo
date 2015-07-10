@@ -89,6 +89,10 @@ equation
       points={{-109,40},{-100,40},{-100,14.8}},
       color={0,0,127},
       smooth=Smooth.None));
+  connect(measurements.Tsup, supplyPID.u_m) annotation (Line(
+      points={{2.4,-27.6},{2.4,-12},{60,-12},{60,-2}},
+      color={0,0,127},
+      smooth=Smooth.None));
       annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics));
 end ITHeatingSystemIDEAS;

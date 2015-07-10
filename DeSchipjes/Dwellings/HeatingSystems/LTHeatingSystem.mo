@@ -123,10 +123,6 @@ equation
       points={{120,96},{103.6,96},{103.6,56}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(
-      points={{-81,-68},{-164,-68},{-164,40},{-132,40}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(TSensor, conPID.u_m) annotation (Line(
       points={{-204,-60},{-120,-60},{-120,28}},
       color={0,0,127},
@@ -150,6 +146,10 @@ equation
   connect(tan.portHex_b, bou1.ports[2]) annotation (Line(
       points={{88,48},{84,48},{84,36},{140,36},{140,32}},
       color={0,127,255},
+      smooth=Smooth.None));
+  connect(measurements.Tsup, supplyPID.u_m) annotation (Line(
+      points={{2.4,-27.6},{2.4,-12},{60,-12},{60,-2}},
+      color={0,0,127},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));

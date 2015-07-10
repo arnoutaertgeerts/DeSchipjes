@@ -18,7 +18,7 @@ model ModulationTemperature "A complete building model for testing"
     isDH=true,
     redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
       building,
-    modulation=true,
+    modulating=true,
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
         id=1),
     redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
@@ -50,25 +50,25 @@ public
         origin={-32,-50})));
 
   DistrictHeating.Interfaces.DHConnection dHConnection(
-    redeclare package Medium = Buildings.Media.Water,
     m_flow_nominal=0.5,
     length=20,
     allowFlowReversal=false,
     tau=60,
     redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe)
+      districtHeatingPipe,
+    redeclare package Medium = IDEAS.Media.Water.Simple)
                annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
         origin={20,22})));
   DistrictHeating.Interfaces.DHConnection dHConnection1(
-    redeclare package Medium = Buildings.Media.Water,
     m_flow_nominal=0.5,
     length=20,
     allowFlowReversal=false,
     tau=60,
     redeclare DistrictHeating.Pipes.DoublePipes.TwinPipeGround
-      districtHeatingPipe)
+      districtHeatingPipe,
+    redeclare package Medium = IDEAS.Media.Water.Simple)
                annotation (Placement(transformation(
         extent={{-10,10},{10,-10}},
         rotation=90,
@@ -82,22 +82,22 @@ public
     isDH=true,
     redeclare DeSchipjes.Dwellings.Structures.Renovated.PetersLeiStraatHouse
       building,
-    modulation=true,
+    modulating=true,
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=buildingTest.building.VZones,
         id=2),
     redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystemIDEAS
       heatingSystem(QNom={2113,1409,804,1025,10,10}))
     annotation (Placement(transformation(extent={{56,58},{36,78}})));
   Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
-    redeclare package Medium = Buildings.Media.Water,
     m_flow_nominal=0.5,
     dp_nominal=20,
-    homotopyInitialization=true)
+    homotopyInitialization=true,
+    redeclare package Medium = IDEAS.Media.Water.Simple)
     annotation (Placement(transformation(extent={{12,-50},{32,-30}})));
   Annex60.Fluid.Sources.FixedBoundary bou(
     nPorts=1,
-    redeclare package Medium = Buildings.Media.Water,
-    use_T=false)
+    use_T=false,
+    redeclare package Medium = IDEAS.Media.Water.Simple)
     annotation (Placement(transformation(extent={{-20,-20},{0,0}})));
   Modelica.Blocks.Math.Add add annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
