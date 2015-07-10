@@ -1,7 +1,7 @@
 within DeSchipjes.Dwellings.Structures.Renovated.Examples.BaseClasses;
 model HaarhakkerStraatHouse_lin
   // FIXME: all dynamics are now on steady state to simplify the initialization in matlab. This should be changed.
-  package Medium = IDEAS.Media.SimpleAir;
+  package Medium = IDEAS.Media.Air;
   parameter Boolean horInc = true
     "Set to true to have only horizontal and vertical surfaces.";
   parameter Integer nZones = 6;
