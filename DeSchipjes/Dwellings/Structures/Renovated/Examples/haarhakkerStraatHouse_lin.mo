@@ -8,7 +8,8 @@ model haarhakkerStraatHouse_lin
     nWin=5,
     x_start=293.15*ones(ssm.states),
     nQConv=6,
-    nQRad=6)
+    nQRad=6,
+    addAngles=dis.addAngles)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Math.Add error[6](k2=-1)
     annotation (Placement(transformation(extent={{40,20},{60,40}})));
@@ -20,16 +21,10 @@ model haarhakkerStraatHouse_lin
         extent={{-20,20},{20,-20}},
         rotation=270,
         origin={-100,-40})));
-  Modelica.Blocks.Sources.Sine sine[6](amplitude=100, freqHz=1/(86400*0.5))
+  Modelica.Blocks.Sources.Sine sine[6](               freqHz=1/(86400*0.5),
+      amplitude=100)
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
-public
-  inner IDEAS.SimInfoManager sim(
-    linearise=true,
-    addAngles=true,
-    offsetAzi=0.95993108859688)
-    "Simulation information manager for climate data"
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  BaseClasses.Disturbances disturbances
+  BaseClasses.Disturbances dis
     annotation (Placement(transformation(extent={{-80,40},{-60,60}})));
 initial algorithm
     ssm.y :=building.TSensor;
@@ -85,15 +80,19 @@ equation
       points={{-10.8,-8.8},{-19,-8.8},{-19,-30}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(disturbances.winBus1, winBus1) annotation (Line(
+  connect(dis.winBus1, winBus1) annotation (Line(
       points={{-60.2,46},{-52,46},{-52,40},{-40,40}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}}));
-  connect(disturbances.weaBus1, building.weaBus1) annotation (Line(
+  connect(dis.weaBus1, building.weaBus1) annotation (Line(
       points={{-60,56},{-36,56},{-36,58},{-10,58}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(dis.weaBus1, ssm.weaBus) annotation (Line(
+      points={{-60,56},{-36,56},{-36,54},{-16,54},{-16,32},{-10,32},{-10,9}},
       color={255,204,51},
       thickness=0.5));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,

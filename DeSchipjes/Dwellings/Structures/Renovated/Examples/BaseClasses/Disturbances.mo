@@ -53,8 +53,8 @@ model Disturbances
     annotation (Placement(transformation(extent={{-66,26},{-56,46}})));
 public
   inner IDEAS.SimInfoManager sim(
-    linearise=false,
-    addAngles=true,
+    linearise=linearise,
+    addAngles=addAngles,
     offsetAzi=1.0995574287564)
     "Simulation information manager for climate data"
     annotation (Placement(transformation(extent={{-78,56},{-58,76}})));
@@ -72,6 +72,8 @@ public
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={100,60})));
+  parameter Boolean addAngles=true;
+  parameter Boolean linearise=false;
 equation
   connect(slaapkamerRaam.weaBus, sim.weaBus) annotation (Line(
       points={{-69,-60},{-80,-60},{-80,80},{-66.6,80},{-66.6,73.2}},
