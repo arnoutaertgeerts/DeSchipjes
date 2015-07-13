@@ -41,10 +41,10 @@ partial model PartialRadiators
     Q_flow_nominal=QNom,
     T_a_nominal=TSupply,
     T_b_nominal=TReturn,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     nEle=1,
     T_start=TSupply,
-    allowFlowReversal=true)
+    allowFlowReversal=true,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-124,-42},{-144,-22}})));
 
   DHWTap dHWTap(redeclare package Medium = Medium, m_flow_nominal=m_flow_dhw,
@@ -56,12 +56,13 @@ partial model PartialRadiators
     KvReturn=2,
     m_flow_nominal=m_flow_dhw,
     measurePower=false,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     dynamicBalance=false,
     includePipes=false,
     filteredSpeed=true,
-    riseTime=180)       annotation (Placement(transformation(
+    riseTime=180,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+                        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-24,50})));
@@ -79,7 +80,8 @@ protected
     m_flow_nominal=sum(m_flow_nominal),
     V=0.025,
     T_start=TSupply,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-60,-48},{-80,-28}})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
@@ -89,13 +91,14 @@ protected
     includePipes=false,
     measurePower=false,
     dp=200,
-    each energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     each dynamicBalance=false,
     tauTSensor=0,
     T_start=TSupply,
     allowFlowReversal=true,
     each riseTime=180,
-    each filteredSpeed=true)
+    each filteredSpeed=true,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{-90,-48},{-110,-28}})));
 
   ToKelvin toKelvin[nZones]
@@ -121,6 +124,7 @@ public
         origin={80,-38})));
   IDEAS.Fluid.BaseCircuits.Measurements measurementsHouse(redeclare package
       Medium = Medium, m_flow_nominal=sum(m_flow_nominal),
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{30,-48},{10,-28}})));
 protected
@@ -141,15 +145,16 @@ public
     measurePower=false,
     filteredSpeed=true,
     riseTime=180,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{116,-48},{96,-28}})));
 
   Annex60.Controls.Continuous.LimPID supplyPID(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     k=0.5,
-    Ti=180,
     yMax=sum(m_flow_nominal),
-    yMin=abs(10E-4*sum(m_flow_nominal)))
+    yMin=abs(10E-4*sum(m_flow_nominal)),
+    Ti=360)
     annotation (Placement(transformation(extent={{50,0},{70,20}})));
   Annex60.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         Medium)
@@ -157,7 +162,7 @@ public
   IDEAS.Controls.Continuous.LimPID conPID[nZones](
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMax=m_flow_nominal,
-    Ti=180)
+    Ti=360)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
 initial equation
 

@@ -12,7 +12,10 @@ partial model PartialStorage
 
   Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=18)
     annotation (Placement(transformation(extent={{128,92},{120,100}})));
-  StorageTanks.uniSTOR tan(redeclare package Medium = Medium, R=1.625)
+  StorageTanks.uniSTOR tan(redeclare package Medium = Medium, R=1.625,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
+    massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{96,46},{116,66}})));
 equation
 
@@ -30,9 +33,9 @@ equation
       smooth=Smooth.None));
   connect(tan.heaPorBot, fixedTemperature.port) annotation (Line(
       points={{108,48.6},{108,44},{112,44},{112,70},{108,70},{108,96},{120,96}},
-
       color={191,0,0},
       smooth=Smooth.None));
+
   connect(tan.heaPorSid, fixedTemperature.port) annotation (Line(
       points={{111.6,56},{112,56},{112,70},{108,70},{108,96},{120,96}},
       color={191,0,0},

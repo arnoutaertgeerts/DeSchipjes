@@ -46,7 +46,9 @@ model LTHeatingSystem
     redeclare
       IDEAS.Fluid.Production.Data.PerformanceMaps.HeatPumps.VitoCal300GBWS301dotA08
       heatPumpData,
-    T_max=273.15 + 85) annotation (Placement(transformation(
+    T_max=273.15 + 85,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+                       annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={4,50})));
@@ -65,10 +67,6 @@ equation
   connect(conPID.y, pumpRadiators.u) annotation (Line(
       points={{-109,40},{-100,40},{-100,-27.2}},
       color={0,0,127},
-      smooth=Smooth.None));
-  connect(pumpSupply_m_flowdhw1.port_b1, tan.portHex_a) annotation (Line(
-      points={{46,56},{88,56},{88,52},{92,52},{92,52.2},{96,52.2}},
-      color={0,127,255},
       smooth=Smooth.None));
   connect(pumpSupply_m_flowdhw1.port_a2, tan.portHex_b) annotation (Line(
       points={{46,44},{96,44},{96,48}},
@@ -98,10 +96,6 @@ equation
       points={{10,40},{10,34},{20,34},{20,44},{26,44}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(temperatureSensor.port, fixedTemperature.port) annotation (Line(
-      points={{84,80},{106,80},{106,96},{120,96}},
-      color={191,0,0},
-      smooth=Smooth.None));
   connect(hysteresis.u, temperatureSensor.T) annotation (Line(
       points={{67.2,80},{72,80}},
       color={0,0,127},
@@ -125,6 +119,14 @@ equation
   connect(supplyPID.u_s, const.y) annotation (Line(
       points={{48,10},{41,10}},
       color={0,0,127},
+      smooth=Smooth.None));
+  connect(pumpSupply_m_flowdhw1.port_b1, tan.portHex_a) annotation (Line(
+      points={{46,56},{86,56},{86,52.2},{96,52.2}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(tan.heaPorVol[4], temperatureSensor.port) annotation (Line(
+      points={{106,56.45},{106,56},{104,56},{104,80},{96,80},{96,80},{84,80}},
+      color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));

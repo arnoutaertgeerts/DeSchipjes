@@ -14,10 +14,10 @@ package Models
         heatingSystem,
       modulating=false,
       redeclare IDEAS.Occupants.Extern.StROBe occupant(id=3, VZones=building.building.VZones),
-
       redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
           package Medium = IDEAS.Media.Air))
       annotation (Placement(transformation(extent={{-20,20},{0,40}})));
+
     Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
       redeclare package Medium = Annex60.Media.Water,
       m_flow_nominal=0.5,
@@ -44,7 +44,8 @@ package Models
       StROBe_P=true,
       FilNam_P="P.txt",
       FilNam_Q="Q.txt",
-      FilNam_QCon="Q.txt")
+      FilNam_QCon="Q.txt",
+      filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
       annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
   equation
     connect(building.flowPort_return, hea.port_a) annotation (Line(
