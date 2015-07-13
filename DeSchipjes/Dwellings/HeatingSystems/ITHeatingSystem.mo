@@ -1,16 +1,7 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model ITHeatingSystem
   extends BaseClasses.PartialStorage(
-    m_flow_dhw=0.06,
-    modulation=true,
-    pumpDHW(measureSupplyT=true, measureReturnT=true),
-    heatExchanger(
-      includePipes=true,
-      UA=0.1,
-      m=10),
-    tan(energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
-        massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState),
-    rad(Q_flow_nominal={2113,1409,1,1025,804,1}));
+    modulating=true);
 
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
     annotation (Placement(transformation(extent={{70,70},{58,82}})));
