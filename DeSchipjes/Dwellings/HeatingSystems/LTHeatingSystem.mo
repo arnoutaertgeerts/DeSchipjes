@@ -3,12 +3,6 @@ model LTHeatingSystem
   //Extensions
   extends BaseClasses.PartialStorage(
     modulating=false,
-    tan(
-      redeclare package Medium = Medium,
-      redeclare package MediumHex = Medium,
-      computeFlowResistance=false),
-    conPID(k=0.1),
-    pumpRadiators(addPowerToMedium=false),
     TSupply=273.15+55,
     TReturn=273.15+35);
 

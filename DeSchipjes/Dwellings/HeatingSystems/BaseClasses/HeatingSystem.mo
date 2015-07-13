@@ -2,8 +2,11 @@ within DeSchipjes.Dwellings.HeatingSystems.BaseClasses;
 partial model HeatingSystem
   extends IDEAS.Interfaces.BaseClasses.HeatingSystem;
 
+  //Parameters
   parameter Boolean modulating = true
     "Set to true to allow for time modulation of the DH grid";
+  parameter Modelica.SIunits.Power[nZones] QNom
+    "Nominal heating power of each zone";
 
   Modelica.Blocks.Interfaces.RealInput supplyT if modulating annotation (Placement(
         transformation(

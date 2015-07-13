@@ -15,7 +15,8 @@ partial model PartialStorage
   StorageTanks.uniSTOR tan(redeclare package Medium = Medium, R=1.625,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState)
+    massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
+    redeclare package MediumHex = Medium)
     annotation (Placement(transformation(extent={{96,46},{116,66}})));
 equation
 

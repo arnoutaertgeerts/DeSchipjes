@@ -6,6 +6,7 @@ partial model PartialStructure "Standaard woning de schipjes"
     nZones=6,
     final AZones={woonruimteA,keukenA,wcA,slaapkamerA,badkamerA,nachthalA},
     final VZones={woonruimte.V,keuken.V,wc.V,slaapkamer.V,badkamer.V,nachthal.V},
+    final Q_design={woonruimte.Q_design, keuken.Q_design, badkamer.Q_design, slaapkamer.Q_design, wc.Q_design, nachthal.Q_design},
     final nEmb=0,
     final ATrans,
     redeclare package Medium = IDEAS.Media.Air);

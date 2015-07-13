@@ -31,10 +31,6 @@ model ITHeatingSystem
         m_flow_dhw)
     annotation (Placement(transformation(extent={{-12,72},{-20,80}})));
 equation
-  connect(HT, onOff.u) annotation (Line(
-      points={{60,-104},{60,-60},{4,-60},{4,64}},
-      color={255,0,255},
-      smooth=Smooth.None));
   connect(conPID.y, onOff1.u1) annotation (Line(
       points={{-109,40},{-100,40},{-100,26}},
       color={0,0,127},
@@ -49,10 +45,6 @@ equation
       smooth=Smooth.None));
 
   for i in 1:nZones loop
-    connect(HT, not1[i].u)   annotation (Line(
-      points={{60,-104},{60,-60},{4,-60},{4,14},{-60,14}},
-      color={255,0,255},
-      smooth=Smooth.None));
   end for;
   connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(
       points={{-81,-68},{-160,-68},{-160,40},{-132,40}},
@@ -63,11 +55,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(temperatureSensor.port, tan.heaPorVol[4]) annotation (Line(
-      points={{70,76},{98,76},{98,56.45}},
+      points={{70,76},{106,76},{106,56.45}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(fixedTemperature.port, tan.heaPorSid) annotation (Line(
-      points={{120,96},{103.6,96},{103.6,56}},
+      points={{120,96},{111.6,96},{111.6,56}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(onOff.y, slewRateLimiter1.u) annotation (Line(

@@ -10,12 +10,12 @@ package Models
       isDH=true,
       redeclare DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse
         building,
-      redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem
-        heatingSystem,
       modulating=false,
       redeclare IDEAS.Occupants.Extern.StROBe occupant(id=3, VZones=building.building.VZones),
       redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
-          package Medium = IDEAS.Media.Air))
+          package Medium = IDEAS.Media.Air),
+      redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem
+        heatingSystem(QNom=building.Q_design))
       annotation (Placement(transformation(extent={{-20,20},{0,40}})));
 
     Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(

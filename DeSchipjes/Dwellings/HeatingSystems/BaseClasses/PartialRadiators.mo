@@ -7,10 +7,6 @@ partial model PartialRadiators
     nEmbPorts=0,
     TSet);
 
-  //Parameters
-  parameter Modelica.SIunits.Power[nZones] QNom={2113,1409,804,1025,10,10}
-    "Nominal heating power of each zone";
-
   parameter Modelica.SIunits.Temperature TSupply=273.15+70
     "Radiator supply temperature";
   parameter Modelica.SIunits.Temperature TReturn=273.15+60
@@ -81,7 +77,7 @@ protected
     V=0.025,
     T_start=TSupply,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{-60,-48},{-80,-28}})));
 
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpRadiators[nZones](
@@ -98,7 +94,7 @@ protected
     each riseTime=180,
     each filteredSpeed=true,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{-90,-48},{-110,-28}})));
 
   ToKelvin toKelvin[nZones]
@@ -125,7 +121,7 @@ public
   IDEAS.Fluid.BaseCircuits.Measurements measurementsHouse(redeclare package
       Medium = Medium, m_flow_nominal=sum(m_flow_nominal),
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{30,-48},{10,-28}})));
 protected
   IDEAS.Fluid.Sources.FixedBoundary bouHouse(
@@ -146,7 +142,7 @@ public
     filteredSpeed=true,
     riseTime=180,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{116,-48},{96,-28}})));
 
   Annex60.Controls.Continuous.LimPID supplyPID(
@@ -154,7 +150,7 @@ public
     k=0.5,
     yMax=sum(m_flow_nominal),
     yMin=abs(10E-4*sum(m_flow_nominal)),
-    Ti=360)
+    Ti=500)
     annotation (Placement(transformation(extent={{50,0},{70,20}})));
   Annex60.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         Medium)
@@ -162,7 +158,8 @@ public
   IDEAS.Controls.Continuous.LimPID conPID[nZones](
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMax=m_flow_nominal,
-    Ti=360)
+    k=0.5,
+    Ti=500)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
 initial equation
 
@@ -175,6 +172,10 @@ equation
   Q[1] = 0;
 
   for i in 1:nZones loop
+      connect(TSet[1], toKelvin[i].Celsius) annotation (Line(
+      points={{20,-104},{20,-68},{-58,-68},{-58,-68}},
+      color={0,0,127},
+      smooth=Smooth.None));
   end for;
 
   connect(pumpDHW.port_a1, parallelPipesSplitter.port_a) annotation (Line(
@@ -284,10 +285,7 @@ equation
       points={{-204,-60},{-120,-60},{-120,28}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(TSet, toKelvin.Celsius) annotation (Line(
-      points={{20,-104},{20,-68},{-58,-68},{-58,-68}},
-      color={0,0,127},
-      smooth=Smooth.None));
+
   connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(
       points={{-81,-68},{-160,-68},{-160,40},{-132,40}},
       color={0,0,127},
