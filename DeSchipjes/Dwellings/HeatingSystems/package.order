@@ -2,10 +2,7 @@ FromKelvin
 ToKelvin
 HTHeatingSystem
 ITHeatingSystem
-ITHeatingSystemIDEAS
-ITHeatingSystemReverse
-ITHeatingSystemReverseIDEAS
 LTHeatingSystem
-LTHeatingSystemIDEAS
 BaseClasses
 Components
+StorageTanks

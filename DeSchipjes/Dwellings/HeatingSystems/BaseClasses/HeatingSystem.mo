@@ -1,5 +1,5 @@
 within DeSchipjes.Dwellings.HeatingSystems.BaseClasses;
-model HeatingSystem
+partial model HeatingSystem
   extends IDEAS.Interfaces.BaseClasses.HeatingSystem;
 
   parameter Boolean modulating = true

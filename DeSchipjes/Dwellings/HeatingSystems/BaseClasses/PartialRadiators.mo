@@ -8,17 +8,15 @@ partial model PartialRadiators
     TSet);
 
   //Parameters
-  parameter Modelica.SIunits.Power[nZones] QNom=2000*ones(nZones)
+  parameter Modelica.SIunits.Power[nZones] QNom={2113,1409,804,1025,10,10}
     "Nominal heating power of each zone";
 
   parameter Modelica.SIunits.Temperature TSupply=273.15+70
     "Radiator supply temperature";
   parameter Modelica.SIunits.Temperature TReturn=273.15+60
     "Radiator return temeprature";
-  parameter Modelica.SIunits.Temperature TBoiler=273.15+80
-    "Radiator return temeprature";
   parameter Modelica.SIunits.Temperature TStorage=273.15+60
-    "DHW temperature setpoint";
+    "DHW storage temperature";
 
   parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.03
     "Nominal mass flow rate of DHW";
@@ -61,7 +59,6 @@ partial model PartialRadiators
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     dynamicBalance=false,
-    T_start=TSupply,
     includePipes=false,
     filteredSpeed=true,
     riseTime=180)       annotation (Placement(transformation(
@@ -142,7 +139,6 @@ public
     measureReturnT=true,
     m_flow_nominal=sum(m_flow_nominal),
     measurePower=false,
-    u(start=0),
     filteredSpeed=true,
     riseTime=180,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
@@ -174,10 +170,6 @@ equation
   Q[1] = 0;
 
   for i in 1:nZones loop
-      connect(toKelvin[i].Celsius, TSet[1]) annotation (Line(
-      points={{-58,-68},{20,-68},{20,-104}},
-      color={0,0,127},
-      smooth=Smooth.None));
   end for;
 
   connect(pumpDHW.port_a1, parallelPipesSplitter.port_a) annotation (Line(
@@ -247,10 +239,6 @@ equation
       points={{64,-32},{70,-32},{70,-28},{74,-28}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(supplyT, supplyPID.u_s) annotation (Line(
-      points={{60,-104},{60,-60},{36,-60},{36,10},{48,10}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(measurementsHouse.Tsup, supplyPID.u_m) annotation (Line(
       points={{12.4,-27.6},{12.4,-14},{60,-14},{60,-2}},
       color={0,0,127},
@@ -289,6 +277,10 @@ equation
 
   connect(TSensor, conPID.u_m) annotation (Line(
       points={{-204,-60},{-120,-60},{-120,28}},
+      color={0,0,127},
+      smooth=Smooth.None));
+  connect(TSet, toKelvin.Celsius) annotation (Line(
+      points={{20,-104},{20,-68},{-58,-68},{-58,-68}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(toKelvin.Kelvin, conPID.u_s) annotation (Line(

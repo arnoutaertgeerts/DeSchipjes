@@ -8,7 +8,7 @@ partial model PartialStructure "Standaard woning de schipjes"
     final VZones={woonruimte.V,keuken.V,wc.V,slaapkamer.V,badkamer.V,nachthal.V},
     final nEmb=0,
     final ATrans,
-    redeclare package Medium = IDEAS.Media.SimpleAir);
+    redeclare package Medium = IDEAS.Media.Air);
 
   parameter Modelica.SIunits.Length isolatieTest=0;
 
@@ -114,29 +114,24 @@ partial model PartialStructure "Standaard woning de schipjes"
     inc=1.5707963267949,
     azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-132,94},{-122,114}})));
-  IDEAS.Buildings.Components.LinearizableWindow woonruimteWindow(
+  IDEAS.Buildings.Components.Window woonruimteWindow(
     A=5.78,
     frac=0.12,
     redeclare Data.Frames.LoofHout fraType,
-    linOut=false,
-    use_ctrl=false,
     inc=1.5707963267949,
     azi=3.9444441095072)
     annotation (Placement(transformation(extent={{76,138},{86,158}})));
-  IDEAS.Buildings.Components.LinearizableWindow keukenWindowLarge(
+  IDEAS.Buildings.Components.Window keukenWindowLarge(
     A=4.57,
     frac=0.15,
     redeclare Data.Frames.LoofHout fraType,
-    use_ctrl=false,
     inc=1.5707963267949,
     azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-90,92},{-80,112}})));
-  IDEAS.Buildings.Components.LinearizableWindow keukenWindowSmall(
+  IDEAS.Buildings.Components.Window keukenWindowSmall(
     A=1.05,
     frac=0.25,
     redeclare Data.Frames.LoofHout fraType,
-    linOut=false,
-    use_ctrl=false,
     inc=1.5707963267949,
     azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-72,92},{-62,112}})));
@@ -185,11 +180,10 @@ partial model PartialStructure "Standaard woning de schipjes"
     inc=1.5707963267949,
     azi=2.3736477827123)
     annotation (Placement(transformation(extent={{-134,46},{-124,66}})));
-  IDEAS.Buildings.Components.LinearizableWindow raamwc(
+  IDEAS.Buildings.Components.Window raamwc(
     A=0.07,
     frac=0.89,
     redeclare Data.Frames.LoofHout fraType,
-    use_ctrl=false,
     inc=1.5707963267949,
     azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-66,46},{-56,66}})));
@@ -253,11 +247,10 @@ partial model PartialStructure "Standaard woning de schipjes"
     final insulationThickness=0,
     redeclare final Data.Constructions.Old.BinnenMuur constructionType)
     annotation (Placement(transformation(extent={{-30,-14},{-20,6}})));
-  IDEAS.Buildings.Components.LinearizableWindow slaapkamerRaam(
+  IDEAS.Buildings.Components.Window slaapkamerRaam(
     A=0.75,
     frac=0.21,
     redeclare Data.Frames.LoofHout fraType,
-    use_ctrl=false,
     inc=1.5707963267949,
     azi=3.9444441095072)
     annotation (Placement(transformation(extent={{-12,-2},{-2,18}})));
@@ -330,20 +323,6 @@ partial model PartialStructure "Standaard woning de schipjes"
         extent={{-5,-10},{5,10}},
         rotation=270,
         origin={13,30})));
-  input IDEAS.BoundaryConditions.WeatherData.Bus weaBus(numSolBus=sim.numAzi + 1,
-      addAngles=addAngles) if                                                        linearise
-    annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={220,100})));
-  input IDEAS.Buildings.Components.Interfaces.WinBus winBus[5](each nLay=3) if linearise
-    annotation (Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={220,20})));
-
-  parameter Boolean addAngles=sim.addAngles;
-  parameter Boolean linearise=sim.linearise "Add connections for linearization";
 equation
   connect(woonruimteHal.propsBus_a, woonruimte.propsBus[1]) annotation (Line(
       points={{63,185},{63,163.8},{110,163.8}},
@@ -730,17 +709,6 @@ equation
       smooth=Smooth.None));
 
   // Linerization connections
-  connect(woonruimte.weaBus, weaBus);
-  connect(keuken.weaBus, weaBus);
-  connect(wc.weaBus, weaBus);
-  connect(slaapkamer.weaBus, weaBus);
-  connect(badkamer.weaBus, weaBus);
-  connect(nachthal.weaBus, weaBus);
-  connect(woonruimteWindow.winBus, winBus[1]);
-  connect(keukenWindowLarge.winBus, winBus[2]);
-  connect(keukenWindowSmall.winBus, winBus[3]);
-  connect(raamwc.winBus, winBus[4]);
-  connect(slaapkamerRaam.winBus, winBus[5]);
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-150,
-            -100},{220,200}})));
+            -100},{220,200}}), graphics));
 end PartialStructure;

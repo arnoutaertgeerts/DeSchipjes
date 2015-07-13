@@ -13,14 +13,6 @@ model haarhakkerStraatHouse_lin
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
   Modelica.Blocks.Math.Add error[6](k2=-1)
     annotation (Placement(transformation(extent={{40,20},{60,40}})));
-  IDEAS.Buildings.Components.Interfaces.WinBus winBus1[5](nLay=3) annotation (
-      Placement(transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={-40,40}), iconTransformation(
-        extent={{-20,20},{20,-20}},
-        rotation=270,
-        origin={-100,-40})));
   Modelica.Blocks.Sources.Sine sine[6](               freqHz=1/(86400*0.5),
       amplitude=100)
     annotation (Placement(transformation(extent={{-40,-40},{-20,-20}})));
@@ -44,22 +36,6 @@ equation
       points={{10.4,0},{18,0},{18,24},{38,24}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(building.winBus1, winBus1) annotation (Line(
-      points={{-10,42},{-24,42},{-24,40},{-40,40}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
-  connect(ssm.winBus, winBus1) annotation (Line(
-      points={{-9.8,6},{-24,6},{-24,40},{-40,40}},
-      color={255,204,51},
-      thickness=0.5,
-      smooth=Smooth.None), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
   connect(building.TSensor, error.u1) annotation (Line(
       points={{11,50},{18,50},{18,36},{38,36}},
       color={0,0,127},
@@ -80,13 +56,6 @@ equation
       points={{-10.8,-8.8},{-19,-8.8},{-19,-30}},
       color={0,0,127},
       smooth=Smooth.None));
-  connect(dis.winBus1, winBus1) annotation (Line(
-      points={{-60.2,46},{-52,46},{-52,40},{-40,40}},
-      color={255,204,51},
-      thickness=0.5), Text(
-      string="%second",
-      index=1,
-      extent={{6,3},{6,3}}));
   connect(dis.weaBus1, building.weaBus1) annotation (Line(
       points={{-60,56},{-36,56},{-36,58},{-10,58}},
       color={255,204,51},
@@ -95,8 +64,18 @@ equation
       points={{-60,56},{-36,56},{-36,54},{-16,54},{-16,32},{-10,32},{-10,9}},
       color={255,204,51},
       thickness=0.5));
+  connect(dis.winBus1, ssm.winBus) annotation (Line(
+      points={{-60.2,46},{-38,46},{-38,42},{-38,42},{-38,6},{-9.8,6}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));
+  connect(building.winBus1, dis.winBus1) annotation (Line(
+      points={{-10,42},{-38,42},{-38,46},{-60.2,46}},
+      color={255,204,51},
+      thickness=0.5,
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}})),           __Dymola_Commands(file="../scripts/haarhakkerStraatHouse_lin_sim_plot.mos"
+            -100},{100,100}}), graphics), __Dymola_Commands(file="../scripts/haarhakkerStraatHouse_lin_sim_plot.mos"
         "Linearize, simulate, plot"),
     experiment(StopTime=100000),
     __Dymola_experimentSetupOutput(events=false));

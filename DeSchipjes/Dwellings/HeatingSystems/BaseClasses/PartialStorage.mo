@@ -4,7 +4,7 @@ partial model PartialStorage
   extends PartialRadiators(dHWTap(m_flow_nominal=m_flow_dhw, redeclare package
         Medium = Medium,
       TDHWSet=273.15 + 38), gain(k=(38 - 10)/(60 - 10)),
-    const(k=sum(m_flow_nominal)));
+    bou1(nPorts=3));
 
   //Parameters
   parameter Modelica.SIunits.Length hTan=1.5 "Height of the storage tank";
@@ -12,27 +12,31 @@ partial model PartialStorage
 
   Modelica.Thermal.HeatTransfer.Celsius.FixedTemperature fixedTemperature(T=18)
     annotation (Placement(transformation(extent={{128,92},{120,100}})));
-  Buildings.Fluid.Storage.StratifiedEnhancedInternalHex tan(
-    redeclare package Medium = Medium,
-    m_flow_nominal=m_flow_dhw,
-    redeclare package MediumHex = Medium,
-    dpHex_nominal=0,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    T_start=TSupply,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
-    hexSegMult=1,
-    VTan=0.1,
-    hHex_b=0.05,
-    dIns=0.07,
-    hTan=0.75,
-    hHex_a=0.7,
-    TTan_nominal=333.15,
-    THex_nominal=293.15,
-    Q_flow_nominal=m_flow_dhw*4200*20,
-    mHex_flow_nominal=m_flow_dhw)
-    annotation (Placement(transformation(extent={{88,46},{108,66}})));
+  StorageTanks.uniSTOR tan(redeclare package Medium = Medium, R=1.625)
+    annotation (Placement(transformation(extent={{96,46},{116,66}})));
 equation
 
+  connect(tan.port_a, dHWTap.port_hot) annotation (Line(
+      points={{96,56},{92,56},{92,68},{180,68},{180,36},{172,36}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(tan.port_b, bou1.ports[2]) annotation (Line(
+      points={{116,56},{124,56},{124,36},{140,36},{140,32}},
+      color={0,127,255},
+      smooth=Smooth.None));
+  connect(tan.heaPorTop, fixedTemperature.port) annotation (Line(
+      points={{108,63.4},{108,96},{120,96}},
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(tan.heaPorBot, fixedTemperature.port) annotation (Line(
+      points={{108,48.6},{108,44},{112,44},{112,70},{108,70},{108,96},{120,96}},
+
+      color={191,0,0},
+      smooth=Smooth.None));
+  connect(tan.heaPorSid, fixedTemperature.port) annotation (Line(
+      points={{111.6,56},{112,56},{112,70},{108,70},{108,96},{120,96}},
+      color={191,0,0},
+      smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}), graphics));
 end PartialStorage;
