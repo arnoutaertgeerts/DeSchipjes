@@ -1,11 +1,7 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model HTHeatingSystem
   extends BaseClasses.PartialRadiators(
-    modulating=false,
-    pumpRadiators(
-      use_powerCharacteristic=false,
-      motorCooledByFluid=false),
-    bou1(nPorts=2));
+    modulating=false);
 
 public
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex1(
@@ -39,17 +35,17 @@ equation
       points={{54,60},{180,60},{180,36},{172,36}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(hex1.port_a1, bou1.ports[2]) annotation (Line(
-      points={{54,40},{140,40},{140,32}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(supplyPID.u_s, const.y) annotation (Line(
       points={{48,10},{41,10}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(conPID.y, pumpRadiators.u) annotation (Line(
       points={{-109,40},{-100,40},{-100,-27.2}},
-      color={0,0,127},
+      color={175,175,175},
+      smooth=Smooth.None));
+  connect(hex1.port_a1, dHWTap.port_cold) annotation (Line(
+      points={{54,40},{140,40},{140,36},{146,36}},
+      color={0,127,255},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}}),      graphics));

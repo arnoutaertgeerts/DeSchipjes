@@ -15,22 +15,23 @@ partial model Scenario
     "Grid supply temperature";
 
   replaceable BaseClasses.ProductionSite productionSite(
-    redeclare package Medium = IDEAS.Media.Water.Simple,
     m_flow_nominal=m_flow_nominal,
     grid_dp=grid.dp_nominal,
-    TSupplyGrid=TGrid)
+    TSupplyGrid=TGrid,
+    redeclare package Medium = IDEAS.Media.Water)
     annotation (Placement(transformation(extent={{10,-18},{-10,2}})));
   replaceable DeSchipjes.Interfaces.BaseClasses.Grid grid(
-      m_flow_nominal=m_flow_nominal,
-      redeclare package Medium = IDEAS.Media.Water.Simple,
+    m_flow_nominal=m_flow_nominal,
     TSupplyRad=TRadSupply,
     TReturnRad=TRadReturn,
-    TGrid=TGrid)
+    TGrid=TGrid,
+    redeclare package Medium = IDEAS.Media.Water)
     annotation (Placement(transformation(extent={{-10,20},{10,40}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     nPorts=1,
-    redeclare package Medium = IDEAS.Media.Water.Simple,
-    use_T=false) annotation (Placement(transformation(
+    use_T=false,
+    redeclare package Medium = IDEAS.Media.Water)
+                 annotation (Placement(transformation(
         extent={{10,10},{-10,-10}},
         rotation=90,
         origin={36,26})));

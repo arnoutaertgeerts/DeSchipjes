@@ -5,13 +5,11 @@ model S2ITIdeal "IT grid with ideal production"
     TRadSupply=273.15+50,
     TRadReturn=273.15+40,
     TGrid=273.15+55,
-    redeclare DeSchipjes.Grids.Full.ITFullGrid
-                                       grid(KVs={1,20,30,50,80,110,150,200,260,
-          330,400}),                         redeclare
+    redeclare DeSchipjes.Grids.ROM.ROMIT
+                                       grid, redeclare
       DeSchipjes.ProductionSites.IdealModulatingProduction productionSite(
         TSupplyGridHigh=273.15+75,
-      grid_dp=3*grid.dp_nominal),
-    bou(p=5E6));
+      grid_dp=3*grid.dp_nominal));
 
 equation
   connect(productionSite.y, grid.u) annotation (Line(

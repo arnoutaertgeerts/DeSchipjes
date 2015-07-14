@@ -1,7 +1,7 @@
 within DeSchipjes.Dwellings;
 model Building
   extends IDEAS.Interfaces.Building(redeclare replaceable
-      HeatingSystems.BaseClasses.HeatingSystem             heatingSystem(
+      HeatingSystems.BaseClasses.HeatingSystem heatingSystem(
         modulating=modulating, QNom=building.Q_design));
 
   parameter Boolean modulating=true;
