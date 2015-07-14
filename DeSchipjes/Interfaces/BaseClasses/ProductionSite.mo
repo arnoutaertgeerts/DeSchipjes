@@ -1,35 +1,74 @@
 within DeSchipjes.Interfaces.BaseClasses;
 partial model ProductionSite
-  extends IDEAS.Fluid.Interfaces.PartialTwoPortInterface;
+  package Medium =
+      IDEAS.Media.Water "Medium in the component";
 
   //Parameters
-  parameter Modelica.SIunits.Pressure grid_dp
-    "Nominal pressure drop over the grid";
-  parameter Modelica.SIunits.Temperature TSupplyGrid = 273.15+80
+  parameter Modelica.SIunits.Temperature TSupplyGrid(displayUnit="Celsius") =  273.15+55
     "Supply temperature of the Grid";
-  parameter Integer nBuildings = 11;
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
+  parameter Boolean modulating=true;
 
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{100,100}}), graphics), Icon(coordinateSystem(
+  Modelica.Blocks.Interfaces.RealOutput y if modulating annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=90,
+        origin={0,106})));
+
+  Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
+        Medium)
+    "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
+    annotation (Placement(transformation(extent={{90,-70},{110,-50}}),
+        iconTransformation(extent={{90,-70},{110,-50}})));
+  Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
+        Medium)
+    "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
+    annotation (Placement(transformation(extent={{90,50},{110,70}}),
+        iconTransformation(extent={{90,50},{110,70}})));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
+                               graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
                                                graphics={
       Polygon(
-        origin={19.533,9.938},
-        lineColor = {0,128,255},
-        fillColor = {0,128,255},
-        fillPattern = FillPattern.Solid,
-        points = {{-80,10},{-60,-10},{-80,-30},{-20,-30},{0,-10},{-20,10},{-80,10}}),
-      Polygon(
-        origin={19.533,9.938},
-        lineColor = {255,128,0},
-        fillColor = {255,128,0},
-        fillPattern = FillPattern.Solid,
-        points = {{-20,10},{0,-10},{-20,-30},{40,-30},{60,-10},{40,10},{-20,10}}),
-      Polygon(
-        origin={-20.467,-10.062},
+        origin={9.533,-30.062},
         lineColor = {255,0,0},
         fillColor = {255,0,0},
         fillPattern = FillPattern.Solid,
         points = {{-40,-90},{-20,-70},{0,-90},{0,-50},{-20,-30},{-40,-50},{-40,-90}},
-          rotation=180)}));
+          rotation=270),
+        Rectangle(
+          extent={{100,62},{-2,58}},
+          lineColor={255,0,0},
+          fillColor={255,170,85},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{2,58},{-2,48}},
+          lineColor={255,0,0},
+          fillColor={255,170,85},
+          fillPattern=FillPattern.Solid),
+      Polygon(
+        origin={-10.467,-6.062},
+        lineColor = {255,128,0},
+        fillColor = {255,128,0},
+        fillPattern = FillPattern.Solid,
+        points={{-19.938,9.533},{0.062,-10.467},{-19.938,-30.467},{40.062,-30.467},{60.062,-10.467},
+              {40.062,9.533},{-19.938,9.533}},
+          rotation=90),
+        Rectangle(
+          extent={{98,-58},{-2,-62}},
+          lineColor={0,0,255},
+          fillColor={0,128,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{2,-58},{-2,-32}},
+          lineColor={0,0,255},
+          fillColor={0,128,255},
+          fillPattern=FillPattern.Solid),
+      Polygon(
+        origin={-10.467,9.938},
+        lineColor = {0,128,255},
+        fillColor = {0,128,255},
+        fillPattern = FillPattern.Solid,
+        points={{-61.938,9.533},{-41.938,-10.467},{-61.938,-30.467},{-19.938,-30.467},{0,-10},
+              {-19.938,9.533},{-61.938,9.533}},
+          rotation=90)}));
 end ProductionSite;

@@ -2,10 +2,10 @@ within DeSchipjes.ProductionSites;
 model IdealProductionMFlow
 
   //Extensions
-  extends Interfaces.BaseClasses.ProductionSite;
+  extends Interfaces.BaseClasses.ProductionSite(modulating=false);
 
   Modelica.Blocks.Sources.RealExpression realExpression(y=TSupplyGrid)
-    annotation (Placement(transformation(extent={{-52,60},{-32,80}})));
+    annotation (Placement(transformation(extent={{-84,50},{-64,70}})));
   Heaters.IdealHeater idealHeater(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -13,7 +13,7 @@ model IdealProductionMFlow
     annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
 equation
   connect(realExpression.y, idealHeater.TSet) annotation (Line(
-      points={{-31,70},{-26,70},{-26,6},{-12,6}},
+      points={{-63,60},{-26,60},{-26,6},{-12,6}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(port_a, idealHeater.port_a) annotation (Line(

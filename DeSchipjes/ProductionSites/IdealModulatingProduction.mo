@@ -28,10 +28,6 @@ public
         rotation=0,
         origin={-32,60})));
 
-  Modelica.Blocks.Interfaces.RealOutput y annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={0,106})));
 equation
   der(ETot) = idealHeater.Q_flow;
 

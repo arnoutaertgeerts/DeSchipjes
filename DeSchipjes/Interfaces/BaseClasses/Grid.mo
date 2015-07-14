@@ -1,24 +1,19 @@
 within DeSchipjes.Interfaces.BaseClasses;
 partial model Grid
-  replaceable package Medium =
-      Modelica.Media.Interfaces.PartialMedium "Medium in the component";
+  package Medium =
+      IDEAS.Media.Water "Medium in the component";
 
   //Parameteres
-  parameter Modelica.SIunits.Temperature TSupplyRad = 273.15+70
+  parameter Modelica.SIunits.Temperature TSupplyRad(displayUnit="Celsius") =  273.15+70
     "Supply temperature of the radiators";
-  parameter Modelica.SIunits.Temperature TReturnRad = 273.15+60
+  parameter Modelica.SIunits.Temperature TReturnRad(displayUnit="Celsius") =  273.15+55
     "Return temperature of the radiators";
-  parameter Modelica.SIunits.Temperature TStorage = 273.15+60
+  parameter Modelica.SIunits.Temperature TStorage(displayUnit="Celsius") =  273.15+60
     "Temperature of the storage tank";
 
-  parameter Modelica.SIunits.Temperature TGrid = 273.15+80
-    "Supply temperature of the Grid";
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=4;
 
-  parameter Boolean modulating=false;
-
-  parameter Modelica.SIunits.Power QNom[:] = {2113,1409,1,1025,804,1}
-    "Heat losses for each zone";
-  parameter Modelica.SIunits.Pressure dp_nominal;
+  parameter Boolean modulating=true;
 
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
@@ -89,18 +84,18 @@ partial model Grid
           smooth=Smooth.None),
         Rectangle(
           extent={{200,62},{-100,58}},
-          lineColor={0,0,255},
-          fillColor={0,128,255},
+          lineColor={255,0,0},
+          fillColor={255,170,85},
           fillPattern=FillPattern.Solid),
         Rectangle(
           extent={{200,58},{196,-4}},
-          lineColor={0,0,255},
-          fillColor={0,128,255},
+          lineColor={255,0,0},
+          fillColor={255,170,85},
           fillPattern=FillPattern.Solid),
         Rectangle(
           extent={{196,0},{180,-4}},
-          lineColor={0,0,255},
-          fillColor={0,128,255},
+          lineColor={255,0,0},
+          fillColor={255,170,85},
           fillPattern=FillPattern.Solid),
         Rectangle(
           extent={{80,-16},{60,-20}},

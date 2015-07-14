@@ -2,20 +2,11 @@ within DeSchipjes.Scenarios;
 model S2ITIdeal "IT grid with ideal production"
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(
-    TRadSupply=273.15+50,
-    TRadReturn=273.15+40,
-    TGrid=273.15+55,
-    redeclare DeSchipjes.Grids.ROM.ROMIT
-                                       grid, redeclare
+    redeclare DeSchipjes.Grids.ROM.ROMIT     grid(TSupplyRad=273.15 + 50, TReturnRad=273.15 +
+          35),                               redeclare
       DeSchipjes.ProductionSites.IdealModulatingProduction productionSite(
-        TSupplyGridHigh=273.15+75,
-      grid_dp=3*grid.dp_nominal));
+        TSupplyGridHigh=273.15+75));
 
-equation
-  connect(productionSite.y, grid.u) annotation (Line(
-      points={{0,2.6},{0,10},{-30,10},{-30,52},{0,52},{0,39}},
-      color={0,0,127},
-      smooth=Smooth.None));
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},
           lineColor={135,135,135},

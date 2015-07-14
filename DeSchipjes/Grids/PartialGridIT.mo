@@ -2,49 +2,71 @@ within DeSchipjes.Grids;
 model PartialGridIT
   extends PartialGrid(
     final modulating=true,
-    haarHakker1(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+    haarHakker1(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    haarHakker2(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=haarHakker1.building.Q_design)),
+    haarHakker2(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    haarHakker3(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=haarHakker1.building.Q_design)),
+    haarHakker3(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    haarHakker4(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=haarHakker1.building.Q_design)),
+    haarHakker4(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    haarHakker5(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=haarHakker1.building.Q_design)),
+    haarHakker5(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    peterslei1(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=haarHakker1.building.Q_design)),
+    peterslei1(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    peterslei2(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=peterslei1.building.Q_design)),
+    peterslei2(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    peterslei3(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=peterslei1.building.Q_design)),
+    peterslei3(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    peterslei4(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=peterslei1.building.Q_design)),
+    peterslei4(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    peterslei5(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=peterslei1.building.Q_design)),
+    peterslei5(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)),
-    peterslei6(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+        TStorage=TStorage,
+        QNom=peterslei1.building.Q_design)),
+    peterslei6(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
+        heatingSystem(
         TSupply=TSupplyRad,
         TReturn=TReturnRad,
-        TStorage=TStorage)));
+        TStorage=TStorage,
+        QNom=peterslei1.building.Q_design)));
 
 end PartialGridIT;
