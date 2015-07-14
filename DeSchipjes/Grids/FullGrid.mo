@@ -68,7 +68,7 @@ partial model FullGrid
           petersleiHouse6.building.VZones))
     annotation (Placement(transformation(extent={{74,44},{94,64}})));
   DistrictHeating.Interfaces.DHConnection dHConnection1(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -322,63 +322,63 @@ partial model FullGrid
           petersleiHouse11.building.VZones))
     annotation (Placement(transformation(extent={{74,-78},{94,-58}})));
   DistrictHeating.Interfaces.DHConnection dHConnection2(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-42,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection3(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-18,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection4(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={6,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection5(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=0,
         origin={30,62})));
   DistrictHeating.Interfaces.DHConnection dHConnection6(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,38})));
   DistrictHeating.Interfaces.DHConnection dHConnection7(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,14})));
   DistrictHeating.Interfaces.DHConnection dHConnection8(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,-10})));
   DistrictHeating.Interfaces.DHConnection dHConnection9(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=270,
         origin={54,-34})));
   DistrictHeating.Interfaces.DHConnection dHConnection10(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
                                            annotation (Placement(transformation(
@@ -386,7 +386,7 @@ partial model FullGrid
         rotation=270,
         origin={54,-58})));
   DistrictHeating.Interfaces.DHConnection dHConnection11(
-    length=length,
+    L=length,
     m_flow_nominal=m_flow_nominal,
     redeclare each package Medium = Medium)
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},

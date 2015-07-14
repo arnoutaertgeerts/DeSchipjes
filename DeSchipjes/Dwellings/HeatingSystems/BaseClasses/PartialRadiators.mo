@@ -142,7 +142,7 @@ public
     filteredSpeed=true,
     riseTime=180,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{116,-48},{96,-28}})));
 
   Annex60.Controls.Continuous.LimPID supplyPID(
