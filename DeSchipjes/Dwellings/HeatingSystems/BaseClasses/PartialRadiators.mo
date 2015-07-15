@@ -74,7 +74,6 @@ protected
   IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(n=nZones,
     redeclare package Medium = Medium,
     m_flow_nominal=sum(m_flow_nominal),
-    V=0.025,
     T_start=TSupply,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
@@ -114,7 +113,8 @@ public
     m1_flow_nominal=sum(m_flow_nominal),
     m2_flow_nominal=sum(m_flow_nominal),
     dp1_nominal=20,
-    dp2_nominal=20) annotation (Placement(transformation(
+    dp2_nominal=20,
+    eps=0.9)        annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={80,-38})));
@@ -151,10 +151,7 @@ public
     yMax=sum(m_flow_nominal),
     yMin=abs(10E-4*sum(m_flow_nominal)),
     Ti=500)
-    annotation (Placement(transformation(extent={{50,0},{70,20}})));
-  Annex60.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
-        Medium)
-    annotation (Placement(transformation(extent={{64,-38},{52,-26}})));
+    annotation (Placement(transformation(extent={{60,0},{80,20}})));
   IDEAS.Controls.Continuous.LimPID conPID[nZones](
     each controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMax=m_flow_nominal,
@@ -229,20 +226,12 @@ equation
       points={{86,-28},{90,-28},{90,-32},{96,-32}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(measurementsHouse.port_a1, senMasFlo.port_b) annotation (Line(
-      points={{30,-32},{52,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(senMasFlo.port_a, hex.port_b2) annotation (Line(
-      points={{64,-32},{70,-32},{70,-28},{74,-28}},
-      color={0,127,255},
-      smooth=Smooth.None));
   connect(measurementsHouse.Tsup, supplyPID.u_m) annotation (Line(
-      points={{12.4,-27.6},{12.4,-14},{60,-14},{60,-2}},
+      points={{12.4,-27.6},{12.4,-20},{70,-20},{70,-2}},
       color={175,175,175},
       smooth=Smooth.None));
   connect(supplyPID.y, pumpHex.u) annotation (Line(
-      points={{71,10},{106,10},{106,-27.2}},
+      points={{81,10},{106,10},{106,-27.2}},
       color={175,175,175},
       smooth=Smooth.None));
 
@@ -290,6 +279,8 @@ equation
       points={{146,36},{144,36},{144,36},{140,36},{140,30}},
       color={0,127,255},
       smooth=Smooth.None));
+  connect(measurementsHouse.port_a1, hex.port_b2) annotation (Line(points={{30,
+          -32},{70,-32},{70,-28},{74,-28}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -100},{200,100}}), graphics));
+            -100},{200,100}})));
 end PartialRadiators;

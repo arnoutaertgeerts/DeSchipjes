@@ -2,16 +2,11 @@ within DeSchipjes.Scenarios;
 model S4LTIdeal
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(
-    TRadSupply=273.15+50,
-    TRadReturn=273.15+40,
-    TGrid=273.15+55,
-    redeclare DeSchipjes.ProductionSites.IdealProduction productionSite(grid_dp=
-          grid.dp_nominal*5),
-    redeclare DeSchipjes.Grids.Full.LTFullGrid grid(strobe(filDir=
+    redeclare DeSchipjes.ProductionSites.IdealProductionMFlow
+                                                         productionSite,
+    redeclare DeSchipjes.Grids.ROM.ROMLT       grid(strobe(filDir=
             Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/"),
-      QNom={2113,1409,1,1025,804,1},
-      modulation=false,
-      modulating=false));
+        modulating=false));
 
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},

@@ -12,7 +12,7 @@ model S2ITIdeal "IT grid with ideal production"
           lineColor={135,135,135},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
-          textString="2")}),
+          textString="2i")}),
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,
             100}}), graphics),
     experiment(

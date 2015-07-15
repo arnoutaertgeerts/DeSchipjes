@@ -1,7 +1,8 @@
 within DeSchipjes.Scenarios;
 model S2ITHPAWGas
   import DeSchipjes;
-  extends DeSchipjes.Interfaces.Scenario;
+  extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMIT
+      grid);
 
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},

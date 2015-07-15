@@ -11,9 +11,9 @@ package StorageTanks
       m_flow_nominal=0.028,
       hHex_a=0.815,
       hHex_b=0.05,
-      Q_flow_nominal=31700,
+      Q_flow_nominal=100000,
       TTan_nominal=273.15+10,
-      THex_nominal=273.15+85,
+      THex_nominal=273.15+60,
       mHex_flow_nominal=0.41);
 
     parameter Modelica.SIunits.ThermalResistance R;
@@ -125,9 +125,9 @@ package StorageTanks
           smooth=Smooth.None));
       connect(bou.ports[1], pumpDHW.port_b2) annotation (Line(
           points={{-66,-30},{-70,-30},{-70,-28},{-72,-28},{-72,-12},{-46,-12}},
-
           color={0,127,255},
           smooth=Smooth.None));
+
       connect(uniSTOR.port_a, pumpDHW1.port_b2) annotation (Line(
           points={{-10,2},{-16,2},{-16,-10},{20,-10}},
           color={0,127,255},

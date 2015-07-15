@@ -4,7 +4,7 @@ model S1HTGasSun
   extends DeSchipjes.Interfaces.Scenario(
     m_flow_nominal=0.5,
     redeclare ProductionSites.IdealProduction productionSite,
-    redeclare DeSchipjes.Grids.BaseClasses.HTGrid grid);
+    redeclare DeSchipjes.Grids.ROM.ROMHT          grid);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(

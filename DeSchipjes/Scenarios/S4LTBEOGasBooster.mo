@@ -1,7 +1,8 @@
 within DeSchipjes.Scenarios;
 model S4LTBEOGasBooster
   import DeSchipjes;
-  extends DeSchipjes.Interfaces.Scenario;
+  extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMLT
+      grid);
 
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},

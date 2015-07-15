@@ -1,7 +1,8 @@
 within DeSchipjes.Scenarios;
 model S1bHTCHPGasSun
   import DeSchipjes;
-  extends DeSchipjes.Interfaces.Scenario;
+  extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMHT
+      grid);
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(

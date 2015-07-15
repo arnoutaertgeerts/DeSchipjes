@@ -4,7 +4,7 @@ partial model ProductionSite
       IDEAS.Media.Water "Medium in the component";
 
   //Parameters
-  parameter Modelica.SIunits.Temperature TSupplyGrid(displayUnit="Celsius") =  273.15+55
+  parameter Modelica.SIunits.Temperature TSupplyGrid(displayUnit="Celsius") =  273.15+60
     "Supply temperature of the Grid";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
   parameter Boolean modulating=true;
@@ -28,6 +28,11 @@ partial model ProductionSite
                                graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
                                                graphics={
+        Rectangle(
+          extent={{-100,100},{100,-100}},
+          lineColor={28,108,200},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
       Polygon(
         origin={9.533,-30.062},
         lineColor = {255,0,0},

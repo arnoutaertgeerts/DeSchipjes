@@ -75,7 +75,7 @@ equation
         Text(
           extent={{-166,-144},{164,-188}},
           lineColor={0,0,0},
-          textString="%start h + %duration h
+          textString="%start h / %duration h
 "),     Rectangle(
           extent={{20,58},{40,46}},
           fillPattern=FillPattern.Solid,

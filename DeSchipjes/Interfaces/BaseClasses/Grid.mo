@@ -45,6 +45,11 @@ partial model Grid
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{240,100}}),
                                graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{240,100}}), graphics={
+        Rectangle(
+          extent={{-100,100},{240,-100}},
+          lineColor={28,108,200},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
         Polygon(
           points={{-60,-26},{-20,-26},{-20,14},{-40,34},{-60,14},{-60,-26}},
           lineColor={127,0,0},
