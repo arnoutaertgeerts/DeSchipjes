@@ -21,6 +21,16 @@ package StorageTanks
 
   end uniSTOR;
 
+  model uniSTOR2
+
+    extends DeSchipjes.Storage.IDEASStorageTank(
+      nbrNodes=4,
+      volumeTank=0.117,
+      heightTank=0.82,
+      m_flow_nominal_HX=0.41);
+
+  end uniSTOR2;
+
   package Examples
     model uniSTOR
       import DeSchipjes;

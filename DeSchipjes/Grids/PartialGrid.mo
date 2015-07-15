@@ -95,7 +95,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{210,0},{230,20}})));
   Dwellings.Building haarHakker1(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -104,7 +103,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{-90,34},{-70,54}})));
   Dwellings.Building haarHakker2(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -113,7 +111,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{-60,34},{-40,54}})));
   Dwellings.Building haarHakker3(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -122,7 +119,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{-30,34},{-10,54}})));
   Dwellings.Building haarHakker4(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -131,7 +127,6 @@ model PartialGrid
                annotation (Placement(transformation(extent={{0,34},{20,54}})));
   Dwellings.Building haarHakker5(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -140,7 +135,6 @@ model PartialGrid
                annotation (Placement(transformation(extent={{30,34},{50,54}})));
   Dwellings.Building peterslei1(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -149,7 +143,6 @@ model PartialGrid
                 annotation (Placement(transformation(extent={{60,34},{80,54}})));
   Dwellings.Building peterslei2(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -158,7 +151,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{90,34},{110,54}})));
   Dwellings.Building peterslei3(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -167,7 +159,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{120,34},{140,54}})));
   Dwellings.Building peterslei4(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -176,7 +167,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{150,34},{170,54}})));
   Dwellings.Building peterslei5(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -185,7 +175,6 @@ model PartialGrid
     annotation (Placement(transformation(extent={{180,34},{200,54}})));
   Dwellings.Building peterslei6(
     final isDH=true,
-    final modulating=modulating,
     redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare package
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
@@ -368,50 +357,6 @@ equation
   connect(peterslei6.flowPort_supply, Pipe11.port_b3) annotation (Line(
       points={{222,34},{222,20}},
       color={0,0,0},
-      smooth=Smooth.None));
-  connect(supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{80,108},{80,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(peterslei6.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{213,44},{210,44},{210,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(haarHakker2.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{-57,44},{-60,44},{-60,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(haarHakker3.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{-27,44},{-30,44},{-30,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(haarHakker4.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{3,44},{0,44},{0,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(haarHakker5.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{33,44},{30,44},{30,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(peterslei1.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{63,44},{60,44},{60,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(peterslei2.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{93,44},{90,44},{90,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(peterslei3.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{123,44},{120,44},{120,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(peterslei4.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{153,44},{150,44},{150,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(peterslei5.supplyT, haarHakker1.supplyT) annotation (Line(
-      points={{183,44},{180,44},{180,60},{-90,60},{-90,44},{-87,44}},
-      color={175,175,175},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{240,100}}), graphics));

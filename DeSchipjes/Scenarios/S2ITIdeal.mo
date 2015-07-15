@@ -17,7 +17,7 @@ model S2ITIdeal "IT grid with ideal production"
             100}}), graphics),
     experiment(
       StopTime=604800,
-      __Dymola_fixedstepsize=10,
+      __Dymola_fixedstepsize=30,
       __Dymola_Algorithm="Rkfix4"),
     __Dymola_experimentSetupOutput);
 end S2ITIdeal;

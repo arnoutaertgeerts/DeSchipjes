@@ -15,10 +15,6 @@ model Scenario
   replaceable BaseClasses.Grid grid
     annotation (Placement(transformation(extent={{-16,0},{-50,20}})), choicesAllMatching=true);
 equation
-  connect(productionSite.y, grid.supplyT) annotation (Line(
-      points={{30,20.6},{30,46},{-34,46},{-34,20.8}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(grid.port_a, productionSite.port_b) annotation (Line(
       points={{-16,16},{20,16}},
       color={0,127,255},

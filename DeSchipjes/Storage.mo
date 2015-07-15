@@ -4,10 +4,10 @@ package Storage
   model IDEASStorageTank
     "1D multinode stratified storage tank with one internal heat exchanger (HX)"
 
-    replaceable package MediumHX = IDEAS.Media.Water.Simple constrainedby
+    replaceable package MediumHX = IDEAS.Media.Water constrainedby
       Modelica.Media.Interfaces.PartialMedium
       annotation (__Dymola_choicesAllMatching=true);
-    replaceable package Medium = IDEAS.Media.Water.Simple constrainedby
+    replaceable package Medium = IDEAS.Media.Water constrainedby
       Modelica.Media.Interfaces.PartialMedium
       annotation (__Dymola_choicesAllMatching=true);
     //Tank geometry and composition
@@ -67,23 +67,19 @@ package Storage
     Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
           Medium) "Upper port, connected to node[1]"
       annotation (Placement(transformation(extent={{64,66},{84,86}}),
-          iconTransformation(extent={{72,72},{92,92}})));
+          iconTransformation(extent={{-110,-30},{-90,-10}})));
     Modelica.Fluid.Interfaces.FluidPort_b port_b(redeclare package Medium =
           Medium) "Lower port, connected to node[nbrNodes]"
                                                 annotation (Placement(
           transformation(extent={{-114,-154},{-94,-134}}),
-                                                        iconTransformation(extent={{-112,
-              -108},{-92,-88}})));
+                                                        iconTransformation(extent={{90,-30},
+              {110,-10}})));
     Modelica.Fluid.Interfaces.FluidPorts_a[nbrNodes + 1] ports(redeclare
         package Medium =
                  Medium)
       "Array of nbrNodes+1 ports. ports[i] is connected to the upper port of node i"
       annotation (Placement(transformation(extent={{68,28},{88,48}}),
-          iconTransformation(extent={{76,20},{86,60}})));
-    Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatExchEnv
-      "HeatPort for conduction between tank and environment" annotation (
-        Placement(transformation(extent={{48,-16},{68,4}}), iconTransformation(
-            extent={{44,-28},{56,-16}})));
+          iconTransformation(extent={{-6,-26},{4,14}})));
 
     IDEAS.Fluid.FixedResistances.Pipe_HeatPort HX[nbrNodesHX](
       each m_flow_nominal=m_flow_nominal_HX,
@@ -125,25 +121,29 @@ package Storage
       "Array of conduction loss components to the environment";
 
   public
-    Modelica.Fluid.Interfaces.FluidPort_b portHXLower(redeclare package Medium
-        = MediumHX) "Lower connection to the HX"
-                                   annotation (Placement(transformation(extent={{
-              -116,-134},{-96,-114}}), iconTransformation(extent={{74,-50},{94,
-              -30}})));
-    Modelica.Fluid.Interfaces.FluidPort_a portHXUpper(redeclare package Medium
-        = MediumHX) "Upper connection to the internal HX"
-                                            annotation (Placement(transformation(
-            extent={{-116,-54},{-96,-34}}), iconTransformation(extent={{-110,
-              -50},{-90,-30}})));
+    Modelica.Fluid.Interfaces.FluidPort_b portHex_b(redeclare package Medium =
+          MediumHX) "Lower connection to the HX" annotation (Placement(
+          transformation(extent={{-116,-134},{-96,-114}}), iconTransformation(
+            extent={{-110,-110},{-90,-90}})));
+    Modelica.Fluid.Interfaces.FluidPort_a portHex_a(redeclare package Medium =
+          MediumHX) "Upper connection to the internal HX" annotation (Placement(
+          transformation(extent={{-116,-54},{-96,-34}}), iconTransformation(
+            extent={{-110,-70},{-90,-50}})));
     Modelica.Thermal.HeatTransfer.Components.ThermalConductor heaTraHX[nbrNodesHX](
        each G=hHX*AHX/nbrNodesHX) "Heat transfer between HX and tank layers"
       annotation (Placement(transformation(extent={{-48,-40},{-28,-20}})));
-    Modelica.Blocks.Interfaces.RealOutput[nbrNodes] T=nodes.heatPort.T
-      annotation (Placement(transformation(extent={{74,-10},{94,10}}),
-          iconTransformation(extent={{74,-10},{94,10}})));
 
     outer Modelica.Fluid.System system
       annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
+    Modelica.Blocks.Interfaces.RealOutput[nbrNodes] T=nodes.heatPort.T
+      annotation (Placement(transformation(extent={{70,-10},{90,10}}),
+          iconTransformation(extent={{-10,-10},{10,10}},
+          rotation=90,
+          origin={20,58})));
+    Modelica.Thermal.HeatTransfer.Interfaces.HeatPort_a heatExchEnv
+      "HeatPort for conduction between tank and environment" annotation (
+        Placement(transformation(extent={{48,-16},{68,4}}), iconTransformation(
+            extent={{48,-6},{60,6}})));
   equation
     // Connection of upper and lower node to external ports
     connect(port_a, nodes[1].port_a);
@@ -175,11 +175,11 @@ package Storage
     for i in 1:nbrNodesHX - 1 loop
       connect(HX[i].port_b, HX[i + 1].port_a);
     end for;
-    connect(portHXUpper, HX[1].port_a) annotation (Line(
+    connect(portHex_a, HX[1].port_a) annotation (Line(
         points={{-106,-44},{-84,-44},{-84,-10},{1.77636e-15,-10}},
         color={255,0,0},
         smooth=Smooth.None));
-    connect(portHXLower, HX[nbrNodesHX].port_b) annotation (Line(
+    connect(portHex_b, HX[nbrNodesHX].port_b) annotation (Line(
         points={{-106,-124},{-1.83697e-015,-124},{-1.83697e-015,-30}},
         color={255,0,0},
         smooth=Smooth.None));
@@ -189,66 +189,163 @@ package Storage
         smooth=Smooth.None));
     connect(heaTraHX.port_a, nodes[nodeHXUpper:nodeHXLower].heatPort);
     annotation (
-      Icon(coordinateSystem(extent={{-100,-160},{80,100}}, preserveAspectRatio=false),
-                     graphics={
+      Icon(coordinateSystem(extent={{-100,-120},{100,80}}, preserveAspectRatio=false),
+          graphics={
           Polygon(
-            points={{-70,74},{-68,82},{-62,88},{-52,94},{-38,98},{-22,100},{4,
-                100},{18,98},{34,94},{42,88},{48,82},{50,74},{50,-134},{48,-142},
-                {42,-148},{32,-154},{18,-158},{4,-160},{-24,-160},{-38,-158},{
-                -52,-154},{-62,-148},{-68,-142},{-70,-134},{-70,74}},
-            lineColor={100,100,100},
+            points={{18,-95},{48,-105},{18,-115},{18,-95}},
+            lineColor={255,255,255},
             smooth=Smooth.None,
+            fillColor={255,255,255},
             fillPattern=FillPattern.Solid,
-            fillColor={215,215,215},
-            lineThickness=0.5),
-          Line(
-            points={{-100,-40},{-50,-40}},
-            color={0,0,127},
-            smooth=Smooth.None),
-          Line(
-            points={{-94,-100},{-10,-100}},
-            color={0,128,255},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash),
-          Ellipse(extent={{-50,0},{30,-80}},    lineColor={100,100,100}),
-          Line(
-            points={{-50,-40},{-30,-40},{0,-20},{-20,-60},{10,-40},{30,-40}},
-            color={0,0,127},
-            smooth=Smooth.None),
-          Line(
-            points={{30,-40},{40,-40},{76,-40},{76,-40}},
-            color={0,0,127},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash),
-          Line(
-            points={{-10,-100},{-10,-66}},
-            color={0,128,255},
-            smooth=Smooth.None,
-            pattern=LinePattern.Dash),
-          Line(
-            points={{-12,-14},{-12,80},{78,80}},
-            color={0,128,255},
-            smooth=Smooth.None),
-          Text(
-            extent={{18,10},{38,-10}},
-            lineColor={100,100,100},
-            fillPattern=FillPattern.Solid,
-            textString="T"),
-          Rectangle(extent={{18,10},{38,-10}}, lineColor={100,100,100}),
-          Line(
-            points={{38,0},{80,0}},
-            color={100,100,100},
-            smooth=Smooth.None),
-          Ellipse(
-            extent={{26,46},{38,34}},
-            lineColor={95,95,95},
-            fillPattern=FillPattern.Solid,
+            visible=allowFlowReversal),
+          Rectangle(
+            extent={{-42,40},{38,0}},
+            lineColor={255,0,0},
+            fillColor={255,0,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-42,-40},{38,-80}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-78,-18},{-92,-22}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{0,64},{-78,60}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-78,64},{-82,-20}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{80,-20},{76,-106}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{2,64},{-2,40}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{80,-104},{0,-108}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{4,-80},{0,-104}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{90,-18},{76,-22}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-42,0},{38,-40}},
+            lineColor={255,0,0},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.CrossDiag),
+          Rectangle(
+            extent={{-12,-10},{8,-30}},
+            lineColor={0,0,0},
+            fillPattern=FillPattern.Sphere,
             fillColor={255,255,255}),
-          Line(
-            points={{78,40},{32,40}},
-            color={0,0,127},
-            smooth=Smooth.None)}),
-      Diagram(coordinateSystem(extent={{-100,-160},{80,100}}, preserveAspectRatio=false),
+          Rectangle(
+            extent={{48,48},{38,-86}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={255,255,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-42,46},{-52,-88}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={255,255,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-50,48},{48,40}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={255,255,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-50,-80},{48,-88}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={255,255,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-42,0},{38,-40}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={0,0,127},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-42,48},{-52,-86}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={255,255,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{48,48},{38,-86}},
+            lineColor={0,0,255},
+            pattern=LinePattern.None,
+            fillColor={255,255,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-96,-58},{26,-62}},
+            lineColor={255,0,0},
+            fillColor={255,0,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-72,-70},{26,-74}},
+            lineColor={0,0,255},
+            fillColor={0,0,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-96,-98},{-70,-102}},
+            lineColor={0,0,255},
+            fillColor={0,0,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-74,-70},{-70,-100}},
+            lineColor={0,0,255},
+            fillColor={0,0,255},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-6,-68},{26,-70}},
+            lineColor={0,0,255},
+            fillPattern=FillPattern.Solid,
+            fillColor={0,0,255}),
+          Rectangle(
+            extent={{-6,-62},{26,-66}},
+            lineColor={255,0,0},
+            fillColor={255,0,0},
+            fillPattern=FillPattern.Solid),
+          Rectangle(
+            extent={{-24,-64},{-4,-68}},
+            pattern=LinePattern.None,
+            fillColor={255,85,85},
+            fillPattern=FillPattern.Solid)}),
+      Diagram(coordinateSystem(extent={{-100,-120},{100,80}}, preserveAspectRatio=false),
                                                                graphics),
       Documentation(info="<html>
 <p><b>Description</b> </p>

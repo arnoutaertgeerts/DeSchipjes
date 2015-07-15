@@ -1,9 +1,8 @@
 within DeSchipjes.Scenarios;
 model S4LTIdeal
   import DeSchipjes;
-  extends DeSchipjes.Interfaces.Scenario(
-    redeclare DeSchipjes.ProductionSites.IdealProductionMFlow
-                                                         productionSite,
+  extends DeSchipjes.Interfaces.Scenario(redeclare
+      DeSchipjes.ProductionSites.IdealProduction productionSite,
     redeclare DeSchipjes.Grids.ROM.ROMLT       grid(strobe(filDir=
             Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/"),
         modulating=false));

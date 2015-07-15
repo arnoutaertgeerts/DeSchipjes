@@ -2,7 +2,6 @@ within DeSchipjes.Dwellings.HeatingSystems;
 model LTHeatingSystem
   //Extensions
   extends BaseClasses.PartialStorage(
-    modulating=false,
     TSupply=273.15+55,
     TReturn=273.15+35);
 
@@ -63,12 +62,12 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(pumpSupply_m_flowdhw1.port_a2, tan.portHex_b) annotation (Line(
-      points={{46,44},{96,44},{96,48}},
+      points={{46,44},{100,44},{100,44}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(bou2.ports[1], tan.portHex_b) annotation (Line(
-      points={{54,38},{54,44},{96,44},{96,48}},
+      points={{54,38},{54,44},{100,44},{100,44}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
@@ -115,11 +114,11 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   connect(pumpSupply_m_flowdhw1.port_b1, tan.portHex_a) annotation (Line(
-      points={{46,56},{86,56},{86,52.2},{96,52.2}},
+      points={{46,56},{86,56},{86,48.2},{100,48.2}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(tan.heaPorVol[4], temperatureSensor.port) annotation (Line(
-      points={{106,56.45},{106,56},{104,56},{104,80},{96,80},{96,80},{84,80}},
+      points={{110,52.45},{110,56},{104,56},{104,80},{96,80},{96,80},{84,80}},
       color={191,0,0},
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,

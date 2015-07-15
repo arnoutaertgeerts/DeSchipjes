@@ -1,7 +1,6 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model HTHeatingSystem
-  extends BaseClasses.PartialRadiators(
-    modulating=false);
+  extends BaseClasses.PartialRadiators;
 
 public
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex1(
@@ -15,8 +14,6 @@ public
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={48,50})));
-  Modelica.Blocks.Sources.Constant const(k=TSupply)
-    annotation (Placement(transformation(extent={{20,0},{40,20}})));
 equation
 
   connect(pumpDHW.u, dHWTap.mDHW60C) annotation (Line(
@@ -34,10 +31,6 @@ equation
   connect(hex1.port_b1, dHWTap.port_hot) annotation (Line(
       points={{54,60},{180,60},{180,36},{172,36}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(supplyPID.u_s, const.y) annotation (Line(
-      points={{48,10},{41,10}},
-      color={0,0,127},
       smooth=Smooth.None));
   connect(conPID.y, pumpRadiators.u) annotation (Line(
       points={{-109,40},{-100,40},{-100,-27.2}},

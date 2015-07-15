@@ -11,7 +11,7 @@ partial model PartialRadiators
     "Radiator supply temperature";
   parameter Modelica.SIunits.Temperature TReturn=273.15+60
     "Radiator return temeprature";
-  parameter Modelica.SIunits.Temperature TStorage=273.15+60
+  parameter Modelica.SIunits.Temperature TStorage=273.15+65
     "DHW storage temperature";
 
   parameter Modelica.SIunits.MassFlowRate m_flow_dhw=0.03
@@ -114,15 +114,13 @@ public
     m2_flow_nominal=sum(m_flow_nominal),
     dp1_nominal=20,
     dp2_nominal=20,
-    eps=0.9)        annotation (Placement(transformation(
+    eps=0.9,
+    allowFlowReversal1=false,
+    allowFlowReversal2=false)
+                    annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={80,-38})));
-  IDEAS.Fluid.BaseCircuits.Measurements measurementsHouse(redeclare package
-      Medium = Medium, m_flow_nominal=sum(m_flow_nominal),
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
-    annotation (Placement(transformation(extent={{30,-48},{10,-28}})));
 protected
   IDEAS.Fluid.Sources.FixedBoundary bouRad(
     redeclare package Medium = Medium,
@@ -130,7 +128,7 @@ protected
     nPorts=1) annotation (Placement(transformation(
         extent={{4,4},{-4,-4}},
         rotation=90,
-        origin={-14,-22})));
+        origin={-20,-22})));
 public
   IDEAS.Fluid.BaseCircuits.PumpSupply_m_flow pumpHex(
     KvReturn=1,
@@ -143,21 +141,28 @@ public
     riseTime=180,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
-    annotation (Placement(transformation(extent={{116,-48},{96,-28}})));
+    annotation (Placement(transformation(extent={{114,-48},{94,-28}})));
 
-  Annex60.Controls.Continuous.LimPID supplyPID(
-    controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    k=0.5,
-    yMax=sum(m_flow_nominal),
-    yMin=abs(10E-4*sum(m_flow_nominal)),
-    Ti=500)
-    annotation (Placement(transformation(extent={{60,0},{80,20}})));
-  IDEAS.Controls.Continuous.LimPID conPID[nZones](
+  IDEAS.Controls.Continuous.PIDHysteresis
+                                   conPID[nZones](
     each controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMax=m_flow_nominal,
     each k=0.5,
-    each Ti=360)
+    each Ti=360,
+    Td=30)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
+  Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=0.008) annotation (
+      Placement(transformation(
+        extent={{-4,-4},{4,4}},
+        rotation=90,
+        origin={130,-12})));
+  Annex60.Fluid.Sensors.TemperatureTwoPort TSup(
+    redeclare package Medium = Medium,
+    m_flow_nominal=sum(m_flow_nominal),
+    tau=0) annotation (Placement(transformation(extent={{36,-38},{24,-26}})));
+  Annex60.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
+        Medium)
+    annotation (Placement(transformation(extent={{56,-38},{44,-26}})));
 initial equation
 
 equation
@@ -183,56 +188,24 @@ equation
       points={{80,-104},{80,-80.8}},
       color={175,175,175},
       smooth=Smooth.None));
-  connect(gain.y, dHWTap.mDHW60C) annotation (Line(
-      points={{80,-71.6},{80,-62},{132,-62},{132,52},{159,52},{159,46}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(measurementsHouse.port_b1, parallelPipesSplitter.port_a) annotation (
-      Line(
-      points={{10,-32},{-60,-32}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(measurementsHouse.port_a2, parallelPipesSplitter.port_b) annotation (
-      Line(
-      points={{10,-44},{-60,-44}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
   connect(pumpDHW.port_b2, parallelPipesSplitter.port_b) annotation (Line(
       points={{-34,44},{-40,44},{-40,-44},{-60,-44}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(pumpHex.port_b2, flowPort_return) annotation (Line(
-      points={{116,-44},{120,-44},{120,-100}},
-      color={0,127,255},
-      smooth=Smooth.None,
-      pattern=LinePattern.Dash));
-  connect(pumpHex.port_a1, flowPort_supply) annotation (Line(
-      points={{116,-32},{160,-32},{160,-100}},
-      color={0,127,255},
-      smooth=Smooth.None));
-  connect(measurementsHouse.port_b2, hex.port_a2) annotation (Line(
-      points={{30,-44},{70,-44},{70,-48},{74,-48}},
+      points={{114,-44},{120,-44},{120,-100}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(hex.port_b1, pumpHex.port_a2) annotation (Line(
-      points={{86,-48},{90,-48},{90,-44},{96,-44}},
+      points={{86,-48},{90,-48},{90,-44},{94,-44}},
       color={0,127,255},
       smooth=Smooth.None,
       pattern=LinePattern.Dash));
   connect(hex.port_a1, pumpHex.port_b1) annotation (Line(
-      points={{86,-28},{90,-28},{90,-32},{96,-32}},
+      points={{86,-28},{90,-28},{90,-32},{94,-32}},
       color={0,127,255},
-      smooth=Smooth.None));
-  connect(measurementsHouse.Tsup, supplyPID.u_m) annotation (Line(
-      points={{12.4,-27.6},{12.4,-20},{70,-20},{70,-2}},
-      color={175,175,175},
-      smooth=Smooth.None));
-  connect(supplyPID.y, pumpHex.u) annotation (Line(
-      points={{81,10},{106,10},{106,-27.2}},
-      color={175,175,175},
       smooth=Smooth.None));
 
   connect(parallelPipesSplitter.port_bN, pumpRadiators.port_a1) annotation (
@@ -272,15 +245,29 @@ equation
       color={175,175,175},
       smooth=Smooth.None));
   connect(bouRad.ports[1], parallelPipesSplitter.port_a) annotation (Line(
-      points={{-14,-26},{-14,-32},{-60,-32}},
+      points={{-20,-26},{-20,-32},{-60,-32}},
       color={0,127,255},
       smooth=Smooth.None));
   connect(dHWTap.port_cold, bouDHW.ports[1]) annotation (Line(
       points={{146,36},{144,36},{144,36},{140,36},{140,30}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(measurementsHouse.port_a1, hex.port_b2) annotation (Line(points={{30,
-          -32},{70,-32},{70,-28},{74,-28}}, color={0,127,255}));
+  connect(gain.y, limiter.u) annotation (Line(points={{80,-71.6},{80,-60},{130,
+          -60},{130,-16.8}}, color={175,175,175}));
+  connect(limiter.y, dHWTap.mDHW60C) annotation (Line(points={{130,-7.6},{130,
+          60},{159,60},{159,46}}, color={175,175,175}));
+  connect(TSup.port_b, parallelPipesSplitter.port_a)
+    annotation (Line(points={{24,-32},{-60,-32}}, color={0,127,255}));
+  connect(hex.port_a2, parallelPipesSplitter.port_b) annotation (Line(points={{
+          74,-48},{74,-48},{70,-48},{70,-44},{-60,-44}}, color={0,127,255}));
+  connect(TSup.port_a, senMasFlo.port_b)
+    annotation (Line(points={{36,-32},{44,-32}}, color={0,127,255}));
+  connect(senMasFlo.port_a, hex.port_b2) annotation (Line(points={{56,-32},{70,
+          -32},{70,-28},{74,-28}}, color={0,127,255}));
+  connect(pumpHex.port_a1, flowPort_supply) annotation (Line(points={{114,-32},
+          {160,-32},{160,-100}}, color={0,127,255}));
+  connect(senMasFlo.m_flow, pumpHex.u) annotation (Line(points={{50,-25.4},{50,
+          -20},{104,-20},{104,-27.2}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end PartialRadiators;
