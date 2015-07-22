@@ -4,11 +4,11 @@ partial model Grid
       IDEAS.Media.Water "Medium in the component";
 
   //Parameteres
-  parameter Modelica.SIunits.Temperature TSupRad(displayUnit="Celsius") =  273.15+55
+  parameter Modelica.SIunits.Temperature TSupRad(displayUnit="Celsius") =  273.15+50
     "Supply temperature of the radiators";
-  parameter Modelica.SIunits.Temperature TRetRad(displayUnit="Celsius") =  273.15+45
+  parameter Modelica.SIunits.Temperature TRetRad(displayUnit="Celsius") =  273.15+40
     "Return temperature of the radiators";
-  parameter Modelica.SIunits.Temperature TStorage(displayUnit="Celsius") =  273.15+60
+  parameter Modelica.SIunits.Temperature TStorage(displayUnit="Celsius") =  273.15+65
     "Temperature of the storage tank";
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=4;

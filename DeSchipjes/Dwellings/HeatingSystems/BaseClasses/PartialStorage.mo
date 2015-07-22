@@ -37,7 +37,8 @@ equation
   connect(tan.heaPorBot, fixedTemperature.port) annotation (Line(points={{112,
           44.6},{116,44.6},{116,60},{112,60},{112,80},{126,80}}, color={191,0,0}));
   connect(tan.port_b, bouDHW.ports[2]) annotation (Line(points={{120,52},{126,
-          52},{126,36},{140,36},{140,30}}, color={0,127,255}));
+          52},{126,36},{140,36},{140,30}}, color={0,127,255},
+      pattern=LinePattern.Dash));
   connect(tan.port_a, dHWTap.port_hot) annotation (Line(points={{100,52},{96,52},
           {96,54},{96,66},{174,66},{180,66},{180,36},{172,36}}, color={0,127,
           255}));

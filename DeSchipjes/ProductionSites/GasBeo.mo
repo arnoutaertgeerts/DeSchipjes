@@ -1,5 +1,5 @@
 within DeSchipjes.ProductionSites;
-model GasBeoConstantGround
+model GasBeo
   //Extensions
   extends Interfaces.BaseClasses.ProductionSite;
 
@@ -190,4 +190,4 @@ equation
         Ellipse(extent={{-82,10},{-66,-6}}, lineColor={255,0,0}),
         Ellipse(extent={{-64,10},{-48,-6}}, lineColor={255,0,0}),
         Ellipse(extent={{-46,10},{-30,-6}}, lineColor={255,0,0})}));
-end GasBeoConstantGround;
+end GasBeo;

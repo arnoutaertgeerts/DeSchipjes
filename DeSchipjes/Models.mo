@@ -120,7 +120,7 @@ package Models
         heatingSystem(QNom=building.building.Q_design),
       modulating=false)
       annotation (Placement(transformation(extent={{64,0},{84,20}})));
-    ProductionSites.GasSun gasSun(TSupRad=273.15 + 80, m_flow_nominal=0.167*2)
+    ProductionSites.GasSun gasSun(TSupRad=273.15 + 80)
       annotation (Placement(transformation(extent={{-40,-32},{-20,-12}})));
   public
     DistrictHeating.Interfaces.DHConnection dHConnection(
@@ -164,8 +164,8 @@ package Models
       annotation (Line(points={{76,0},{76,-6},{76,-12}}, color={0,0,0}));
     connect(gasSun.port_b, dHConnection.port_a1) annotation (Line(points={{-20,
             -16},{-4,-16},{12,-16}}, color={0,127,255}));
-    connect(gasSun.port_a, dHConnection.port_b2) annotation (Line(points={{-20,
-            -28},{12,-28},{12,-28}}, color={0,127,255}));
+    connect(gasSun.port_a, dHConnection.port_b2) annotation (Line(points={{-20,-28},
+            {12,-28}},               color={0,127,255}));
     connect(bou.ports[1], dHConnection.port_a1)
       annotation (Line(points={{0,-10},{0,-16},{12,-16}}, color={0,127,255}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
@@ -253,7 +253,6 @@ package Models
         dim)
       annotation (Placement(transformation(extent={{60,-32},{80,-12}})));
     ProductionSites.GasHPAW                   idealModulatingProduction(
-      m_flow_nominal=0.82,
       Qhpaw=50000/5,
       VTan=0.950/5,
       hTan=1,
@@ -396,10 +395,9 @@ package Models
         DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
         dim)
       annotation (Placement(transformation(extent={{60,-32},{80,-12}})));
-    ProductionSites.GasBeoConstantGround gasBeoConstantGround(m_flow_nominal=
-          0.167*2, modulating=false,
-      n=2)
-      annotation (Placement(transformation(extent={{-40,-32},{-20,-12}})));
+    ProductionSites.GasBeo gasBeoConstantGround(
+      modulating=false,
+      n=2) annotation (Placement(transformation(extent={{-40,-32},{-20,-12}})));
   equation
     connect(dHConnection.port_a3, building.flowPort_return) annotation (Line(
         points={{16,-12},{16,0}},
@@ -458,7 +456,8 @@ package Models
           extent={{10,-10},{-10,10}},
           rotation=180,
           origin={30,0})));
-    ProductionSites.Heaters.IdealHeater idealHeater(
+    Annex60.Fluid.HeatExchangers.HeaterCooler_T
+                                        idealHeater(
       redeclare package Medium = IDEAS.Media.Water,
       m_flow_nominal=m_flow.k,
       allowFlowReversal=true,

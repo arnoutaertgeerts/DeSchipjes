@@ -3,8 +3,8 @@ model LTHeatingSystem
   //Extensions
   extends BaseClasses.PartialStorage(
     modulating=false,
-    TSupply=273.15+55,
-    TReturn=273.15+35);
+    TSupply=273.15+50,
+    TReturn=273.15+40);
 
   //Parameters
   parameter Modelica.SIunits.Temperature THPmin=273.15+20
@@ -26,7 +26,9 @@ model LTHeatingSystem
     modulationInput=false,
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
-    QNom=1000) annotation (Placement(transformation(
+    QNom=1000,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+               annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={0,50})));
@@ -75,10 +77,10 @@ model LTHeatingSystem
         origin={70,44})));
   IDEAS.Controls.Discrete.HysteresisRelease_boolean onOffDHW(
     use_input=false,
-    uLow_val=TStorage,
-    uHigh_val=TStorage + 5,
     revert=true,
-    enableRelease=false)
+    enableRelease=false,
+    uLow_val=273.15 + 38,
+    uHigh_val=TStorage)
                  annotation (Placement(transformation(extent={{64,74},{52,86}})));
   Modelica.Blocks.Math.Gain mDHW(k=0.04)
     annotation (Placement(transformation(extent={{44,76},{36,84}})));
@@ -89,38 +91,45 @@ equation
       points={{110,52.45},{110,56},{110,56},{110,80},{84,80}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(pumpDHW.port_b, hpww.port_a1) annotation (Line(points={{-24,56},{-10,
-          56},{-10,60},{-6,60}}, color={0,127,255}));
-  connect(hpww.port_b2, pumpDHWHex.port_a) annotation (Line(points={{6,60},{10,
-          60},{10,56},{24,56}}, color={0,127,255}));
+  connect(pumpDHW.port_b, hpww.port_a1) annotation (Line(points={{-24,56},{-10,56},
+          {-10,60},{-6,60}}, color={0,127,255}));
+  connect(hpww.port_b2, pumpDHWHex.port_a) annotation (Line(points={{6,60},{10,60},
+          {10,56},{24,56}}, color={0,127,255}));
   connect(pumpDHWHex.port_b, inletHex.port_a)
     annotation (Line(points={{36,56},{50,56},{64,56}}, color={0,127,255}));
-  connect(outletHex.port_b, hpww.port_a2) annotation (Line(points={{64,44},{10,
-          44},{10,40},{6,40}}, color={0,127,255}));
+  connect(outletHex.port_b, hpww.port_a2) annotation (Line(
+      points={{64,44},{10,44},{10,40},{6,40}},
+      color={0,127,255},
+      pattern=LinePattern.Dash));
   connect(inletHex.port_b, tan.portHex_a) annotation (Line(points={{76,56},{92,
           56},{92,48.2},{100,48.2}}, color={0,127,255}));
   connect(outletHex.port_a, tan.portHex_b)
-    annotation (Line(points={{76,44},{100,44},{100,44}}, color={0,127,255}));
+    annotation (Line(points={{76,44},{100,44}},          color={0,127,255},
+      pattern=LinePattern.Dash));
   connect(THotWaterSetExpr.y, hpww.u)
     annotation (Line(points={{-57,48},{-10.8,48}}, color={0,0,127}));
   connect(onOffDHW.y,mDHW. u)
     annotation (Line(points={{51.4,80},{51.4,80},{44.8,80}},
-                                                 color={0,0,127}));
+                                                 color={175,175,175}));
   connect(temperatureSensor.T,onOffDHW. u)
     annotation (Line(points={{72,80},{72,80},{65.2,80}},
-                                                       color={0,0,127}));
-  connect(mDHW.y, pumpDHWHex.m_flow_in) annotation (Line(points={{35.6,80},{
-          29.88,80},{29.88,63.2}}, color={0,0,127}));
+                                                       color={175,175,175}));
+  connect(mDHW.y, pumpDHWHex.m_flow_in) annotation (Line(points={{35.6,80},{29.88,
+          80},{29.88,63.2}}, color={175,175,175}));
   connect(mDHW.y, pumpDHW.m_flow_in) annotation (Line(points={{35.6,80},{-30.12,
-          80},{-30.12,63.2}}, color={0,0,127}));
-  connect(radPID.y, pumpRad.m_flow_in) annotation (Line(points={{-109,40},{
-          -99.88,40},{-99.88,-24.8}}, color={0,0,127}));
-  connect(bou2.ports[1], hpww.port_a2) annotation (Line(points={{54,38},{54,44},
-          {10,44},{10,40},{6,40}}, color={0,127,255}));
+          80},{-30.12,63.2}}, color={175,175,175}));
+  connect(radPID.y, pumpRad.m_flow_in) annotation (Line(points={{-109,40},{-99.88,
+          40},{-99.88,-24.8}}, color={175,175,175}));
+  connect(bou2.ports[1], hpww.port_a2) annotation (Line(
+      points={{54,38},{54,44},{10,44},{10,40},{6,40}},
+      color={0,127,255},
+      pattern=LinePattern.Dash));
   connect(const.y, supplyPID.u_s)
     annotation (Line(points={{29,0},{38.8,0}}, color={0,0,127}));
-  connect(hpww.port_b1, TRet.port_a) annotation (Line(points={{-6,40},{-10,40},
-          {-10,42},{-32,42},{-32,-44},{-14,-44}}, color={0,127,255}));
+  connect(hpww.port_b1, TRet.port_a) annotation (Line(
+      points={{-6,40},{-10,40},{-10,42},{-32,42},{-32,-44},{-14,-44}},
+      color={0,127,255},
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end LTHeatingSystem;

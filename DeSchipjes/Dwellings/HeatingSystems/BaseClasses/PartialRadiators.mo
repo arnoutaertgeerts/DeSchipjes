@@ -249,31 +249,38 @@ equation
   connect(pumpSupply.port_b, hex.port_a1) annotation (Line(points={{104,-32},{
           90,-32},{90,-28},{86,-28}}, color={0,127,255}));
   connect(hex.port_b1, outlet.port_a) annotation (Line(points={{86,-48},{90,-48},
-          {90,-44},{120,-44},{120,-66}}, color={0,127,255}));
+          {90,-44},{120,-44},{120,-66}}, color={0,127,255},
+      pattern=LinePattern.Dash));
   connect(outlet.port_b, flowPort_return)
-    annotation (Line(points={{120,-78},{120,-100}}, color={0,127,255}));
+    annotation (Line(points={{120,-78},{120,-100}}, color={0,127,255},
+      pattern=LinePattern.Dash));
   connect(parallelPipesSplitter.port_bN, pumpRad.port_a) annotation (Line(
         points={{-80,-32},{-94,-32}},           color={0,127,255}));
   connect(pumpRad.port_b, rad.port_a) annotation (Line(points={{-106,-32},{-106,
           -32},{-124,-32}}, color={0,127,255}));
   connect(rad.port_b, parallelPipesSplitter.port_aN) annotation (Line(points={{
-          -144,-32},{-150,-32},{-150,-44},{-80,-44}}, color={0,127,255}));
+          -144,-32},{-150,-32},{-150,-44},{-80,-44}}, color={0,127,255},
+      pattern=LinePattern.Dash));
   connect(pumpDHW.port_a, parallelPipesSplitter.port_a) annotation (Line(points=
          {{-36,56},{-48,56},{-48,-32},{-60,-32}}, color={0,127,255}));
   connect(TSup.port_b, parallelPipesSplitter.port_a)
     annotation (Line(points={{40,-32},{-60,-32}}, color={0,127,255}));
   connect(TSup.T, supplyPID.u_m)
-    annotation (Line(points={{46,-25.4},{46,-7.2}}, color={0,0,127}));
+    annotation (Line(points={{46,-25.4},{46,-7.2}}, color={175,175,175}));
   connect(TSup.port_a, senMasFlo.port_b)
     annotation (Line(points={{52,-32},{56,-32}}, color={0,127,255}));
   connect(hex.port_b2, senMasFlo.port_a) annotation (Line(points={{74,-28},{72,
           -28},{70,-28},{70,-32},{68,-32}}, color={0,127,255}));
   connect(senMasFlo.m_flow, pumpSupply.m_flow_in) annotation (Line(points={{62,
-          -25.4},{62,-20},{110.12,-20},{110.12,-24.8}}, color={0,0,127}));
-  connect(parallelPipesSplitter.port_b, TRet.port_a)
-    annotation (Line(points={{-60,-44},{-14,-44}}, color={0,127,255}));
-  connect(TRet.port_b, hex.port_a2) annotation (Line(points={{-2,-44},{70,-44},
-          {70,-48},{74,-48}}, color={0,127,255}));
+          -25.4},{62,-20},{110.12,-20},{110.12,-24.8}}, color={175,175,175}));
+  connect(parallelPipesSplitter.port_b, TRet.port_a) annotation (Line(
+      points={{-60,-44},{-14,-44}},
+      color={0,127,255},
+      pattern=LinePattern.Dash));
+  connect(TRet.port_b, hex.port_a2) annotation (Line(
+      points={{-2,-44},{70,-44},{70,-48},{74,-48}},
+      color={0,127,255},
+      pattern=LinePattern.Dash));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end PartialRadiators;

@@ -75,10 +75,10 @@ package Ideal
             textString="L")}), Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}}), graphics),
       experiment(
-        StopTime=1.05408e+07,
+        StopTime=604800,
         Interval=900,
         __Dymola_fixedstepsize=10,
-        __Dymola_Algorithm="Rkfix4"),
+        __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput(
         derivatives=false,
         inputs=false,

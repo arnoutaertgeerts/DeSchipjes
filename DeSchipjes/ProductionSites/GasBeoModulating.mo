@@ -6,6 +6,8 @@ model GasBeoModulating
   //Parameters
 
   parameter Modelica.SIunits.Temperature TGround = 273.15+7;
+  parameter Modelica.SIunits.Temperature TSupDhw=273.15+75
+    "Supply temperature of the Grid for the DHW";
 
   parameter Modelica.SIunits.Power Qhpww=42800*scaler
     "Nominal power of the air-water HP";
@@ -181,8 +183,8 @@ equation
     annotation (Line(points={{-60,74},{-66,74}}, color={0,127,255}));
   connect(TBeoo.port_a, fan1.port_b)
     annotation (Line(points={{-78,74},{-80,74},{-80,60}}, color={0,127,255}));
-  connect(const1.y, hpww.u) annotation (Line(points={{-40.4,46},{-52,46},{-52,
-          36.8}}, color={0,0,127}));
+  connect(const1.y, hpww.u) annotation (Line(points={{-40.4,46},{-52,46},{-52,36.8}},
+        color={0,0,127}));
   connect(TSetBoiler.y, boiler.u)
     annotation (Line(points={{34.6,80},{50,80},{50,70.8}}, color={0,0,127}));
   connect(u, TSetBoiler.u)
