@@ -11,25 +11,15 @@ package StorageTanks
       m_flow_nominal=0.028,
       hHex_a=0.815,
       hHex_b=0.05,
-      Q_flow_nominal=100000,
-      TTan_nominal=273.15+10,
-      THex_nominal=273.15+60,
-      mHex_flow_nominal=0.41);
+      Q_flow_nominal=31000,
+      TTan_nominal=273.15+20,
+      THex_nominal=273.15+70,
+      mHex_flow_nominal=0.167);
 
     parameter Modelica.SIunits.ThermalResistance R;
     final parameter Real ri = sqrt(VTan/(Modelica.Constants.pi*hTan));
 
   end uniSTOR;
-
-  model uniSTOR2
-
-    extends DeSchipjes.Storage.IDEASStorageTank(
-      nbrNodes=4,
-      volumeTank=0.117,
-      heightTank=0.82,
-      m_flow_nominal_HX=0.41);
-
-  end uniSTOR2;
 
   package Examples
     model uniSTOR

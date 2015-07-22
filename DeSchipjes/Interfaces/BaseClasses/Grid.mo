@@ -4,9 +4,9 @@ partial model Grid
       IDEAS.Media.Water "Medium in the component";
 
   //Parameteres
-  parameter Modelica.SIunits.Temperature TSupplyRad(displayUnit="Celsius") =  273.15+70
+  parameter Modelica.SIunits.Temperature TSupRad(displayUnit="Celsius") =  273.15+55
     "Supply temperature of the radiators";
-  parameter Modelica.SIunits.Temperature TReturnRad(displayUnit="Celsius") =  273.15+55
+  parameter Modelica.SIunits.Temperature TRetRad(displayUnit="Celsius") =  273.15+45
     "Return temperature of the radiators";
   parameter Modelica.SIunits.Temperature TStorage(displayUnit="Celsius") =  273.15+60
     "Temperature of the storage tank";
@@ -38,38 +38,17 @@ partial model Grid
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{-110,-70},{-90,-50}}),
         iconTransformation(extent={{-110,-70},{-90,-50}})));
-  Modelica.Blocks.Interfaces.RealInput supplyT if modulating annotation (Placement(transformation(
+  Modelica.Blocks.Interfaces.BooleanInput u if modulating annotation (Placement(
+        transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={80,108})));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{240,100}}),
-                               graphics), Icon(coordinateSystem(
+        origin={80,110})));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{240,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{240,100}}), graphics={
         Rectangle(
           extent={{-100,100},{240,-100}},
           lineColor={28,108,200},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-60,-26},{-20,-26},{-20,14},{-40,34},{-60,14},{-60,-26}},
-          lineColor={127,0,0},
-          smooth=Smooth.None,
-          fillColor={127,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-46,-26},{-34,-6}},
-          lineColor={127,0,0},
-          fillColor={255,255,255},
-          fillPattern=FillPattern.Solid),
-        Polygon(
-          points={{-20,-26},{20,-26},{20,14},{0,34},{-20,14},{-20,-26}},
-          lineColor={127,0,0},
-          smooth=Smooth.None,
-          fillColor={127,0,0},
-          fillPattern=FillPattern.Solid),
-        Rectangle(
-          extent={{-6,-26},{6,-6}},
-          lineColor={127,0,0},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
         Polygon(

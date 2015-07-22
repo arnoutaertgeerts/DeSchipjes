@@ -4,15 +4,15 @@ partial model ProductionSite
       IDEAS.Media.Water "Medium in the component";
 
   //Parameters
-  parameter Modelica.SIunits.Temperature TSupplyGrid(displayUnit="Celsius") =  273.15+60
-    "Supply temperature of the Grid";
+  parameter Modelica.SIunits.Temperature TSupRad(displayUnit="Celsius") =  273.15+55
+    "Supply temperature of the Grid for the radiators";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal;
+
   parameter Boolean modulating=true;
 
-  Modelica.Blocks.Interfaces.RealOutput y if modulating annotation (Placement(transformation(
-        extent={{-10,-10},{10,10}},
-        rotation=90,
-        origin={0,106})));
+  parameter Integer n = 11 "Number of houses connected to the production site";
+
+  final parameter Real scaler = n/11;
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium)
@@ -24,8 +24,13 @@ partial model ProductionSite
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{90,50},{110,70}}),
         iconTransformation(extent={{90,50},{110,70}})));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
-                               graphics), Icon(coordinateSystem(
+  Modelica.Blocks.Interfaces.BooleanInput u if modulating annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={0,110})));
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+            -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),
                                                graphics={
         Rectangle(
@@ -33,13 +38,6 @@ partial model ProductionSite
           lineColor={28,108,200},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid),
-      Polygon(
-        origin={9.533,-30.062},
-        lineColor = {255,0,0},
-        fillColor = {255,0,0},
-        fillPattern = FillPattern.Solid,
-        points = {{-40,-90},{-20,-70},{0,-90},{0,-50},{-20,-30},{-40,-50},{-40,-90}},
-          rotation=270),
         Rectangle(
           extent={{100,62},{-2,58}},
           lineColor={255,0,0},
@@ -75,5 +73,7 @@ partial model ProductionSite
         fillPattern = FillPattern.Solid,
         points={{-61.938,9.533},{-41.938,-10.467},{-61.938,-30.467},{-19.938,-30.467},{0,-10},
               {-19.938,9.533},{-61.938,9.533}},
-          rotation=90)}));
+          rotation=90),
+        Ellipse(extent={{-86,32},{-26,-28}}, lineColor={28,108,200}),
+        Ellipse(extent={{26,32},{86,-28}}, lineColor={28,108,200})}));
 end ProductionSite;

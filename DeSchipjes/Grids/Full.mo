@@ -43,7 +43,6 @@ package Full
 
   end ITFullGrid;
 
-
   model LTFullGrid
     extends DeSchipjes.Grids.FullGrid(
       haarhakkerHouse1(redeclare replaceable

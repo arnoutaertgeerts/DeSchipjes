@@ -2,7 +2,8 @@ within DeSchipjes.Scenarios;
 model S4LTBEOGasBooster
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMLT
-      grid);
+      grid, redeclare DeSchipjes.ProductionSites.GasBeoConstantGround
+      productionSite(modulating=false));
 
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},

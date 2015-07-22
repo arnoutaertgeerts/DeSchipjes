@@ -7,91 +7,91 @@ model PartialGrid
 
   DistrictHeating.Interfaces.DHConnection Pipe1(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{-90,0},{-70,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe2(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe3(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{-30,0},{-10,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe4(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe5(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{30,0},{50,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe6(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{60,0},{80,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe7(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{90,0},{110,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe8(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{120,0},{140,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe9(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{150,0},{170,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe10(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{180,0},{200,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe11(
     m_flow_nominal=0.1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare
-        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
-        baseConfiguration),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    redeclare
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      dim,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
     annotation (Placement(transformation(extent={{210,0},{230,20}})));
   Dwellings.Building haarHakker1(
     final isDH=true,
@@ -99,7 +99,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[1]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{-90,34},{-70,54}})));
   Dwellings.Building haarHakker2(
     final isDH=true,
@@ -107,7 +108,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[2]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{-60,34},{-40,54}})));
   Dwellings.Building haarHakker3(
     final isDH=true,
@@ -115,7 +117,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[3]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{-30,34},{-10,54}})));
   Dwellings.Building haarHakker4(
     final isDH=true,
@@ -123,7 +126,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[4]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
                annotation (Placement(transformation(extent={{0,34},{20,54}})));
   Dwellings.Building haarHakker5(
     final isDH=true,
@@ -131,7 +135,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[5]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
                annotation (Placement(transformation(extent={{30,34},{50,54}})));
   Dwellings.Building peterslei1(
     final isDH=true,
@@ -139,7 +144,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[6]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
                 annotation (Placement(transformation(extent={{60,34},{80,54}})));
   Dwellings.Building peterslei2(
     final isDH=true,
@@ -147,7 +153,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[7]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{90,34},{110,54}})));
   Dwellings.Building peterslei3(
     final isDH=true,
@@ -155,7 +162,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[8]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{120,34},{140,54}})));
   Dwellings.Building peterslei4(
     final isDH=true,
@@ -163,7 +171,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[9]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{150,34},{170,54}})));
   Dwellings.Building peterslei5(
     final isDH=true,
@@ -171,7 +180,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[10]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{180,34},{200,54}})));
   Dwellings.Building peterslei6(
     final isDH=true,
@@ -179,7 +189,8 @@ model PartialGrid
         Medium = IDEAS.Media.Air),
     redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=haarHakker1.building.VZones, id=
          ids[11]),
-    redeclare package Medium = Medium)
+    redeclare package Medium = Medium,
+    modulating=modulating)
     annotation (Placement(transformation(extent={{210,34},{230,54}})));
 equation
   connect(Pipe1.port_b2, port_b) annotation (Line(
@@ -358,6 +369,28 @@ equation
       points={{222,34},{222,20}},
       color={0,0,0},
       smooth=Smooth.None));
+  connect(u, haarHakker1.u) annotation (Line(points={{80,110},{80,60},{-80,60},
+          {-80,54.8}}, color={255,0,255}));
+  connect(haarHakker2.u, haarHakker1.u) annotation (Line(points={{-50,54.8},{
+          -50,60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(haarHakker3.u, haarHakker1.u) annotation (Line(points={{-20,54.8},{
+          -20,60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(haarHakker4.u, haarHakker1.u) annotation (Line(points={{10,54.8},{10,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(haarHakker5.u, haarHakker1.u) annotation (Line(points={{40,54.8},{40,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(peterslei1.u, haarHakker1.u) annotation (Line(points={{70,54.8},{70,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(peterslei6.u, haarHakker1.u) annotation (Line(points={{220,54.8},{220,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(peterslei2.u, haarHakker1.u) annotation (Line(points={{100,54.8},{100,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(peterslei3.u, haarHakker1.u) annotation (Line(points={{130,54.8},{130,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(peterslei4.u, haarHakker1.u) annotation (Line(points={{160,54.8},{160,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
+  connect(peterslei5.u, haarHakker1.u) annotation (Line(points={{190,54.8},{190,
+          60},{-80,60},{-80,54.8}}, color={255,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-            -100},{240,100}}), graphics));
+            -100},{240,100}})));
 end PartialGrid;
