@@ -2,10 +2,11 @@ within DeSchipjes.ProductionSites;
 model GasSun
   //Extensions
   extends Interfaces.BaseClasses.ProductionSite(
+    TSupRad=273.15+80,
     modulating=false);
 
   //Parameters
-  parameter Modelica.SIunits.Area A=20 "Area of the solar collectors";
+  parameter Modelica.SIunits.Area A=20*scaler "Area of the solar collectors";
   parameter Modelica.SIunits.Power Qboiler=215400*scaler
     "Nominal power of the boiler";
 
@@ -50,9 +51,9 @@ model GasSun
     T_start=TSupRad,
     hHex_a=0.95,
     Q_flow_nominal=tan.mHex_flow_nominal*4200*40,
-    TTan_nominal=TSupRad,
     THex_nominal=TSupRad + 5,
-    mHex_flow_nominal=m_flow_nominal_solar)
+    mHex_flow_nominal=m_flow_nominal_solar,
+    TTan_nominal=273.15 + 63)
     annotation (Placement(transformation(extent={{-2,14},{18,34}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,
@@ -69,10 +70,15 @@ model GasSun
         Medium, m_flow_nominal=m_flow_nominal_solar)
     annotation (Placement(transformation(extent={{-34,14},{-22,26}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TPeako(redeclare package Medium =
-        Medium, m_flow_nominal=sum(m_flow_nominal))
+        Medium,
+    m_flow_nominal=m_flow_nominal,
+    tau=0)
     annotation (Placement(transformation(extent={{66,54},{78,66}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort TPeaki(redeclare package Medium =
-        Medium, m_flow_nominal=sum(m_flow_nominal))
+  Buildings.Fluid.Sensors.TemperatureTwoPort
+                                         TPeaki(redeclare package Medium =
+        Medium,
+    m_flow_nominal=m_flow_nominal,
+    tau=0)
     annotation (Placement(transformation(extent={{6,54},{18,66}})));
   Buildings.HeatTransfer.Sources.FixedTemperature TRoo(T=273.15 + 18)
     annotation (Placement(transformation(extent={{100,-10},{80,10}})));
@@ -90,10 +96,11 @@ model GasSun
     rho=0.2,
     azi=0.3,
     per=Buildings.Fluid.SolarCollectors.Data.GlazedFlatPlate.FP_TRNSYSValidation(),
+    nSeg=5,
+    use_shaCoe_in=false)
+            annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
 
-    nSeg=5) annotation (Placement(transformation(extent={{-60,10},{-40,30}})));
-  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam=
-        "modelica://Buildings/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos")
+  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam="modelica://Buildings/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos")
     annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
   Buildings.Fluid.SolarCollectors.Controls.SolarPumpController pumCon(per=solar.per)
     annotation (Placement(transformation(extent={{-60,-20},{-40,0}})));
@@ -106,6 +113,10 @@ model GasSun
   Modelica.Blocks.Sources.Constant const1(k=TSupRad)
     annotation (Placement(transformation(extent={{68,76},{60,84}})));
 equation
+
+  PeakPow = boiler.PFuelOrEl;
+  BasePow = 0;
+
   connect(tan.portHex_b,fan. port_a) annotation (Line(points={{-2,16},{-14,16},{
           -14,-60},{-40,-60}},  color={0,127,255}));
   connect(bou.ports[1],fan. port_a) annotation (Line(points={{-32,-54},{-32,-60},
@@ -135,7 +146,7 @@ equation
   connect(solar.port_a, TBasei.port_b)
     annotation (Line(points={{-60,20},{-63,20},{-66,20}}, color={0,127,255}));
   connect(weaDat.weaBus, solar.weaBus) annotation (Line(
-      points={{-60,90},{-50,90},{-50,40},{-60,40},{-60,29.6}},
+      points={{-60,90},{-40,90},{-40,40},{-60,40},{-60,29.6}},
       color={255,204,51},
       thickness=0.5));
   connect(pumCon.weaBus, solar.weaBus) annotation (Line(
@@ -151,7 +162,7 @@ equation
   connect(const1.y, boiler.u)
     annotation (Line(points={{59.6,80},{50,80},{50,70.8}}, color={0,0,127}));
   connect(TPeako.port_b, port_b)
-    annotation (Line(points={{78,60},{100,60},{100,60}}, color={0,127,255}));
+    annotation (Line(points={{78,60},{100,60}},          color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

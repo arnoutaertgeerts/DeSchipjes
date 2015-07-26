@@ -21,6 +21,8 @@ public
     annotation (Placement(transformation(extent={{20,-6},{32,6}})));
 equation
 
+  DhwPow = (hex1.port_a2.h_outflow - hex1.port_b2.h_outflow)*hex1.port_a2.m_flow;
+
   connect(hex1.port_b1, dHWTap.port_hot) annotation (Line(
       points={{56,60},{60,60},{60,56},{178,56},{178,36},{172,36}},
       color={0,127,255},

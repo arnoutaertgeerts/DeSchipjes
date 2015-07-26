@@ -2,7 +2,6 @@ within DeSchipjes.Scenarios;
 model S1HTGasSun
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(
-    m_flow_nominal=0.5,
     redeclare DeSchipjes.ProductionSites.GasSun                productionSite,
     redeclare DeSchipjes.Grids.ROM.ROMHT          grid);
 
@@ -12,5 +11,7 @@ model S1HTGasSun
           lineColor={135,135,135},
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
-          textString="1")}));
+          textString="1")}),
+    experiment(StopTime=604800, __Dymola_Algorithm="Cvode"),
+    __Dymola_experimentSetupOutput);
 end S1HTGasSun;

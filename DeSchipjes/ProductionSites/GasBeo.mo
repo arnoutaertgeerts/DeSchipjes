@@ -126,6 +126,9 @@ model GasBeo
         Medium, m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{-78,68},{-66,80}})));
 equation
+
+  PeakPow = boiler.PFuelOrEl;
+  BasePow = hpww.PFuelOrEl*2.5;
   connect(tan.portHex_b,fan. port_a) annotation (Line(points={{-10,16},{-14,16},
           {-14,-60},{-42,-60}}, color={0,127,255}));
   connect(bou.ports[1],fan. port_a) annotation (Line(points={{-32,-54},{-32,-60},

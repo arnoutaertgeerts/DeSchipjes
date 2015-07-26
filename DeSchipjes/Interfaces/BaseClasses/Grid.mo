@@ -11,9 +11,14 @@ partial model Grid
   parameter Modelica.SIunits.Temperature TStorage(displayUnit="Celsius") =  273.15+65
     "Temperature of the storage tank";
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=4;
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.167
+    "Nominal mass flow rate for one house";
 
-  parameter Boolean modulating=true;
+  parameter Boolean modulating=true
+    "Set to true if the grid modulates the supply temperature";
+
+  Modelica.SIunits.Power DisPow;
+  Modelica.SIunits.Energy DisEn;
 
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
@@ -43,6 +48,10 @@ partial model Grid
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={80,110})));
+
+equation
+  der(DisEn) = DisPow;
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{240,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{240,100}}), graphics={

@@ -3,95 +3,95 @@ model PartialGrid
   extends Interfaces.BaseClasses.Grid;
 
   //Parameters
-  parameter Integer[11] ids= {1,2,3,4,5,6,7,8,9,10,11};
+  parameter Integer[11] ids= {1,2,3,4,5,6,7,8,9,10,11} "Occupancy profile ids";
 
   DistrictHeating.Interfaces.DHConnection Pipe1(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*11)
     annotation (Placement(transformation(extent={{-90,0},{-70,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe2(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*10)
     annotation (Placement(transformation(extent={{-60,0},{-40,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe3(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*9)
     annotation (Placement(transformation(extent={{-30,0},{-10,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe4(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*8)
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe5(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*7)
     annotation (Placement(transformation(extent={{30,0},{50,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe6(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*6)
     annotation (Placement(transformation(extent={{60,0},{80,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe7(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*5)
     annotation (Placement(transformation(extent={{90,0},{110,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe8(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*4)
     annotation (Placement(transformation(extent={{120,0},{140,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe9(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*3)
     annotation (Placement(transformation(extent={{150,0},{170,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe10(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*2)
     annotation (Placement(transformation(extent={{180,0},{200,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe11(
-    m_flow_nominal=0.1,
     redeclare package Medium = Medium,
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
     redeclare
-      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+      DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR32S
       dim,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe)
+    m_flow_nominal=m_flow_nominal*1)
     annotation (Placement(transformation(extent={{210,0},{230,20}})));
   Dwellings.Building haarHakker1(
     final isDH=true,
@@ -193,6 +193,10 @@ model PartialGrid
     modulating=modulating)
     annotation (Placement(transformation(extent={{210,34},{230,54}})));
 equation
+  DisPow = Pipe1.QLosses + Pipe2.QLosses + Pipe3.QLosses + Pipe4.QLosses
+    + Pipe5.QLosses + Pipe6.QLosses + Pipe7.QLosses + Pipe8.QLosses
+    + Pipe9.QLosses + Pipe10.QLosses + Pipe11.QLosses;
+
   connect(Pipe1.port_b2, port_b) annotation (Line(
       points={{-90,4},{-94,4},{-94,-60},{-100,-60}},
       color={0,127,255},

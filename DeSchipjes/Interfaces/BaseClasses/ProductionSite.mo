@@ -6,13 +6,30 @@ partial model ProductionSite
   //Parameters
   parameter Modelica.SIunits.Temperature TSupRad(displayUnit="Celsius") =  273.15+55
     "Supply temperature of the Grid for the radiators";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.167*scaler;
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.167*scaler
+    "Nominal mass flow rate of the production site";
 
-  parameter Boolean modulating=true;
+  parameter Boolean modulating=true
+    "Set to true if the production site modulates the supply temperature";
 
   parameter Integer n = 11 "Number of houses connected to the production site";
 
   final parameter Real scaler = n/11;
+
+  //Variables
+  Modelica.SIunits.Power PrimPow
+    "Primary power usage of the the production site";
+  Modelica.SIunits.Energy PrimEn
+    "Total primary energy usage of the production site";
+
+  Modelica.SIunits.Power PeakPow "Primary power usage of the peak unit";
+  Modelica.SIunits.Energy PeakEn "Primary energy usage of the peak unit";
+
+  Modelica.SIunits.Power BasePow "Primary power usage of the base unit";
+  Modelica.SIunits.Energy BaseEn "Primary Energy usage of the base unit";
+
+  Modelica.SIunits.Power GridPow "Total power usage of the grid";
+  Modelica.SIunits.Energy GridEn "Total energy usage of the grid";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium)
@@ -29,6 +46,16 @@ partial model ProductionSite
         extent={{-20,-20},{20,20}},
         rotation=270,
         origin={0,110})));
+equation
+
+  PrimPow = PeakPow + BasePow;
+  GridPow = -(port_a.h_outflow-port_b.h_outflow)*port_a.m_flow;
+
+  der(PrimEn) = PrimPow;
+  der(PeakEn) = PeakPow;
+  der(BaseEn) = BasePow;
+  der(GridEn) = GridPow;
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}),

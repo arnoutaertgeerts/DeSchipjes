@@ -2,7 +2,7 @@ within DeSchipjes.Interfaces;
 model Scenario
 
   replaceable BaseClasses.ProductionSite productionSite(TSupRad=grid.TSupRad +
-        5, m_flow_nominal=grid.m_flow_nominal)
+        5, m_flow_nominal=grid.m_flow_nominal*productionSite.scaler)
     annotation (Placement(transformation(extent={{40,0},{20,20}})),  choicesAllMatching=true);
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,

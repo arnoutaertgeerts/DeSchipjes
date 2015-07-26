@@ -19,5 +19,7 @@ equation
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="2")}), Diagram(coordinateSystem(preserveAspectRatio=false,
-          extent={{-100,-100},{100,100}})));
+          extent={{-100,-100},{100,100}})),
+    experiment(StopTime=604800, __Dymola_Algorithm="Cvode"),
+    __Dymola_experimentSetupOutput);
 end S2ITHPAWGas;

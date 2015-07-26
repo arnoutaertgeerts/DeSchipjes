@@ -72,17 +72,20 @@ package Models
     //Extensions
     extends Modelica.Icons.Example;
 
-    Dwellings.Building building(
+    Modelica.SIunits.Power DisPow;
+    Modelica.SIunits.Energy DisEn;
+
+    Dwellings.Building building1(
       isDH=true,
       redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
-          package Medium = IDEAS.Media.Air),
+          package Medium =
+                   IDEAS.Media.Air),
       redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
         building,
-      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building.building.VZones,
-          id=5),
-      redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem
-        heatingSystem(QNom=building.building.Q_design),
-      modulating=false)
+      modulating=false,
+      redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
+          QNom=building1.building.Q_design),
+      redeclare IDEAS.Occupants.Extern.StROBe occupant(id=5, VZones=building1.building.VZones))
       annotation (Placement(transformation(extent={{12,0},{32,20}})));
 
     IDEAS.Fluid.Sources.FixedBoundary bou(
@@ -108,72 +111,72 @@ package Models
       filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
       annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
   public
-    Dwellings.Building building1(
+    Dwellings.Building building2(
       isDH=true,
       redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
           package Medium = IDEAS.Media.Air),
       redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
         building,
-      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building.building.VZones,
-          id=5),
-      redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem
-        heatingSystem(QNom=building.building.Q_design),
-      modulating=false)
+      modulating=false,
+      redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem heatingSystem(
+          QNom=building1.building.Q_design),
+      redeclare IDEAS.Occupants.Extern.StROBe occupant(id=5, VZones=building1.building.VZones))
       annotation (Placement(transformation(extent={{64,0},{84,20}})));
-    ProductionSites.GasSun gasSun(TSupRad=273.15 + 80)
+    ProductionSites.GasSun gasSun(TSupRad=273.15 + 80, n=2)
       annotation (Placement(transformation(extent={{-40,-32},{-20,-12}})));
   public
-    DistrictHeating.Interfaces.DHConnection dHConnection(
+    DistrictHeating.Interfaces.DHConnection Pipe1(
       redeclare package Medium = IDEAS.Media.Water,
       m_flow_nominal=0.1,
-      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
-        districtHeatingPipe,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       dynamicBalance=false,
       linearizeFlowResistance=true,
       allowFlowReversal=true,
       redeclare
         DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
-        dim)
-      annotation (Placement(transformation(extent={{12,-32},{32,-12}})));
-    DistrictHeating.Interfaces.DHConnection dHConnection1(
+        dim) annotation (Placement(transformation(extent={{12,-32},{32,-12}})));
+
+    DistrictHeating.Interfaces.DHConnection Pipe2(
       redeclare package Medium = IDEAS.Media.Water,
       m_flow_nominal=0.1,
-      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
-        districtHeatingPipe,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       dynamicBalance=false,
       linearizeFlowResistance=true,
       allowFlowReversal=true,
       redeclare
         DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
-        dim)
-      annotation (Placement(transformation(extent={{64,-32},{84,-12}})));
+        dim) annotation (Placement(transformation(extent={{64,-32},{84,-12}})));
+
   equation
-    connect(dHConnection.port_a2,dHConnection1. port_b2)
+    DisPow = Pipe1.QLosses + Pipe2.QLosses;
+    der(DisEn) = DisPow;
+
+    connect(Pipe1.port_a2, Pipe2.port_b2)
       annotation (Line(points={{32,-28},{48,-28},{64,-28}}, color={0,127,255}));
-    connect(dHConnection.port_b1, dHConnection1.port_a1) annotation (Line(
-          points={{32,-16},{48,-16},{64,-16}}, color={0,127,255}));
-    connect(building.flowPort_return, dHConnection.port_a3)
+    connect(Pipe1.port_b1, Pipe2.port_a1)
+      annotation (Line(points={{32,-16},{48,-16},{64,-16}}, color={0,127,255}));
+    connect(building1.flowPort_return, Pipe1.port_a3)
       annotation (Line(points={{20,0},{20,-6},{20,-12}}, color={0,0,0}));
-    connect(building.flowPort_supply, dHConnection.port_b3)
+    connect(building1.flowPort_supply, Pipe1.port_b3)
       annotation (Line(points={{24,0},{24,-6},{24,-12}}, color={0,0,0}));
-    connect(building1.flowPort_return, dHConnection1.port_a3)
+    connect(building2.flowPort_return, Pipe2.port_a3)
       annotation (Line(points={{72,0},{72,-6},{72,-12}}, color={0,0,0}));
-    connect(building1.flowPort_supply, dHConnection1.port_b3)
+    connect(building2.flowPort_supply, Pipe2.port_b3)
       annotation (Line(points={{76,0},{76,-6},{76,-12}}, color={0,0,0}));
-    connect(gasSun.port_b, dHConnection.port_a1) annotation (Line(points={{-20,
-            -16},{-4,-16},{12,-16}}, color={0,127,255}));
-    connect(gasSun.port_a, dHConnection.port_b2) annotation (Line(points={{-20,-28},
-            {12,-28}},               color={0,127,255}));
-    connect(bou.ports[1], dHConnection.port_a1)
+    connect(gasSun.port_b, Pipe1.port_a1)
+      annotation (Line(points={{-20,-16},{-4,-16},{12,-16}}, color={0,127,255}));
+    connect(gasSun.port_a, Pipe1.port_b2)
+      annotation (Line(points={{-20,-28},{12,-28}}, color={0,127,255}));
+    connect(bou.ports[1], Pipe1.port_a1)
       annotation (Line(points={{0,-10},{0,-16},{12,-16}}, color={0,127,255}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}})),
       experiment(
         StopTime=604800,
         __Dymola_fixedstepsize=30,
-        __Dymola_Algorithm="Lsodar"),
+        __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);
   end HaarhakkerROMHT;
 
@@ -182,156 +185,19 @@ package Models
     //Extensions
     extends Modelica.Icons.Example;
 
-    Dwellings.Building building(
-      isDH=true,
-      redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
-          package Medium = IDEAS.Media.Air),
-      redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
-        building,
-      redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
-        heatingSystem(QNom=building.building.Q_design),
-      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building.building.VZones,
-          id=1)) annotation (Placement(transformation(extent={{8,0},{28,20}})));
+    Modelica.SIunits.Power DisPow;
+    Modelica.SIunits.Energy DisEn;
 
-    IDEAS.Fluid.Sources.FixedBoundary bou(
-      use_T=false,
-      redeclare package Medium = Annex60.Media.Water,
-      nPorts=1)                                       annotation (Placement(
-          transformation(
-          extent={{-4,-4},{4,4}},
-          rotation=270,
-          origin={0,-6})));
-    inner IDEAS.SimInfoManager sim
-      annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  protected
-    inner IDEAS.Occupants.Extern.StrobeInfoManager                strobe(
-      FilNam_mDHW="mDHW.txt",
-      FilNam_QRad="QRad.txt",
-      FilNam_TSet="sh_day.txt",
-      FilNam_TSet2="sh_night.txt",
-      StROBe_P=true,
-      FilNam_P="P.txt",
-      FilNam_Q="Q.txt",
-      FilNam_QCon="Q.txt",
-      filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
-      annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
-  public
-    DistrictHeating.Interfaces.DHConnection dHConnection(
-      redeclare package Medium = IDEAS.Media.Water,
-      m_flow_nominal=0.1,
-      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
-        districtHeatingPipe,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      dynamicBalance=false,
-      linearizeFlowResistance=true,
-      allowFlowReversal=true,
-      redeclare
-        DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
-        dim)
-      annotation (Placement(transformation(extent={{8,-32},{28,-12}})));
     Dwellings.Building building1(
       isDH=true,
       redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
-          package Medium = IDEAS.Media.Air),
+          package Medium =
+                   IDEAS.Media.Air),
       redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
         building,
-      redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
-        heatingSystem(QNom=building.building.Q_design),
-      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building.building.VZones,
-          id=2)) annotation (Placement(transformation(extent={{60,0},{80,20}})));
-    DistrictHeating.Interfaces.DHConnection dHConnection1(
-      redeclare package Medium = IDEAS.Media.Water,
-      m_flow_nominal=0.1,
-      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
-        districtHeatingPipe,
-      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-      dynamicBalance=false,
-      linearizeFlowResistance=true,
-      allowFlowReversal=true,
-      redeclare
-        DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
-        dim)
-      annotation (Placement(transformation(extent={{60,-32},{80,-12}})));
-    ProductionSites.GasHPAW                   idealModulatingProduction(
-      Qhpaw=50000/5,
-      VTan=0.950/5,
-      hTan=1,
-      m_flow_nominal_hpaw=1.19/5,
-      Qboiler=154000/5)
-      annotation (Placement(transformation(extent={{-60,-32},{-40,-12}})));
-  public
-    Controls.Modulator modulator(start=2)
-      annotation (Placement(transformation(extent={{-92,40},{-72,60}})));
-    IDEAS.Fluid.Sensors.TemperatureTwoPort TSup(redeclare package Medium =
-          IDEAS.Media.Water, m_flow_nominal=0.82)
-      annotation (Placement(transformation(extent={{-20,-22},{-8,-10}})));
-    IDEAS.Fluid.Sensors.TemperatureTwoPort TRet(redeclare package Medium =
-          IDEAS.Media.Water, m_flow_nominal=0.82)
-      annotation (Placement(transformation(extent={{-20,-34},{-32,-22}})));
-  equation
-    connect(dHConnection.port_a3, building.flowPort_return) annotation (Line(
-        points={{16,-12},{16,0}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(dHConnection.port_b3, building.flowPort_supply) annotation (Line(
-        points={{20,-12},{20,0}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(bou.ports[1], dHConnection.port_a1) annotation (Line(
-        points={{-8.88178e-016,-10},{-8.88178e-016,-16},{8,-16}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(dHConnection1.port_a3, building1.flowPort_return) annotation (Line(
-        points={{68,-12},{68,0}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(dHConnection1.port_b3, building1.flowPort_supply) annotation (Line(
-        points={{72,-12},{72,0}},
-        color={0,127,255},
-        smooth=Smooth.None));
-    connect(dHConnection.port_b1, dHConnection1.port_a1)
-      annotation (Line(points={{28,-16},{60,-16}}, color={0,127,255}));
-    connect(dHConnection.port_a2, dHConnection1.port_b2)
-      annotation (Line(points={{28,-28},{44,-28},{60,-28}}, color={0,127,255}));
-    connect(modulator.on, building.u) annotation (Line(points={{-71,50},{18,50},
-            {18,20.8}}, color={255,0,255}));
-    connect(modulator.on, building1.u) annotation (Line(points={{-71,50},{70,50},
-            {70,20.8}}, color={255,0,255}));
-    connect(idealModulatingProduction.u, building.u) annotation (Line(points={{
-            -50,-11},{-50,50},{18,50},{18,20.8}}, color={255,0,255}));
-    connect(idealModulatingProduction.port_b, TSup.port_a) annotation (Line(
-          points={{-40,-16},{-32,-16},{-20,-16}}, color={0,127,255}));
-    connect(TSup.port_b, dHConnection.port_a1)
-      annotation (Line(points={{-8,-16},{-2,-16},{8,-16}}, color={0,127,255}));
-    connect(idealModulatingProduction.port_a, TRet.port_b)
-      annotation (Line(points={{-40,-28},{-32,-28}}, color={0,127,255}));
-    connect(TRet.port_a, dHConnection.port_b2)
-      annotation (Line(points={{-20,-28},{8,-28}}, color={0,127,255}));
-    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
-              -100},{100,100}})),
-      experiment(
-        StopTime=604800,
-        __Dymola_fixedstepsize=30,
-        __Dymola_Algorithm="Cvode"),
-      __Dymola_experimentSetupOutput);
-  end HaarhakkerROMIT;
-
-  model HaarhakkerROMLT "Full model of a house in haarhakker street"
-
-    //Extensions
-    extends Modelica.Icons.Example;
-
-    Dwellings.Building building(
-      isDH=true,
-      redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
-          package Medium = IDEAS.Media.Air),
-      redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
-        building,
-      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building.building.VZones,
-          id=1),
-      modulating=false,
-      redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem
-        heatingSystem(QNom=building.building.Q_design))
+      redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+          QNom=building1.building.Q_design),
+      redeclare IDEAS.Occupants.Extern.StROBe occupant(id=1, VZones=building1.building.VZones))
       annotation (Placement(transformation(extent={{8,0},{28,20}})));
 
     IDEAS.Fluid.Sources.FixedBoundary bou(
@@ -357,75 +223,222 @@ package Models
       filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
       annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
   public
-    DistrictHeating.Interfaces.DHConnection dHConnection(
+    DistrictHeating.Interfaces.DHConnection Pipe1(
       redeclare package Medium = IDEAS.Media.Water,
       m_flow_nominal=0.1,
-      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
-        districtHeatingPipe,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       dynamicBalance=false,
       linearizeFlowResistance=true,
       allowFlowReversal=true,
       redeclare
         DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
-        dim)
-      annotation (Placement(transformation(extent={{8,-32},{28,-12}})));
-    Dwellings.Building building1(
+        dim) annotation (Placement(transformation(extent={{8,-32},{28,-12}})));
+
+    Dwellings.Building building2(
       isDH=true,
       redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
           package Medium = IDEAS.Media.Air),
       redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
         building,
-      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building.building.VZones,
-          id=2),
-      modulating=false,
-      redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem
-        heatingSystem(QNom=building.building.Q_design))
-      annotation (Placement(transformation(extent={{60,0},{80,20}})));
-    DistrictHeating.Interfaces.DHConnection dHConnection1(
+      redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem heatingSystem(
+          QNom=building1.building.Q_design),
+      redeclare IDEAS.Occupants.Extern.StROBe occupant(id=2, VZones=building1.building.VZones))
+                 annotation (Placement(transformation(extent={{60,0},{80,20}})));
+    DistrictHeating.Interfaces.DHConnection Pipe2(
       redeclare package Medium = IDEAS.Media.Water,
       m_flow_nominal=0.1,
-      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta
-        districtHeatingPipe,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
       massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
       dynamicBalance=false,
       linearizeFlowResistance=true,
       allowFlowReversal=true,
       redeclare
         DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
-        dim)
-      annotation (Placement(transformation(extent={{60,-32},{80,-12}})));
+        dim) annotation (Placement(transformation(extent={{60,-32},{80,-12}})));
+
+    ProductionSites.GasHPAW                   idealModulatingProduction(
+      Qhpaw=50000/5,
+      VTan=0.950/5,
+      hTan=1,
+      m_flow_nominal_hpaw=1.19/5,
+      Qboiler=154000/5)
+      annotation (Placement(transformation(extent={{-60,-32},{-40,-12}})));
+  public
+    Controls.Modulator modulator(start=2)
+      annotation (Placement(transformation(extent={{-92,40},{-72,60}})));
+    IDEAS.Fluid.Sensors.TemperatureTwoPort TSup(redeclare package Medium =
+          IDEAS.Media.Water, m_flow_nominal=0.82)
+      annotation (Placement(transformation(extent={{-20,-22},{-8,-10}})));
+    IDEAS.Fluid.Sensors.TemperatureTwoPort TRet(redeclare package Medium =
+          IDEAS.Media.Water, m_flow_nominal=0.82)
+      annotation (Placement(transformation(extent={{-20,-34},{-32,-22}})));
+  equation
+
+    DisPow = Pipe1.QLosses + Pipe2.QLosses;
+    der(DisEn) = DisPow;
+    connect(Pipe1.port_a3, building1.flowPort_return) annotation (Line(
+        points={{16,-12},{16,0}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(Pipe1.port_b3, building1.flowPort_supply) annotation (Line(
+        points={{20,-12},{20,0}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(bou.ports[1], Pipe1.port_a1) annotation (Line(
+        points={{-8.88178e-016,-10},{-8.88178e-016,-16},{8,-16}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(Pipe2.port_a3, building2.flowPort_return) annotation (Line(
+        points={{68,-12},{68,0}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(Pipe2.port_b3, building2.flowPort_supply) annotation (Line(
+        points={{72,-12},{72,0}},
+        color={0,127,255},
+        smooth=Smooth.None));
+    connect(Pipe1.port_b1, Pipe2.port_a1)
+      annotation (Line(points={{28,-16},{60,-16}}, color={0,127,255}));
+    connect(Pipe1.port_a2, Pipe2.port_b2)
+      annotation (Line(points={{28,-28},{44,-28},{60,-28}}, color={0,127,255}));
+    connect(modulator.on, building1.u)
+      annotation (Line(points={{-71,50},{18,50},{18,20.8}}, color={255,0,255}));
+    connect(modulator.on,building2. u) annotation (Line(points={{-71,50},{70,50},
+            {70,20.8}}, color={255,0,255}));
+    connect(idealModulatingProduction.u, building1.u) annotation (Line(points={{-50,
+            -11},{-50,50},{18,50},{18,20.8}}, color={255,0,255}));
+    connect(idealModulatingProduction.port_b, TSup.port_a) annotation (Line(
+          points={{-40,-16},{-32,-16},{-20,-16}}, color={0,127,255}));
+    connect(TSup.port_b, Pipe1.port_a1)
+      annotation (Line(points={{-8,-16},{-2,-16},{8,-16}}, color={0,127,255}));
+    connect(idealModulatingProduction.port_a, TRet.port_b)
+      annotation (Line(points={{-40,-28},{-32,-28}}, color={0,127,255}));
+    connect(TRet.port_a, Pipe1.port_b2)
+      annotation (Line(points={{-20,-28},{8,-28}}, color={0,127,255}));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+              -100},{100,100}})),
+      experiment(
+        StopTime=604800,
+        __Dymola_fixedstepsize=30,
+        __Dymola_Algorithm="Cvode"),
+      __Dymola_experimentSetupOutput);
+  end HaarhakkerROMIT;
+
+  model HaarhakkerROMLT "Full model of a house in haarhakker street"
+
+    //Extensions
+    extends Modelica.Icons.Example;
+
+    Modelica.SIunits.Power DisPow;
+    Modelica.SIunits.Energy DisEn;
+
+    Dwellings.Building building1(
+      isDH=true,
+      redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
+          package Medium =
+                   IDEAS.Media.Air),
+      redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
+        building,
+      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building1.building.VZones,
+          id=1),
+      modulating=false,
+      redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem(
+          QNom=building1.building.Q_design))
+      annotation (Placement(transformation(extent={{8,0},{28,20}})));
+
+    IDEAS.Fluid.Sources.FixedBoundary bou(
+      use_T=false,
+      redeclare package Medium = Annex60.Media.Water,
+      nPorts=1)                                       annotation (Placement(
+          transformation(
+          extent={{-4,-4},{4,4}},
+          rotation=270,
+          origin={0,-6})));
+    inner IDEAS.SimInfoManager sim
+      annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+  protected
+    inner IDEAS.Occupants.Extern.StrobeInfoManager                strobe(
+      FilNam_mDHW="mDHW.txt",
+      FilNam_QRad="QRad.txt",
+      FilNam_TSet="sh_day.txt",
+      FilNam_TSet2="sh_night.txt",
+      StROBe_P=true,
+      FilNam_P="P.txt",
+      FilNam_Q="Q.txt",
+      FilNam_QCon="Q.txt",
+      filDir=Modelica.Utilities.Files.loadResource("modelica://Occupants") + "/")
+      annotation (Placement(transformation(extent={{-80,80},{-60,100}})));
+  public
+    DistrictHeating.Interfaces.DHConnection Pipe1(
+      redeclare package Medium = IDEAS.Media.Water,
+      m_flow_nominal=0.1,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
+      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      dynamicBalance=false,
+      linearizeFlowResistance=true,
+      allowFlowReversal=true,
+      redeclare
+        DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+        dim) annotation (Placement(transformation(extent={{8,-32},{28,-12}})));
+
+    Dwellings.Building building2(
+      isDH=true,
+      redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
+          package Medium = IDEAS.Media.Air),
+      redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.HaarhakkerROM
+        building,
+      redeclare IDEAS.Occupants.Extern.StROBe occupant(VZones=building1.building.VZones,
+          id=2),
+      modulating=false,
+      redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem heatingSystem(
+          QNom=building1.building.Q_design))
+      annotation (Placement(transformation(extent={{60,0},{80,20}})));
+    DistrictHeating.Interfaces.DHConnection Pipe2(
+      redeclare package Medium = IDEAS.Media.Water,
+      m_flow_nominal=0.1,
+      redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe,
+      massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+      dynamicBalance=false,
+      linearizeFlowResistance=true,
+      allowFlowReversal=true,
+      redeclare
+        DistrictHeating.Pipes.BaseClasses.PipeConfig.IsoPlusDoubleStandard.IsoPlusDR25S
+        dim) annotation (Placement(transformation(extent={{60,-32},{80,-12}})));
+
     ProductionSites.GasBeo gasBeoConstantGround(
       modulating=false,
       n=2) annotation (Placement(transformation(extent={{-40,-32},{-20,-12}})));
   equation
-    connect(dHConnection.port_a3, building.flowPort_return) annotation (Line(
+
+    DisPow = Pipe1.QLosses + Pipe2.QLosses;
+    der(DisEn) = DisPow;
+    connect(Pipe1.port_a3, building1.flowPort_return) annotation (Line(
         points={{16,-12},{16,0}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(dHConnection.port_b3, building.flowPort_supply) annotation (Line(
+    connect(Pipe1.port_b3, building1.flowPort_supply) annotation (Line(
         points={{20,-12},{20,0}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(bou.ports[1], dHConnection.port_a1) annotation (Line(
+    connect(bou.ports[1], Pipe1.port_a1) annotation (Line(
         points={{-8.88178e-016,-10},{-8.88178e-016,-16},{8,-16}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(dHConnection1.port_a3, building1.flowPort_return) annotation (Line(
+    connect(Pipe2.port_a3, building2.flowPort_return) annotation (Line(
         points={{68,-12},{68,0}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(dHConnection1.port_b3, building1.flowPort_supply) annotation (Line(
+    connect(Pipe2.port_b3, building2.flowPort_supply) annotation (Line(
         points={{72,-12},{72,0}},
         color={0,127,255},
         smooth=Smooth.None));
-    connect(dHConnection.port_b1, dHConnection1.port_a1)
+    connect(Pipe1.port_b1, Pipe2.port_a1)
       annotation (Line(points={{28,-16},{60,-16}}, color={0,127,255}));
-    connect(dHConnection.port_a2, dHConnection1.port_b2)
+    connect(Pipe1.port_a2, Pipe2.port_b2)
       annotation (Line(points={{28,-28},{44,-28},{60,-28}}, color={0,127,255}));
-    connect(gasBeoConstantGround.port_b, dHConnection.port_a1)
+    connect(gasBeoConstantGround.port_b, Pipe1.port_a1)
       annotation (Line(points={{-20,-16},{8,-16}}, color={0,127,255}));
-    connect(gasBeoConstantGround.port_a, dHConnection.port_b2)
+    connect(gasBeoConstantGround.port_a, Pipe1.port_b2)
       annotation (Line(points={{-20,-28},{8,-28}}, color={0,127,255}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}})),

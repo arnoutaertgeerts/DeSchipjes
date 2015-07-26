@@ -6,7 +6,8 @@ partial model PartialStorage
     redeclare package Medium=Medium,
     TDHWSet=273.15 + 38),
     gain(k=(38 - 10)/(60 - 10)),
-    bouDHW(nPorts=2));
+    bouDHW(nPorts=2),
+    pumpDHW(m_flow_nominal=0.167));
 
   //Parameters
   parameter Modelica.SIunits.Length hTan=1.5 "Height of the storage tank";

@@ -27,10 +27,6 @@ partial model PartialRadiators
   final parameter Modelica.SIunits.Pressure dp_nominal=0
     "Nominal pressure drop of the DH grid in the dwelling";
 
-  //Variables
-  Modelica.SIunits.Energy SpaceQ;
-  Modelica.SIunits.Energy dhwQ;
-
   //Components
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2
                                                        rad[nZones](
@@ -128,7 +124,7 @@ public
     length=10,
     allowFlowReversal=true)
                annotation (Placement(transformation(
-        extent={{6,-6},{-6,6}},
+        extent={{6,6},{-6,-6}},
         rotation=90,
         origin={120,-72})));
   Buildings.Fluid.FixedResistances.Pipe inlet(
@@ -193,12 +189,12 @@ public
 initial equation
 
 equation
-  QHeaSys = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
-  der(SpaceQ) = QHeaSys;
-  dhwQ = 0;
 
   P[1] = 0;
   Q[1] = 0;
+
+  HeaPow = (inlet.port_a.h_outflow - outlet.port_a.h_outflow)*inlet.m_flow;
+  RadPow = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
 
   for i in 1:nZones loop
       connect(TSet[1], toKelvin[i].Celsius) annotation (Line(

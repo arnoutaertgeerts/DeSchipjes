@@ -107,6 +107,10 @@ model GasHPAW
   Buildings.HeatTransfer.Sources.FixedTemperature TRoo(T=273.15 + 18)
     annotation (Placement(transformation(extent={{100,-10},{80,10}})));
 equation
+
+  PeakPow = boiler.PFuelOrEl;
+  BasePow = hpaw.PFuelOrEl*2.5;
+
   connect(tan.portHex_b, fan.port_a) annotation (Line(points={{-10,16},{-14,16},
           {-14,-60},{-40,-60}}, color={0,127,255}));
   connect(tan.port_b, port_a) annotation (Line(points={{10,24},{30,24},{30,-60},
