@@ -7,6 +7,7 @@ partial model PartialRadiators
     nEmbPorts=0,
     TSet);
 
+  //Parameters
   parameter Modelica.SIunits.Temperature TSupply=273.15+70
     "Radiator supply temperature";
   parameter Modelica.SIunits.Temperature TReturn=273.15+60
@@ -27,9 +28,33 @@ partial model PartialRadiators
   final parameter Modelica.SIunits.Pressure dp_nominal=0
     "Nominal pressure drop of the DH grid in the dwelling";
 
+  //Variables
+  Modelica.SIunits.Temperature TZones[nZones] = radPID.u_s
+    "Zone setpoint temperature";
+  Modelica.SIunits.Temperature TZonem[nZones] = TSensor
+    "Zone Measured temperature";
+
+  Modelica.SIunits.Temperature TGridi = inlet.vol[1].T "Grid inlet temperature";
+  Modelica.SIunits.Temperature TGrido = outlet.vol[1].T
+    "Grid outlet temperature";
+
+  Modelica.SIunits.Temperature Ti = TSup.T "Inlet temperature";
+  Modelica.SIunits.Temperature To = TRet.T "Outlet temperature";
+
+  Modelica.SIunits.Temperature TDhws = dHWTap.TDHWSet
+    "DHW setpoint temperature";
+  Modelica.SIunits.Temperature TDhwm = dHWTap.TDHW_actual
+    "DHW measured temperature";
+
+  Modelica.SIunits.MassFlowRate mRad[nZones] = pumpRad.m_flow
+    "massflow rate in the radiator";
+  Modelica.SIunits.MassFlowRate mGrid = pumpSupply.m_flow
+    "massflow rate in the grid";
+  Modelica.SIunits.MassFlowRate mDhw = gain.y "Requested massflowrate for DHW";
+
   //Components
-  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2
-                                                       rad[nZones](
+protected
+  Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
     redeclare package Medium = Medium,
     Q_flow_nominal=QNom,
     each T_a_nominal=TSupply,
@@ -51,8 +76,6 @@ partial model PartialRadiators
         extent={{-4,-4},{4,4}},
         rotation=90,
         origin={80,-76})));
-
-protected
   IDEAS.Fluid.BaseCircuits.ParallelPipesSplitter parallelPipesSplitter(n=nZones,
     redeclare package Medium = Medium,
     m_flow_nominal=sum(m_flow_nominal),
@@ -63,7 +86,6 @@ protected
 
   ToKelvin toKelvin[nZones]
     annotation (Placement(transformation(extent={{-60,-78},{-80,-58}})));
-
   IDEAS.Fluid.Sources.FixedBoundary bouDHW(
     redeclare package Medium = Medium,
     use_T=false,
@@ -71,7 +93,6 @@ protected
         extent={{4,4},{-4,-4}},
         rotation=270,
         origin={140,26})));
-public
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex(
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
@@ -87,7 +108,6 @@ public
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={80,-38})));
-protected
   IDEAS.Fluid.Sources.FixedBoundary bouRad(
     redeclare package Medium = Medium,
     use_T=false,
@@ -95,8 +115,6 @@ protected
         extent={{4,4},{-4,-4}},
         rotation=90,
         origin={-20,-22})));
-
-public
   IDEAS.Controls.Continuous.LimPID radPID[nZones](
     each controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMax=m_flow_nominal,

@@ -1,6 +1,8 @@
 within DeSchipjes.Dwellings.Structures;
-model PartialSingleZone
+partial model PartialSingleZone
+
   //Extensions
+protected
   extends IDEAS.Interfaces.BaseClasses.Structure(
     nZones=1,
     final AZones={floor.AWall},
@@ -20,6 +22,7 @@ model PartialSingleZone
   final parameter Real frontRad=front/180*Modelica.Constants.pi;
   final parameter Real backRad=back/180*Modelica.Constants.pi;
 
+  //Components
   IDEAS.Buildings.Components.Zone zone(
     corrCV=5,
     redeclare package Medium = Medium,

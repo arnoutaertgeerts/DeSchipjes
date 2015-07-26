@@ -23,9 +23,6 @@ partial model HeatingSystem
         extent={{-10,-10},{10,10}},
         rotation=90,
         origin={-40,-104})));
-  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
-            -100},{200,100}})),           Icon(coordinateSystem(
-          preserveAspectRatio=false, extent={{-200,-100},{200,100}}), graphics));
 
 equation
   QHeaSys = 0;
@@ -34,4 +31,7 @@ equation
   der(RadEn) = RadPow;
   der(DhwEn) = DhwPow;
 
+  annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
+            -100},{200,100}})),           Icon(coordinateSystem(
+          preserveAspectRatio=false, extent={{-200,-100},{200,100}}), graphics));
 end HeatingSystem;
