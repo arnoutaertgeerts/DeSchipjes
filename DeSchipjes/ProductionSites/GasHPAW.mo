@@ -2,14 +2,12 @@ within DeSchipjes.ProductionSites;
 model GasHPAW
   //Extensions
   extends Interfaces.BaseClasses.ProductionSite(
-    TSupRad=273.15+55);
+    TSupRad=273.15+55,
+    Qpeak=154000*scaler,
+    Qbase=50*scaler,
+    final modulating=true);
 
   //Parameters
-  parameter Modelica.SIunits.Power Qhpaw=50000*scaler
-    "Nominal power of the air-water HP";
-  parameter Modelica.SIunits.Power Qboiler=154000*scaler
-    "Nominal power of the boiler";
-
   parameter Modelica.SIunits.Volume VTan=0.950*scaler
     "Volume of the storage tank";
   parameter Modelica.SIunits.Height hTan=1 "Height of the storage tank";
@@ -25,7 +23,7 @@ model GasHPAW
 
   IDEAS.Fluid.Production.Boiler boiler(
                              m_flow_nominal=m_flow_nominal,
-    QNom=Qboiler,
+    QNom=Qpeak,
     modulationInput=false,
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -35,7 +33,7 @@ model GasHPAW
     annotation (Placement(transformation(extent={{40,50},{60,70}})));
   IDEAS.Fluid.Production.HeatPumpAirWater hpaw(
     modulationInput=false,
-    QNom=Qhpaw,
+    QNom=Qbase,
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m_flow_nominal_hpaw,
@@ -78,10 +76,6 @@ model GasHPAW
     annotation (Placement(transformation(extent={{-70,36},{-62,44}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Te)
     annotation (Placement(transformation(extent={{-98,30},{-78,50}})));
-  Controls.Switch TSetBoiler(on=TSupDhw, off=TSupRad)
-    annotation (Placement(transformation(extent={{14,74},{26,86}})));
-  Modelica.Blocks.Sources.RealExpression TSetHpaw(y=TSupRad)
-    annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=m_flow_nominal_hpaw)
     annotation (Placement(transformation(extent={{-74,-30},{-54,-10}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
@@ -119,12 +113,6 @@ equation
     annotation (Line(points={{-77,40},{-70.8,40}}, color={0,0,127}));
   connect(hpawOn.y, hpaw.on) annotation (Line(points={{-61.6,40},{-52,40},{-52,30.8}},
         color={255,0,255}));
-  connect(TSetBoiler.y, boiler.u)
-    annotation (Line(points={{26.6,80},{52,80},{52,70.8}}, color={0,0,127}));
-  connect(TSetHpaw.y, hpaw.u)
-    annotation (Line(points={{-59,60},{-48,60},{-48,30.8}}, color={0,0,127}));
-  connect(u, TSetBoiler.u)
-    annotation (Line(points={{0,110},{0,80},{12.8,80}}, color={255,0,255}));
   connect(bou.ports[1], fan.port_a) annotation (Line(points={{-30,-54},{-30,-60},
           {-40,-60}}, color={0,127,255}));
   connect(realExpression2.y, fan.m_flow_in) annotation (Line(points={{-53,-20},{
@@ -155,6 +143,10 @@ equation
           {5.6,34},{5.6,24}}, color={191,0,0}));
   connect(TRoo.port, tan.heaPorSid) annotation (Line(points={{80,0},{50,0},{50,28},
           {5.6,28},{5.6,24}}, color={191,0,0}));
+  connect(TBase, hpaw.u) annotation (Line(points={{-40,110},{-40,40},{-48,40},{-48,
+          30.8}}, color={0,0,127}));
+  connect(THigh, boiler.u) annotation (Line(points={{40,110},{40,80},{52,80},{52,
+          70.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics={Line(points={{-32,32},{-32,

@@ -3,7 +3,9 @@ model S4LTBEOGasBooster
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMLT
       grid, redeclare DeSchipjes.ProductionSites.GasBeo productionSite(
-        modulating=false));
+        modulating=false),
+    Qpeak(u=70),
+    Qbase(u=42.8));
 
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},

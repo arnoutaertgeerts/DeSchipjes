@@ -96,8 +96,7 @@ equation
   connect(switch1.u, u) annotation (Line(points={{14.8,0},{10,0},{10,-60},{-40,-60},
           {-40,-104}}, color={255,0,255}));
   connect(switch1.y, supplyPID.u_s)
-    annotation (Line(points={{28.6,0},{38.8,0},{38.8,0}},
-                                                      color={0,0,127}));
+    annotation (Line(points={{28.6,0},{38.8,0}},      color={0,0,127}));
   connect(radPID.y, onOffRad.u1) annotation (Line(points={{-109,40},{-100,40},{
           -100,-2.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,

@@ -8,6 +8,8 @@ partial model ProductionSite
     "Supply temperature of the Grid for the radiators";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.167*scaler
     "Nominal mass flow rate of the production site";
+  parameter Modelica.SIunits.Power Qbase;
+  parameter Modelica.SIunits.Power Qpeak;
 
   parameter Boolean modulating=true
     "Set to true if the production site modulates the supply temperature";
@@ -41,11 +43,17 @@ partial model ProductionSite
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{90,50},{110,70}}),
         iconTransformation(extent={{90,50},{110,70}})));
-  Modelica.Blocks.Interfaces.BooleanInput u if modulating annotation (Placement(
+  Modelica.Blocks.Interfaces.RealInput TBase annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={0,110})));
+        origin={-40,110})));
+  Modelica.Blocks.Interfaces.RealInput THigh if
+                                               modulating annotation (Placement(
+        transformation(
+        extent={{-20,-20},{20,20}},
+        rotation=270,
+        origin={40,110})));
 equation
 
   PrimPow = PeakPow + BasePow;

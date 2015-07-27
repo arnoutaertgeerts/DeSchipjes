@@ -1,6 +1,8 @@
 within DeSchipjes.Grids;
 model PartialGridHT
   extends PartialGrid(
+    TSupRad=273.15+70,
+    TRetRad=273.15+55,
     modulating=false,
     haarHakker1(redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem
         heatingSystem(
