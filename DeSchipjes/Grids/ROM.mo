@@ -25,6 +25,8 @@ package ROM
       peterslei6(redeclare
           DeSchipjes.Dwellings.Structures.Renovated.ROM.PetersLeiROM building));
 
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{
+              -100,-100},{240,100}})));
   end ROMHT;
 
   model ROMIT

@@ -47,7 +47,8 @@ partial model ProductionSite
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{90,50},{110,70}}),
         iconTransformation(extent={{90,50},{110,70}})));
-  Modelica.Blocks.Interfaces.RealInput TBase annotation (Placement(
+  Modelica.Blocks.Interfaces.BooleanInput
+                                       TBase annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,

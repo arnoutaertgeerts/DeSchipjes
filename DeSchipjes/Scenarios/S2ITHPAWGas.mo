@@ -5,10 +5,9 @@ model S2ITHPAWGas
       grid, redeclare DeSchipjes.ProductionSites.GasHPAW productionSite,
     Qbase(u=50),
     Qpeak(u=154),
-    TSupGrid(u=50),
-    TRetGrid(u=40),
     TSupRad(u=45),
-    TRetRad(u=35));
+    TRetRad(u=35),
+    TStorage(u=60));
 
 public
   DeSchipjes.Controls.Modulator
@@ -40,7 +39,7 @@ equation
           fillPattern=FillPattern.Solid,
           textString="2")}), Diagram(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}})),
-    experiment(StopTime=604800, __Dymola_Algorithm="Cvode"),
+    experiment(StopTime=2.62974e+006, __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,
     Documentation(info="<html>
 <h4>Modulating production site</h4>

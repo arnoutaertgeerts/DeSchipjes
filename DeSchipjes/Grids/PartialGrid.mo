@@ -556,6 +556,9 @@ protected
         rotation=180,
         origin={204,4})));
 equation
+
+  Qgrid = (port_a.h_outflow-port_b.h_outflow)*port_a.m_flow;
+
   Qdis = Pipe1.QLosses + Pipe2.QLosses + Pipe3.QLosses + Pipe4.QLosses
     + Pipe5.QLosses + Pipe6.QLosses + Pipe7.QLosses + Pipe8.QLosses
     + Pipe9.QLosses + Pipe10.QLosses + Pipe11.QLosses;

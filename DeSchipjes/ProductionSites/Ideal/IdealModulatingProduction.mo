@@ -17,8 +17,8 @@ model IdealModulatingProduction
     m_flow_nominal=m_flow_nominal,
     dp_nominal=0)
     annotation (Placement(transformation(extent={{10,-10},{30,10}})));
-  Controls.Switch                switch1(on=TSupDhw, off=TSupRad)
-                                         annotation (Placement(transformation(
+  .DeSchipjes.Controls.Switch switch1(on=TSupDhw, off=TSupRad) annotation (
+      Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-40,40})));

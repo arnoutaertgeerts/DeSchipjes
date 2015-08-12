@@ -76,12 +76,13 @@ partial model Grid
         origin={80,110})));
 
 equation
-  Qgrid = (port_a.h_outflow-port_b.h_outflow)*port_a.m_flow;
   Qren = Qhp - PboosEl*2.5;
 
   der(Edis) = Qdis;
+  der(Esh) = Qsh;
+  der(Edhw) = Qdhw;
   der(EboosEl) = PboosEl;
-  der(Egrid) = Qrid;
+  der(Egrid) = Qgrid;
   der(Ehea) = Qhea;
   der(Eren) = Qren;
   der(Ehp) = Qhp;

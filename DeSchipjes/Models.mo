@@ -279,10 +279,7 @@ package Models
         dim(lambdaI=0.04))
              annotation (Placement(transformation(extent={{76,-32},{96,-12}})));
 
-    ProductionSites.GasHPAW                   idealModulatingProduction(
-      VTan=0.950/5,
-      hTan=1,
-      m_flow_nominal_hpaw=1.19/5)
+    ProductionSites.GasHPAW productionSite(hTan=1, n=2)
       annotation (Placement(transformation(extent={{-60,-32},{-40,-12}})));
   public
     Controls.Modulator modulator(start=2)
@@ -293,19 +290,8 @@ package Models
     IDEAS.Fluid.Sensors.TemperatureTwoPort TRet(redeclare package Medium =
           IDEAS.Media.Water, m_flow_nominal=0.82)
       annotation (Placement(transformation(extent={{-20,-34},{-32,-22}})));
-    IDEAS.Controls.ControlHeating.HeatingCurves.HeatingCurve heatingCurve(
-      TOut_nominal=273.15 - 10,
-      TRoo=293.15 + 2,
-      TRoo_nominal=293.15 + 2,
-      TSup_nominal=273.15 + 55,
-      TRet_nominal=273.15 + 45)
-      annotation (Placement(transformation(extent={{-60,8},{-40,28}})));
-    Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Te)
-      annotation (Placement(transformation(extent={{-94,14},{-74,34}})));
-    Modelica.Blocks.Logical.Switch switch1
-      annotation (Placement(transformation(extent={{-8,4},{-20,16}})));
     Modelica.Blocks.Sources.RealExpression realExpression1(y=273.15 + 70)
-      annotation (Placement(transformation(extent={{28,-10},{8,10}})));
+      annotation (Placement(transformation(extent={{0,10},{-20,30}})));
   protected
     Buildings.Fluid.FixedResistances.Pipe inlet(
       nSeg=1,
@@ -369,27 +355,14 @@ package Models
       annotation (Line(points={{-71,50},{40,50},{40,20.8}}, color={255,0,255}));
     connect(modulator.on,building2. u) annotation (Line(points={{-71,50},{86,50},
             {86,20.8}}, color={255,0,255}));
-    connect(idealModulatingProduction.port_b, TSup.port_a) annotation (Line(
-          points={{-40,-16},{-32,-16},{-20,-16}}, color={0,127,255}));
+    connect(productionSite.port_b, TSup.port_a) annotation (Line(points={{-40,-16},
+            {-32,-16},{-20,-16}}, color={0,127,255}));
     connect(TSup.port_b, Pipe1.port_a1)
       annotation (Line(points={{-8,-16},{30,-16}},         color={0,127,255}));
-    connect(idealModulatingProduction.port_a, TRet.port_b)
+    connect(productionSite.port_a, TRet.port_b)
       annotation (Line(points={{-40,-28},{-32,-28}}, color={0,127,255}));
     connect(TRet.port_a, Pipe1.port_b2)
       annotation (Line(points={{-20,-28},{30,-28}},color={0,127,255}));
-    connect(heatingCurve.TOut,realExpression. y)
-      annotation (Line(points={{-62,24},{-73,24}}, color={0,0,127}));
-    connect(heatingCurve.TSup, idealModulatingProduction.TBase) annotation (Line(
-          points={{-39,24},{-30,24},{-30,0},{-54,0},{-54,-11}}, color={0,0,127}));
-    connect(switch1.u1, idealModulatingProduction.TBase) annotation (Line(points={
-            {-6.8,14.8},{-2,14.8},{-2,24},{-30,24},{-30,0},{-54,0},{-54,-11}},
-          color={0,0,127}));
-    connect(switch1.y, idealModulatingProduction.THigh) annotation (Line(points={{
-            -20.6,10},{-24,10},{-24,-4},{-46,-4},{-46,-11}}, color={0,0,127}));
-    connect(switch1.u2, building1.u) annotation (Line(points={{-6.8,10},{4,10},{4,
-            50},{40,50},{40,20.8}}, color={255,0,255}));
-    connect(switch1.u3, realExpression1.y) annotation (Line(points={{-6.8,5.2},{-2,
-            5.2},{-2,0},{7,0}}, color={0,0,127}));
     connect(Pipe1.port_b1, inlet.port_a)
       annotation (Line(points={{50,-16},{56,-16}}, color={0,127,255}));
     connect(inlet.port_b, Pipe2.port_a1)
@@ -398,6 +371,10 @@ package Models
       annotation (Line(points={{50,-28},{56,-28}}, color={0,127,255}));
     connect(inlet1.port_b, Pipe2.port_b2)
       annotation (Line(points={{68,-28},{76,-28}}, color={0,127,255}));
+    connect(realExpression1.y, productionSite.THigh)
+      annotation (Line(points={{-21,20},{-46,20},{-46,-11}}, color={0,0,127}));
+    connect(productionSite.TBase, building1.u) annotation (Line(points={{-54,
+            -11},{-54,-11},{-54,50},{40,50},{40,20.8}}, color={255,0,255}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}})),
       experiment(
