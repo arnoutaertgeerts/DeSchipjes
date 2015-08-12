@@ -14,7 +14,7 @@ model LTHeatingSystem
   Modelica.Blocks.Sources.RealExpression THotWaterSetExpr(y=TStorage + 5)
     annotation (Placement(transformation(extent={{-24,10},{-4,30}})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor temperatureSensor
-    annotation (Placement(transformation(extent={{100,74},{88,86}})));
+    annotation (Placement(transformation(extent={{108,74},{96,86}})));
   IDEAS.Fluid.Sources.FixedBoundary bou2(
     redeclare package Medium = Medium,
     use_T=false,
@@ -27,9 +27,8 @@ model LTHeatingSystem
     modulationInput=false,
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
-    QNom=1000,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
-               annotation (Placement(transformation(
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    QNom=2000) annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={24,50})));
@@ -39,8 +38,8 @@ model LTHeatingSystem
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     addPowerToMedium=false,
     dynamicBalance=false,
-    allowFlowReversal=true,
-    m_flow_nominal=0.167)
+    m_flow_nominal=0.167,
+    allowFlowReversal=false)
     annotation (Placement(transformation(extent={{40,52},{52,64}})));
   Buildings.Fluid.FixedResistances.Pipe inletSto(
     nSeg=1,
@@ -82,16 +81,24 @@ model LTHeatingSystem
     enableRelease=false,
     uLow_val=273.15 + 38,
     uHigh_val=TStorage)
-                 annotation (Placement(transformation(extent={{80,74},{68,86}})));
+                 annotation (Placement(transformation(extent={{90,74},{78,86}})));
   Modelica.Blocks.Math.Gain mDHW(k=0.167)
-    annotation (Placement(transformation(extent={{60,76},{52,84}})));
+    annotation (Placement(transformation(extent={{74,76},{66,84}})));
   Modelica.Blocks.Sources.Constant const(k=TSupply)
     annotation (Placement(transformation(extent={{8,-10},{28,10}})));
+protected
+  Modelica.Blocks.Nonlinear.Limiter limiter1(       uMax=1, uMin=limiter1.uMax*
+        1E-3)                                                   annotation (
+      Placement(transformation(
+        extent={{-4,-4},{4,4}},
+        rotation=180,
+        origin={56,80})));
 equation
-  DhwPow = hpww.PFuelOrEl;
-
+  Qdhw = (hpww.port_a1.h_outflow - hpww.port_a1.h_outflow)*hpww.port_a1.m_flow;
+  PboosEl = hpww.PFuelOrEl;
+  Qhp = hpww.heatSource.heatPort2.Q_flow - hpww.heatSource.heatPort1.Q_flow;
   connect(tan.heaPorVol[4], temperatureSensor.port) annotation (Line(
-      points={{110,52.45},{110,80},{100,80}},
+      points={{110,52.45},{110,80},{108,80}},
       color={191,0,0},
       smooth=Smooth.None));
   connect(hpww.port_b2, pumpDHWHex.port_a) annotation (Line(points={{30,60},{34,
@@ -109,16 +116,11 @@ equation
     annotation (Line(points={{76,44},{100,44}},          color={0,127,255},
       pattern=LinePattern.Dash));
   connect(onOffDHW.y,mDHW. u)
-    annotation (Line(points={{67.4,80},{67.4,80},{60.8,80}},
+    annotation (Line(points={{77.4,80},{77.4,80},{74.8,80}},
                                                  color={175,175,175}));
   connect(temperatureSensor.T,onOffDHW. u)
-    annotation (Line(points={{88,80},{88,80},{81.2,80}},
+    annotation (Line(points={{96,80},{96,80},{91.2,80}},
                                                        color={175,175,175}));
-  connect(mDHW.y, pumpDHWHex.m_flow_in) annotation (Line(points={{51.6,80},{
-          45.88,80},{45.88,65.2}},
-                             color={175,175,175}));
-  connect(mDHW.y, pumpDHW.m_flow_in) annotation (Line(points={{51.6,80},{-30.12,
-          80},{-30.12,63.2}}, color={175,175,175}));
   connect(radPID.y, pumpRad.m_flow_in) annotation (Line(points={{-109,40},{-99.88,
           40},{-99.88,-24.8}}, color={175,175,175}));
   connect(bou2.ports[1], hpww.port_a2) annotation (Line(
@@ -132,7 +134,13 @@ equation
   connect(pumpDHW.port_b, hpww.port_a1) annotation (Line(points={{-24,56},{14,
           56},{14,60},{18,60}}, color={0,127,255}));
   connect(hpww.port_b1, TRet.port_a) annotation (Line(points={{18,40},{14,40},{
-          14,42},{-32,42},{-32,-44},{-14,-44}}, color={0,127,255}));
+          14,44},{-32,44},{-32,-44},{-14,-44}}, color={0,127,255}));
+  connect(mDHW.y, limiter1.u)
+    annotation (Line(points={{65.6,80},{60.8,80}}, color={0,0,127}));
+  connect(limiter1.y, pumpDHWHex.m_flow_in) annotation (Line(points={{51.6,80},
+          {45.88,80},{45.88,65.2}}, color={0,0,127}));
+  connect(pumpDHW.m_flow_in, pumpDHWHex.m_flow_in) annotation (Line(points={{
+          -30.12,63.2},{-30.12,80},{45.88,80},{45.88,65.2}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end LTHeatingSystem;

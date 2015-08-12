@@ -64,7 +64,7 @@ model GasBeo
         origin={-32,-50})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TBasei(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
-    annotation (Placement(transformation(extent={{-78,14},{-66,26}})));
+    annotation (Placement(transformation(extent={{-68,-66},{-80,-54}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TBaseo(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{-34,14},{-22,26}})));
@@ -97,9 +97,9 @@ model GasBeo
     redeclare package Medium = Medium,
     dp_nominal=0,
     m_flow_nominal=m_flow_nominal_hpww)
-    annotation (Placement(transformation(extent={{-60,64},{-40,84}})));
+    annotation (Placement(transformation(extent={{-72,64},{-52,84}})));
   Modelica.Blocks.Sources.Constant const(k=TGround)
-    annotation (Placement(transformation(extent={{-82,88},{-74,96}})));
+    annotation (Placement(transformation(extent={{-94,88},{-86,96}})));
   Modelica.Blocks.Sources.RealExpression realExpression2(y=m_flow_nominal_hpww)
     annotation (Placement(transformation(extent={{-20,-30},{-40,-10}})));
   IDEAS.Fluid.Sources.FixedBoundary bou1(
@@ -114,12 +114,12 @@ model GasBeo
         extent={{-6,-6},{6,6}},
         rotation=90,
         origin={-90,40})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort TBeoi(redeclare package Medium =
-        Medium, m_flow_nominal=sum(m_flow_nominal))
-    annotation (Placement(transformation(extent={{-34,68},{-22,80}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TBeoo(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
-    annotation (Placement(transformation(extent={{-78,68},{-66,80}})));
+    annotation (Placement(transformation(extent={{-34,68},{-22,80}})));
+  IDEAS.Fluid.Sensors.TemperatureTwoPort TBeoi(redeclare package Medium =
+        Medium, m_flow_nominal=sum(m_flow_nominal))
+    annotation (Placement(transformation(extent={{-64,26},{-76,38}})));
 equation
 
   PeakPow = boiler.PFuelOrEl;
@@ -128,8 +128,8 @@ equation
           {-14,-60},{-42,-60}}, color={0,127,255}));
   connect(bou.ports[1],fan. port_a) annotation (Line(points={{-32,-54},{-32,-60},
           {-42,-60}}, color={0,127,255}));
-  connect(fan.port_b, TBasei.port_a) annotation (Line(points={{-54,-60},{-80,-60},
-          {-80,20},{-78,20}}, color={0,127,255}));
+  connect(fan.port_b, TBasei.port_a) annotation (Line(points={{-54,-60},{-68,
+          -60}},              color={0,127,255}));
   connect(TBaseo.port_b, tan.portHex_a) annotation (Line(points={{-22,20},{-10,20},
           {-10,20.2}}, color={0,127,255}));
   connect(boiler.port_b, TPeako.port_a)
@@ -150,19 +150,15 @@ equation
     annotation (Line(points={{84,60},{84,60},{100,60}}, color={0,127,255}));
   connect(tan.port_b, port_a) annotation (Line(points={{10,24},{26,24},{26,-60},
           {100,-60}}, color={0,127,255}));
-  connect(const.y, hea.TSet) annotation (Line(points={{-73.6,92},{-73.6,92},{-66,
-          92},{-66,80},{-62,80}},
+  connect(const.y, hea.TSet) annotation (Line(points={{-85.6,92},{-85.6,92},{
+          -80,92},{-80,80},{-74,80}},
                 color={0,0,127}));
   connect(realExpression2.y, fan.m_flow_in) annotation (Line(points={{-41,-20},{
           -47.88,-20},{-47.88,-52.8}},  color={0,0,127}));
-  connect(hpww.u, boiler.u) annotation (Line(points={{-52,36.8},{-52,48},{40,48},
-          {40,80},{58,80},{58,70.8}}, color={0,0,127}));
   connect(hpww.port_b2, TBaseo.port_a)
     annotation (Line(points={{-40,20},{-37,20},{-34,20}}, color={0,127,255}));
   connect(TBasei.port_b, hpww.port_a2)
-    annotation (Line(points={{-66,20},{-63,20},{-60,20}}, color={0,127,255}));
-  connect(fan1.port_a, hpww.port_b1)
-    annotation (Line(points={{-80,48},{-80,32},{-60,32}}, color={0,127,255}));
+    annotation (Line(points={{-80,-60},{-80,20},{-60,20}},color={0,127,255}));
   connect(bou1.ports[1], fan1.port_b)
     annotation (Line(points={{-86,68},{-80,68},{-80,60}}, color={0,127,255}));
   connect(gain.y, fan1.m_flow_in) annotation (Line(points={{-90,46.6},{-90,53.88},
@@ -171,16 +167,20 @@ equation
           -47.88,-20},{-47.88,-52.8}}, color={0,0,127}));
   connect(hpww.heatPort, TRoo.port)
     annotation (Line(points={{-50,16},{-50,0},{80,0}}, color={191,0,0}));
-  connect(hea.port_b, TBeoi.port_a)
-    annotation (Line(points={{-40,74},{-34,74}}, color={0,127,255}));
-  connect(TBeoi.port_b, hpww.port_a1) annotation (Line(points={{-22,74},{-20,74},
+  connect(hea.port_b, TBeoo.port_a)
+    annotation (Line(points={{-52,74},{-34,74}}, color={0,127,255}));
+  connect(TBeoo.port_b, hpww.port_a1) annotation (Line(points={{-22,74},{-20,74},
           {-20,32},{-40,32}}, color={0,127,255}));
-  connect(hea.port_a, TBeoo.port_b)
-    annotation (Line(points={{-60,74},{-66,74}}, color={0,127,255}));
-  connect(TBeoo.port_a, fan1.port_b)
-    annotation (Line(points={{-78,74},{-80,74},{-80,60}}, color={0,127,255}));
-  connect(THigh, boiler.u) annotation (Line(points={{40,110},{40,80},{58,80},{58,
-          70.8}}, color={0,0,127}));
+  connect(TBase, hpww.u) annotation (Line(points={{-40,110},{-40,88},{-40,88},{
+          -40,48},{-52,48},{-52,36.8}}, color={0,0,127}));
+  connect(fan1.port_a, TBeoi.port_b)
+    annotation (Line(points={{-80,48},{-80,32},{-76,32}}, color={0,127,255}));
+  connect(TBeoi.port_a, hpww.port_b1)
+    annotation (Line(points={{-64,32},{-60,32}}, color={0,127,255}));
+  connect(hea.port_a, fan1.port_b)
+    annotation (Line(points={{-72,74},{-80,74},{-80,60}}, color={0,127,255}));
+  connect(boiler.u, hpww.u) annotation (Line(points={{58,70.8},{58,84},{-40,84},
+          {-40,48},{-52,48},{-52,36.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

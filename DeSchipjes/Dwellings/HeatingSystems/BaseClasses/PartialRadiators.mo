@@ -33,6 +33,7 @@ partial model PartialRadiators
     "Zone setpoint temperature";
   Modelica.SIunits.Temperature TZonem[nZones] = TSensor
     "Zone Measured temperature";
+  Real TZoned[nZones] "Thermal space heating discomfort";
 
   Modelica.SIunits.Temperature TGridi = inlet.vol[1].T "Grid inlet temperature";
   Modelica.SIunits.Temperature TGrido = outlet.vol[1].T
@@ -45,12 +46,33 @@ partial model PartialRadiators
     "DHW setpoint temperature";
   Modelica.SIunits.Temperature TDhwm = dHWTap.TDHW_actual
     "DHW measured temperature";
+  Real TDhwd "Thermal domestic hot water discomfort";
 
   Modelica.SIunits.MassFlowRate mRad[nZones] = pumpRad.m_flow
     "massflow rate in the radiator";
   Modelica.SIunits.MassFlowRate mGrid = pumpSupply.m_flow
     "massflow rate in the grid";
   Modelica.SIunits.MassFlowRate mDhw = gain.y "Requested massflowrate for DHW";
+
+  Modelica.SIunits.Power Qhea "Usefull heating power";
+  Modelica.SIunits.Power Ehea "Usefull heating energy";
+
+  Modelica.SIunits.Power Qsh "Usefull heating power for SH";
+  Modelica.SIunits.Power Esh "Usefull heating energy for SH";
+
+  Modelica.SIunits.Power Qdhw "Usefull heating power for DHW";
+  Modelica.SIunits.Power Edhw "Usefull heating energy for DHW";
+
+  Modelica.SIunits.Power PboosEl
+    "Electricity power usage of the grid (booster HPs)";
+  Modelica.SIunits.Energy EboosEl "Electric energy usage of the grid";
+
+  Modelica.SIunits.Power Qhp "Heat power production of the grid (booster HPs)";
+  Modelica.SIunits.Energy Ehp
+    "Heat energy production of the grid (booster HPs)";
+
+  Modelica.SIunits.Power Qsto "Heat loss of the storage tanks";
+  Modelica.SIunits.Energy Esto "Energy loss of the storage tanks";
 
   //Components
 protected
@@ -104,7 +126,7 @@ protected
     linearizeFlowResistance2=false,
     allowFlowReversal1=true,
     allowFlowReversal2=true,
-    eps=0.8)        annotation (Placement(transformation(
+    eps=0.85)       annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=270,
         origin={80,-38})));
@@ -117,11 +139,11 @@ protected
         origin={-20,-22})));
   IDEAS.Controls.Continuous.LimPID radPID[nZones](
     each controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    yMax=m_flow_nominal,
-    each k=0.5,
-    each Ti=360,
     Td=30,
-    yMin=0.0001)
+    yMin=0.0001,
+    each Ti=360,
+    yMax=1.2*m_flow_nominal,
+    each k=0.5)
     annotation (Placement(transformation(extent={{-130,30},{-110,50}})));
   Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=1)     annotation (
       Placement(transformation(
@@ -211,10 +233,14 @@ equation
   P[1] = 0;
   Q[1] = 0;
 
-  HeaPow = (inlet.port_a.h_outflow - outlet.port_a.h_outflow)*inlet.m_flow;
-  RadPow = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
+  Qhea = (hex.port_b2.h_outflow - hex.port_a2.h_outflow)*hex.port_b2.m_flow;
+  Qsh = -sum(rad.heatPortCon.Q_flow) - sum(rad.heatPortRad.Q_flow);
+
+  der(TDhwd) = max(0, TDhws - (TDhwm + 0.5)) / 3600;
 
   for i in 1:nZones loop
+    der(TZoned[i]) = max(0, TZones[i] - (TZonem[i] + 0.5)) / 3600;
+
       connect(TSet[1], toKelvin[i].Celsius) annotation (Line(
       points={{20,-104},{20,-68},{-58,-68}},
       color={175,175,175},

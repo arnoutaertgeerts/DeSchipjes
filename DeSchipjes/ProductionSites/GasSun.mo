@@ -102,13 +102,18 @@ model GasSun
   IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam="modelica://Buildings/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos")
     annotation (Placement(transformation(extent={{-80,60},{-60,80}})));
   Buildings.Fluid.SolarCollectors.Controls.SolarPumpController pumCon(per=solar.per)
-    annotation (Placement(transformation(extent={{-60,-20},{-40,0}})));
+    annotation (Placement(transformation(extent={{-62,-20},{-42,0}})));
   Modelica.Blocks.Math.Gain gain(k=m_flow_nominal_solar)
     "Flow rate of the system in kg/s"
     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=0,
-        origin={-28,-10})));
+        origin={-30,-10})));
+  Modelica.Blocks.Nonlinear.Limiter limiter(uMax=100, uMin=0.01) annotation (
+      Placement(transformation(
+        extent={{-4,-4},{4,4}},
+        rotation=270,
+        origin={-22,-28})));
 equation
 
   PeakPow = boiler.PFuelOrEl;
@@ -147,19 +152,21 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(pumCon.weaBus, solar.weaBus) annotation (Line(
-      points={{-60.2,-4},{-88,-4},{-88,40},{-60,40},{-60,29.6}},
+      points={{-62.2,-4},{-88,-4},{-88,40},{-60,40},{-60,29.6}},
       color={255,204,51},
       thickness=0.5));
   connect(TBasei.T, pumCon.TIn) annotation (Line(points={{-72,13.4},{-72,-14},{
-          -62,-14}}, color={0,0,127}));
+          -64,-14}}, color={0,0,127}));
   connect(pumCon.y, gain.u)
-    annotation (Line(points={{-38.2,-10},{-32.8,-10}}, color={0,0,127}));
-  connect(gain.y, fan.m_flow_in) annotation (Line(points={{-23.6,-10},{-20,-10},
-          {-20,-40},{-49.8,-40},{-49.8,-48}}, color={0,0,127}));
+    annotation (Line(points={{-40.2,-10},{-34.8,-10}}, color={0,0,127}));
   connect(TPeako.port_b, port_b)
     annotation (Line(points={{78,60},{100,60}},          color={0,127,255}));
   connect(TBase, boiler.u) annotation (Line(points={{-40,110},{-40,110},{-40,80},
           {50,80},{50,70.8}}, color={0,0,127}));
+  connect(gain.y, limiter.u) annotation (Line(points={{-25.6,-10},{-22,-10},{
+          -22,-23.2}}, color={0,0,127}));
+  connect(limiter.y, fan.m_flow_in) annotation (Line(points={{-22,-32.4},{-22,
+          -40},{-49.8,-40},{-49.8,-48}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

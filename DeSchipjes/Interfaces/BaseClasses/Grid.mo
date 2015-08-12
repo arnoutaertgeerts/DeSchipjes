@@ -17,8 +17,34 @@ partial model Grid
   parameter Boolean modulating=true
     "Set to true if the grid modulates the supply temperature";
 
-  Modelica.SIunits.Power DisPow;
-  Modelica.SIunits.Energy DisEn;
+  Modelica.SIunits.Power Qgrid "Total power usage of the grid";
+  Modelica.SIunits.Energy Egrid "Total energy usage of the grid";
+
+  Modelica.SIunits.Power Qdis "Distribution heat losses";
+  Modelica.SIunits.Energy Edis "Distribution energy loss";
+
+  Modelica.SIunits.Power Qhea "Usefull heating power";
+  Modelica.SIunits.Power Ehea "Usefull heating energy";
+
+  Modelica.SIunits.Power Qsh "Usefull heating power for SH";
+  Modelica.SIunits.Power Esh "Usefull heating energy for SH";
+
+  Modelica.SIunits.Power Qdhw "Usefull heating power for DHW";
+  Modelica.SIunits.Power Edhw "Usefull heating energy for DHW";
+
+  Modelica.SIunits.Power PboosEl
+    "Electricity power usage of the grid (booster HPs)";
+  Modelica.SIunits.Energy EboosEl "Electric energy usage of the grid";
+
+  Modelica.SIunits.Power Qhp "Heat power production of the grid (booster HPs)";
+  Modelica.SIunits.Energy Ehp
+    "Heat energy production of the grid (booster HPs)";
+
+  Modelica.SIunits.Power Qren "Total renewable power";
+  Modelica.SIunits.Energy Eren "Total renewable energy";
+
+  Modelica.SIunits.Power Qsto "Heat loss of the storage tanks";
+  Modelica.SIunits.Energy Esto "Energy loss of the storage tanks";
 
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,-100},{-80,-80}})));
@@ -50,7 +76,16 @@ partial model Grid
         origin={80,110})));
 
 equation
-  der(DisEn) = DisPow;
+  Qgrid = (port_a.h_outflow-port_b.h_outflow)*port_a.m_flow;
+  Qren = Qhp - PboosEl*2.5;
+
+  der(Edis) = Qdis;
+  der(EboosEl) = PboosEl;
+  der(Egrid) = Qrid;
+  der(Ehea) = Qhea;
+  der(Eren) = Qren;
+  der(Ehp) = Qhp;
+  der(Esto) = Qsto;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{240,100}})),           Icon(coordinateSystem(

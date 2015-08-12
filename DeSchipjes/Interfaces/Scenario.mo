@@ -1,6 +1,10 @@
 within DeSchipjes.Interfaces;
 model Scenario
 
+  Modelica.SIunits.Energy Eprim;
+  Modelica.SIunits.Energy Eren;
+  Modelica.SIunits.Energy Esto;
+
   replaceable BaseClasses.ProductionSite productionSite(
            m_flow_nominal=grid.m_flow_nominal*productionSite.scaler,
     TSupRad=TSupGrid.y,
@@ -31,9 +35,11 @@ model Scenario
     b=273.15)
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
   IDEAS.Controls.ControlHeating.HeatingCurves.HeatingCurve heatingCurve(
-    TOut_nominal=273.15 - 8,
     TSup_nominal=TSupGrid.y,
-    TRet_nominal=TRetGrid.y)
+    TRet_nominal=TRetGrid.y,
+    TOut_nominal=273.15 - 10,
+    TRoo_nominal=293.15 + 3,
+    TRoo=293.15 + 3)
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Te)
     annotation (Placement(transformation(extent={{-74,66},{-54,86}})));
@@ -68,8 +74,14 @@ model Scenario
   Controls.Input Qpeak(
     final unit="kW",
     final a=1000,
-    final b=0) annotation (Placement(transformation(extent={{60,-20},{80,0}})));
+    final b=0,
+    u=72)      annotation (Placement(transformation(extent={{60,-20},{80,0}})));
 equation
+
+  Eprim = productionSite.Eboi + 2.5*(productionSite.EhpEl + grid.EboosEl*2.5);
+  Eren = productionSite.Eren + grid.Eren;
+  Esto = productionSite.Esto + grid.Esto;
+
   connect(grid.port_a, productionSite.port_b) annotation (Line(
       points={{-44,6},{18,6}},
       color={0,127,255},

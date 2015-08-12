@@ -19,19 +19,23 @@ partial model ProductionSite
   final parameter Real scaler = n/11;
 
   //Variables
-  Modelica.SIunits.Power PrimPow
-    "Primary power usage of the the production site";
-  Modelica.SIunits.Energy PrimEn
-    "Total primary energy usage of the production site";
+  Modelica.SIunits.Power Pboi "Primary gas power usage of the boiler";
+  Modelica.SIunits.Energy Eboi "Primary gas energy usage of the boiler";
 
-  Modelica.SIunits.Power PeakPow "Primary power usage of the peak unit";
-  Modelica.SIunits.Energy PeakEn "Primary energy usage of the peak unit";
+  Modelica.SIunits.Power PhpEl "Electricity power usage of the heat pump";
+  Modelica.SIunits.Energy EhpEl "Electricity energy usage of the heat pump";
 
-  Modelica.SIunits.Power BasePow "Primary power usage of the base unit";
-  Modelica.SIunits.Energy BaseEn "Primary Energy usage of the base unit";
+  Modelica.SIunits.Power Qhp "Heat power production of the heat pump";
+  Modelica.SIunits.Energy Ehp "Energy production of the heat pump";
 
-  Modelica.SIunits.Power GridPow "Total power usage of the grid";
-  Modelica.SIunits.Energy GridEn "Total energy usage of the grid";
+  Modelica.SIunits.Power Qsun "Renewable heat produced by the solar collector";
+  Modelica.SIunits.Energy Esun "Energy poduced by the solar collector";
+
+  Modelica.SIunits.Power Qren "Total renewable power";
+  Modelica.SIunits.Energy Eren "Total renewable energy";
+
+  Modelica.SIunits.Power Qsto "Heat loss of the storage tanks";
+  Modelica.SIunits.Energy Esto "Energy loss of the storage tanks";
 
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium)
@@ -56,13 +60,14 @@ partial model ProductionSite
         origin={40,110})));
 equation
 
-  PrimPow = PeakPow + BasePow;
-  GridPow = -(port_a.h_outflow-port_b.h_outflow)*port_a.m_flow;
+  Qren = Qsun + Qhp - PhpEl*2.5;
 
-  der(PrimEn) = PrimPow;
-  der(PeakEn) = PeakPow;
-  der(BaseEn) = BasePow;
-  der(GridEn) = GridPow;
+  der(Eren) = Qren;
+  der(Eboi) = Pboi;
+  der(EhpEl) = PhpEl;
+  der(Esun) = Qsun;
+  der(Ehp) = Qhp;
+  der(Esto) = Qsto;
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(

@@ -60,7 +60,9 @@ model ITHeatingSystem
     annotation (Placement(transformation(extent={{16,-6},{28,6}})));
 equation
 
-  DhwPow = (inletHex.port_a.h_outflow - outletHex.port_a.h_outflow)*inletHex.m_flow;
+  Qdhw = (tan.portHex_a.h_outflow - tan.portHex_b.h_outflow)*tan.portHex_a.m_flow;
+  PboosEl = 0;
+  Qhp = 0;
 
   for i in 1:nZones loop
     connect(u, notRad[i].u) annotation (Line(points={{-40,-104},{-40,-104},{-40,

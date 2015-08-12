@@ -116,10 +116,10 @@ model GasBeoModulating
         extent={{-6,-6},{6,6}},
         rotation=90,
         origin={-90,40})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort TBeoi(redeclare package Medium =
+  IDEAS.Fluid.Sensors.TemperatureTwoPort TBeoo(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{-34,68},{-22,80}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort TBeoo(redeclare package Medium =
+  IDEAS.Fluid.Sensors.TemperatureTwoPort TBeoi(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{-80,68},{-68,80}})));
 equation
@@ -171,15 +171,14 @@ equation
           -47.88,-20},{-47.88,-52.8}}, color={0,0,127}));
   connect(hpww.heatPort, TRoo.port)
     annotation (Line(points={{-50,16},{-50,0},{80,0}}, color={191,0,0}));
-  connect(hea.port_b, TBeoi.port_a)
-    annotation (Line(points={{-46,74},{-46,74},{-34,74}},
-                                                 color={0,127,255}));
-  connect(TBeoi.port_b, hpww.port_a1) annotation (Line(points={{-22,74},{-20,74},
+  connect(hea.port_b, TBeoo.port_a)
+    annotation (Line(points={{-46,74},{-46,74},{-34,74}}, color={0,127,255}));
+  connect(TBeoo.port_b, hpww.port_a1) annotation (Line(points={{-22,74},{-20,74},
           {-20,32},{-40,32}}, color={0,127,255}));
-  connect(hea.port_a, TBeoo.port_b)
+  connect(hea.port_a,TBeoi. port_b)
     annotation (Line(points={{-62,74},{-66,74},{-68,74}},
                                                  color={0,127,255}));
-  connect(TBeoo.port_a, fan1.port_b)
+  connect(TBeoi.port_a, fan1.port_b)
     annotation (Line(points={{-80,74},{-80,74},{-80,60}}, color={0,127,255}));
   connect(TBase, hpww.u) annotation (Line(points={{-40,110},{-40,42},{-52,42},{-52,
           36.8}}, color={0,0,127}));

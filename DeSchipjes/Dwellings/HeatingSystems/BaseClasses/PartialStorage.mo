@@ -31,6 +31,7 @@ partial model PartialStorage
     annotation (Placement(transformation(extent={{100,42},{120,62}})));
 equation
 
+  Qsto = tan.Ql_flow;
   connect(tan.heaPorTop, fixedTemperature.port)
     annotation (Line(points={{112,59.4},{112,80},{126,80}}, color={191,0,0}));
   connect(tan.heaPorSid, fixedTemperature.port) annotation (Line(points={{115.6,
