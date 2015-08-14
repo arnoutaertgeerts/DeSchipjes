@@ -47,18 +47,12 @@ partial model ProductionSite
     "Fluid connector b1 (positive design flow direction is from port_a1 to port_b1)"
     annotation (Placement(transformation(extent={{90,50},{110,70}}),
         iconTransformation(extent={{90,50},{110,70}})));
-  Modelica.Blocks.Interfaces.BooleanInput
-                                       TBase annotation (Placement(
-        transformation(
+  Modelica.Blocks.Interfaces.BooleanInput modulation if
+                                                modulating annotation (
+      Placement(transformation(
         extent={{-20,-20},{20,20}},
         rotation=270,
-        origin={-40,110})));
-  Modelica.Blocks.Interfaces.RealInput THigh if
-                                               modulating annotation (Placement(
-        transformation(
-        extent={{-20,-20},{20,20}},
-        rotation=270,
-        origin={40,110})));
+        origin={0,110})));
 equation
 
   Qren = Qsun + Qhp - PhpEl*2.5;

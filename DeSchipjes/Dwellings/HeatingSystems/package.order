@@ -5,5 +5,5 @@ ITHeatingSystem
 LTHeatingSystem
 BoilerHeatingSystem
 BaseClasses
-Components
+Controls
 StorageTanks

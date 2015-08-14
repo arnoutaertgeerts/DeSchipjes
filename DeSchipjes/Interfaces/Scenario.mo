@@ -34,15 +34,6 @@ model Scenario
     unit="°C",
     b=273.15)
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
-  IDEAS.Controls.ControlHeating.HeatingCurves.HeatingCurve heatingCurve(
-    TSup_nominal=TSupGrid.y,
-    TRet_nominal=TRetGrid.y,
-    TOut_nominal=273.15 - 10,
-    TRoo_nominal=293.15 + 3,
-    TRoo=293.15 + 3)
-    annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Te)
-    annotation (Placement(transformation(extent={{-74,66},{-54,86}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
   Controls.Input TSupGrid(
@@ -94,10 +85,6 @@ equation
       points={{-10,-4},{-10,-6},{-44,-6}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(heatingCurve.TOut, realExpression.y)
-    annotation (Line(points={{-42,76},{-53,76}}, color={0,0,127}));
-  connect(heatingCurve.TSup, productionSite.TBase)
-    annotation (Line(points={{-19,76},{32,76},{32,11}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(extent={{-100,-100},{100,100}},
           preserveAspectRatio=false)),           Icon(coordinateSystem(extent={{-100,
             -100},{100,100}}, preserveAspectRatio=false), graphics={Ellipse(

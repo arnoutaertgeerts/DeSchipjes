@@ -1,6 +1,8 @@
 within DeSchipjes.Controls;
 model OnOff
 
+  parameter Real ymin=0;
+
   Modelica.Blocks.Interfaces.BooleanInput u annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
@@ -12,29 +14,15 @@ model OnOff
   Modelica.Blocks.Interfaces.RealInput u1 annotation (Placement(transformation(
           extent={{-140,-20},{-100,20}}), iconTransformation(extent={{-140,-20},
             {-100,20}})));
-  Modelica.Blocks.Interfaces.RealOutput y
-    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Logical.Switch switch1
-    annotation (Placement(transformation(extent={{-10,-18},{10,2}})));
-  Modelica.Blocks.Sources.Constant const(k=0)
-    annotation (Placement(transformation(extent={{-82,-26},{-62,-6}})));
+  Modelica.Blocks.Interfaces.RealOutput y annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+
 equation
-  connect(switch1.y, y) annotation (Line(
-      points={{11,-8},{60,-8},{60,0},{110,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(u, switch1.u2) annotation (Line(
-      points={{0,-120},{0,-38},{-40,-38},{-40,-8},{-12,-8}},
-      color={255,0,255},
-      smooth=Smooth.None));
-  connect(u1, switch1.u1) annotation (Line(
-      points={{-120,0},{-70,0},{-70,0},{-12,0}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(const.y, switch1.u3) annotation (Line(
-      points={{-61,-16},{-12,-16}},
-      color={0,0,127},
-      smooth=Smooth.None));
+  if noEvent(u) then
+    y=u1;
+  else
+    y=ymin;
+  end if;
+
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics), Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

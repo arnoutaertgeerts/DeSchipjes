@@ -1,17 +1,19 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model ITHeatingSystem
+  import DeSchipjes;
   extends BaseClasses.PartialStorage(
-    TSupply=273.15+50,
-    TReturn=273.15+40);
+    radPID(yMin=0),
+    realExpression1(y=273.15 + 70));
 
   parameter Modelica.SIunits.Temperature TSupplyDHW=273.15+70;
 
-  Controls.OnOff onOffRad[nZones] annotation (Placement(transformation(
+  .DeSchipjes.Controls.OnOff onOffRad[nZones] annotation (Placement(
+        transformation(
         extent={{6,-6},{-6,6}},
         rotation=90,
-        origin={-100,-10})));
+        origin={-92,-4})));
   Modelica.Blocks.Logical.Not notRad[nZones]
-    annotation (Placement(transformation(extent={{-68,-16},{-80,-4}})));
+    annotation (Placement(transformation(extent={{-68,-10},{-80,2}})));
   IDEAS.Controls.Discrete.HysteresisRelease_boolean onOffDHW(
     enableRelease=true,
     use_input=false,
@@ -56,8 +58,11 @@ model ITHeatingSystem
         extent={{-6,6},{6,-6}},
         rotation=180,
         origin={50,44})));
-  Controls.Switch switch1(on=TSupplyDHW, off=TSupply)
-    annotation (Placement(transformation(extent={{16,-6},{28,6}})));
+  Modelica.Blocks.Logical.Switch
+                              switch1
+    annotation (Placement(transformation(extent={{40,8},{52,20}})));
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=273.15 + 70)
+    annotation (Placement(transformation(extent={{14,14},{28,28}})));
 equation
 
   Qdhw = (tan.portHex_a.h_outflow - tan.portHex_b.h_outflow)*tan.portHex_a.m_flow;
@@ -66,10 +71,10 @@ equation
 
   for i in 1:nZones loop
     connect(u, notRad[i].u) annotation (Line(points={{-40,-104},{-40,-104},{-40,
-            -60},{10,-60},{10,-10},{-66.8,-10}},               color={255,0,255}));
+            -60},{10,-60},{10,-4},{-66.8,-4}},                 color={255,0,255}));
   end for;
   connect(onOffRad.u, notRad.y) annotation (Line(
-      points={{-92.8,-10},{-80.6,-10}},
+      points={{-84.8,-4},{-80.6,-4}},
       color={255,0,255},
       smooth=Smooth.None));
 
@@ -79,28 +84,34 @@ equation
     annotation (Line(points={{66,80},{66,80},{22,80}}, color={0,0,127}));
   connect(temperatureSensor.port, tan.heaPorVol[end])
     annotation (Line(points={{74,80},{110,80},{110,52}},    color={191,0,0}));
-  connect(mDHW.y, pumpDHW.m_flow_in) annotation (Line(points={{-18.4,80},{-30.12,
-          80},{-30.12,63.2}}, color={0,0,127}));
-  connect(onOffRad.y, pumpRad.m_flow_in) annotation (Line(points={{-100,-16.6},{
-          -100,-24.8},{-99.88,-24.8}}, color={0,0,127}));
+  connect(mDHW.y, pumpDHW.m_flow_in) annotation (Line(points={{-18.4,80},{-34.12,
+          80},{-34.12,63.2}}, color={0,0,127}));
+  connect(onOffRad.y, pumpRad.m_flow_in) annotation (Line(points={{-92,-10.6},{-92,
+          -24.8},{-91.88,-24.8}},      color={0,0,127}));
   connect(tan.portHex_a, inletHex.port_b) annotation (Line(points={{100,48.2},{
           92,48.2},{92,56},{56,56}},
                                   color={0,127,255}));
   connect(inletHex.port_a, pumpDHW.port_b)
-    annotation (Line(points={{44,56},{-24,56}}, color={0,127,255}));
+    annotation (Line(points={{44,56},{-28,56}}, color={0,127,255}));
   connect(tan.portHex_b, outletHex.port_a)
     annotation (Line(points={{100,44},{56,44}}, color={0,127,255}));
-  connect(outletHex.port_b, parallelPipesSplitter.port_b) annotation (Line(
-        points={{44,44},{-36,44},{-36,-44},{-60,-44}}, color={0,127,255}));
 
   connect(onOffDHW.release, u) annotation (Line(points={{10,68},{10,-60},{-40,
           -60},{-40,-104}},      color={255,0,255}));
-  connect(switch1.u, u) annotation (Line(points={{14.8,0},{10,0},{10,-60},{-40,-60},
-          {-40,-104}}, color={255,0,255}));
-  connect(switch1.y, supplyPID.u_s)
-    annotation (Line(points={{28.6,0},{38.8,0}},      color={0,0,127}));
-  connect(radPID.y, onOffRad.u1) annotation (Line(points={{-109,40},{-100,40},{
-          -100,-2.8}}, color={0,0,127}));
+  connect(supplyPID.u_s, switch1.y)
+    annotation (Line(points={{54.8,14},{54,14},{52.6,14}}, color={0,0,127}));
+  connect(tab.y, switch1.u3) annotation (Line(points={{28.4,4},{34,4},{34,9.2},{
+          38.8,9.2}}, color={0,0,127}));
+  connect(switch1.u2, u) annotation (Line(points={{38.8,14},{10,14},{10,-60},{-40,
+          -60},{-40,-104}}, color={255,0,255}));
+  connect(switch1.u1, realExpression1.y) annotation (Line(points={{38.8,18.8},{34,
+          18.8},{34,21},{28.7,21}}, color={0,0,127}));
+  connect(onOff.y, pumpSupply.m_flow_in) annotation (Line(points={{86.4,14},{110.12,
+          14},{110.12,-24.8}}, color={0,0,127}));
+  connect(outletHex.port_b, outletRad.port_a) annotation (Line(points={{44,44},
+          {6,44},{-32,44},{-32,-44},{40,-44}}, color={0,127,255}));
+  connect(radPID.y, onOffRad.u1) annotation (Line(points={{-147.4,54},{-92,54},
+          {-92,3.2}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end ITHeatingSystem;
