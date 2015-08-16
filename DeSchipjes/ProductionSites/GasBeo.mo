@@ -244,9 +244,11 @@ equation
   Qsun=(solar.port_b.h_outflow-solar.port_a.h_outflow)*solar.m_flow;
   Qhp=-hp.heatSource.heatPort2.Q_flow;
   Qsto=bufferHp.Ql_flow + bufferSolar.Ql_flow;
-  connect(bufferHp.portHex_b, fan.port_a) annotation (Line(points={{-14,-4},{-20,
-          -4},{-20,-40},{-34,-40}}, color={0,127,255},
-      thickness=0.5));
+  connect(bufferHp.portHex_b, fan.port_a) annotation (Line(points={{-14,-4},{
+          -20,-4},{-20,-40},{-34,-40}},
+                                    color={0,127,255},
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(fan.port_b, THpi.port_a)
     annotation (Line(points={{-46,-40},{-80,-40},{-80,0},{-76,0}},
                                                            color={0,127,255},
@@ -286,15 +288,17 @@ equation
           {-66,-64}},      color={0,127,255}));
   connect(solar.port_b, TSuno.port_a)
     annotation (Line(points={{-46,-64},{-42,-64}}, color={0,127,255}));
-  connect(fan2.port_b, TSuni.port_a) annotation (Line(points={{-54,-92},{-68,-92},
-          {-80,-92},{-80,-64}},      color={0,127,255},
-      thickness=0.5));
+  connect(fan2.port_b, TSuni.port_a) annotation (Line(points={{-54,-92},{-54,
+          -92},{-80,-92},{-80,-64}}, color={0,127,255},
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(TSuno.port_b, bufferSolar.portHex_a) annotation (Line(points={{-30,-64},
           {-18,-64},{-18,-63.8}}, color={0,127,255},
       thickness=0.5));
   connect(bufferSolar.portHex_b, fan2.port_a) annotation (Line(points={{-18,-68},
           {-18,-68},{-20,-68},{-20,-92},{-42,-92}}, color={0,127,255},
-      thickness=0.5));
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(threeWayValveSwitch.port_b, TBoii.port_a)
     annotation (Line(points={{24,22},{24,60},{40,60}}, color={0,127,255},
       thickness=0.5));
@@ -305,9 +309,11 @@ equation
         points={{-18,-60},{-20,-60},{-20,-44},{24,-44},{24,6}}, color={0,127,255},
       thickness=0.5));
 
-  connect(bufferHp.port_b, bufferSolar.port_b) annotation (Line(points={{6,4},{10,
-          4},{10,-60},{2,-60}}, color={0,127,255},
-      thickness=0.5));
+  connect(bufferHp.port_b, bufferSolar.port_b) annotation (Line(points={{6,4},{
+          10,4},{10,-60},{2,-60}},
+                                color={0,127,255},
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(bufferHp.heaPorVol[1], TTopHp.port)
     annotation (Line(points={{-4,3.55},{-4,22},{-4,40}}, color={191,0,0}));
   connect(bufferHp.heaPorVol[4], TBotHp.port)
@@ -328,10 +334,12 @@ equation
           {26,76},{64,76},{64,70.8}}, color={255,0,255}));
   connect(threeWayValveSwitch1.port_a1, bufferSolar.port_b)
     annotation (Line(points={{30,-60},{2,-60}}, color={0,127,255},
-      thickness=0.5));
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(threeWayValveSwitch1.port_a2, TBoii.port_a)
     annotation (Line(points={{40,-50},{40,60}}, color={0,127,255},
-      thickness=0.5));
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(TTopSun.T, controls.TstoTopSun) annotation (Line(points={{-18,-26},{
           -28,-26},{-28,78},{-11,78}},
                                    color={175,175,175}));
@@ -349,16 +357,20 @@ equation
     annotation (Line(points={{-38,0},{-38,0},{-44,0}}, color={0,127,255}));
   connect(port_a, Tret.port_a)
     annotation (Line(points={{100,-60},{76,-60}}, color={0,127,255},
-      thickness=0.5));
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(Tret.port_b, threeWayValveSwitch1.port_b)
     annotation (Line(points={{64,-60},{50,-60}}, color={0,127,255},
-      thickness=0.5));
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(controls.Tret, Tret.T) annotation (Line(points={{-11,62},{-16,62},{
           -16,60},{-16,26},{70,26},{70,-53.4}},
                                             color={175,175,175}));
-  connect(bou.ports[1], THpi.port_a) annotation (Line(points={{-60,-38},{-60,-40},
-          {-80,-40},{-80,0},{-76,0}}, color={0,127,255},
-      thickness=0.5));
+  connect(bou.ports[1], THpi.port_a) annotation (Line(points={{-60,-38},{-60,
+          -40},{-80,-40},{-80,0},{-76,0}},
+                                      color={0,127,255},
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(booleanToReal.u, hp.on) annotation (Line(points={{-40,-11.2},{-40,30},
           {-52,30},{-52,16.8}}, color={255,0,255}));
   connect(booleanToReal.y, fan.m_flow_in) annotation (Line(points={{-40,-20.4},{
@@ -367,9 +379,11 @@ equation
           -40,-26},{-40,-32.8},{-39.88,-32.8}}, color={175,175,175}));
   connect(bufferSolar.heaPorVol[4], TBotSun.port)
     annotation (Line(points={{-8,-59.55},{-8,-76},{6,-76}}, color={191,0,0}));
-  connect(bou2.ports[1], TSuni.port_a) annotation (Line(points={{-72,-90},{-72,-92},
-          {-80,-92},{-80,-64}}, color={0,127,255},
-      thickness=0.5));
+  connect(bou2.ports[1], TSuni.port_a) annotation (Line(points={{-72,-90},{-72,
+          -92},{-80,-92},{-80,-64}},
+                                color={0,127,255},
+      thickness=0.5,
+      pattern=LinePattern.DashDot));
   connect(weaDat.weaBus, solar.weaBus) annotation (Line(
       points={{-84,-50},{-66,-50},{-66,-54.4}},
       color={255,204,51},
