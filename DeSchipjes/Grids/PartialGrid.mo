@@ -8,112 +8,134 @@ partial model PartialGrid
   DistrictHeating.Interfaces.DHConnection Pipe1(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*11,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=11.8 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{-90,0},{-70,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe2(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*10,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=6 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{-62,0},{-42,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe3(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*9,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=2.4 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{-34,0},{-14,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe4(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*8,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=8.5 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{-6,0},{14,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe5(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*7,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=2.3 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{22,0},{42,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe6(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*6,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=9.1 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{54,0},{74,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe7(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*5,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=2 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{86,0},{106,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe8(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*4,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=3.5 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{118,0},{138,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe9(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*3,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=3.5 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{148,0},{168,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe10(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*2,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=7.7 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{178,0},{198,20}})));
   DistrictHeating.Interfaces.DHConnection Pipe11(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal*1,
-    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
-        redeclare DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeAir
-        baseConfiguration),
     L=4.2 + 2,
     H=0.6,
-    lambdaG=1.2)
+    lambdaG=1.2,
+    dim(lambdaI=0.04),
+    redeclare DistrictHeating.Pipes.DoublePipes.DHPlugDelta districtHeatingPipe(
+        redeclare
+        DistrictHeating.Pipes.DoublePipes.Configurations.TwinPipeGround
+        baseConfiguration))
     annotation (Placement(transformation(extent={{210,0},{230,20}})));
   Dwellings.Building haarHakker1(
     final isDH=true,

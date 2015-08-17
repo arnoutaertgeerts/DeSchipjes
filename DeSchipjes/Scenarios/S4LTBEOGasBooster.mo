@@ -4,7 +4,7 @@ model S4LTBEOGasBooster
   extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMLT
       grid, redeclare DeSchipjes.ProductionSites.GasBeo productionSite(
         modulating=false),
-    Qpeak(u=70),
+    Qpeak(u=72),
     Qbase(u=43));
 
   annotation (Icon(graphics={Text(

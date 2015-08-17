@@ -5,7 +5,7 @@ model S3ITBEOGas
       grid, redeclare DeSchipjes.ProductionSites.GasBeoModulating
       productionSite,
     Qbase(u=29),
-    Qpeak(u=154));
+    Qpeak(u=72));
 
 public
   DeSchipjes.Controls.Modulator modulator(start=2)

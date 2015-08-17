@@ -9,8 +9,7 @@ model S1HTGasSun
     TSupGrid(u=80),
     TRetGrid(u=63),
     Qbase(u=0.0),
-    Qpeak(u=215.4),
-    heatingCurve(TSupMin=TSupDhw.y));
+    Qpeak(u=215.4));
 
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}}), graphics={Text(
@@ -19,7 +18,7 @@ model S1HTGasSun
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="1")}),
-    experiment(StopTime=2.62974e+006, __Dymola_Algorithm="Cvode"),
+    experiment(StopTime=1.57785e+007, __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

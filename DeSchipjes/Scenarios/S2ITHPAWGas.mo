@@ -4,7 +4,7 @@ model S2ITHPAWGas
   extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMIT
       grid, redeclare DeSchipjes.ProductionSites.GasHPAW productionSite,
     Qbase(u=50),
-    Qpeak(u=154),
+    Qpeak(u=72),
     TSupRad(u=45),
     TRetRad(u=35),
     TStorage(u=60));

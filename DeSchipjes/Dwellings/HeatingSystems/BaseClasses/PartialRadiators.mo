@@ -79,7 +79,14 @@ partial model PartialRadiators
   Modelica.SIunits.Energy Esto "Energy loss of the storage tanks";
 
   //Components
-//protected
+  Buildings.Controls.Continuous.LimPID supplyPID(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    yMin=0,
+    k=0.01,
+    yMax=sum(m_flow_nominal),
+    Ti=180) annotation (Placement(transformation(extent={{56,8},{68,20}})));
+
+protected
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
     redeclare package Medium = Medium,
     each T_a_nominal=TSupply,
@@ -207,12 +214,6 @@ partial model PartialRadiators
     filteredSpeed=false,
     addPowerToMedium=true)
     annotation (Placement(transformation(extent={{-40,50},{-28,62}})));
-  Buildings.Controls.Continuous.LimPID supplyPID(
-    controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    yMin=0,
-    k=0.01,
-    yMax=sum(m_flow_nominal),
-    Ti=180) annotation (Placement(transformation(extent={{56,8},{68,20}})));
   Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{68,-38},{56,-26}})));
