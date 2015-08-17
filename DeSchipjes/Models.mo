@@ -94,7 +94,7 @@ package Models
     extends DeSchipjes.Interfaces.Scenario(
       redeclare Grids.Small.GridIT grid,
       redeclare ProductionSites.GasHPAW productionSite(n=2),
-      Qpeak(u=154),
+      Qpeak(u=72),
       TRetRad(u=35),
       TSupRad(u=45),
       TSupGrid(u=50),
@@ -112,7 +112,7 @@ package Models
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),
       experiment(
-        StopTime=2.62974e+006,
+        StopTime=1.57785e+007,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);

@@ -22,6 +22,12 @@ model GasSun
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal_chp=0.14*scaler
     "Nominal massflow rate of the solar collector";
 
+  //Variables
+  Modelica.SIunits.Power PCHP "Gas consumption of the CHP";
+  Modelica.SIunits.Power PelCHP "Electricity production of the CHP";
+
+  Modelica.SIunits.Power ECHP "Integrated Gas consumption of the CHP";
+  Modelica.SIunits.Power EelCHP "Integrated Electricity production of the CHP";
   Heaters.Boiler                boiler(
                              m_flow_nominal=m_flow_nominal,
     modulationInput=false,
@@ -100,8 +106,9 @@ model GasSun
     azi=0.3,
     per=Buildings.Fluid.SolarCollectors.Data.GlazedFlatPlate.FP_TRNSYSValidation(),
     sysConfig=Buildings.Fluid.SolarCollectors.Types.SystemConfiguration.Parallel,
-
-    nSeg=5) annotation (Placement(transformation(extent={{-60,-32},{-40,-12}})));
+    nSeg=5,
+    use_shaCoe_in=true)
+            annotation (Placement(transformation(extent={{-60,-32},{-40,-12}})));
 
   Buildings.Fluid.SolarCollectors.Controls.SolarPumpController pumCon(per=solar.per)
     annotation (Placement(transformation(extent={{-60,-56},{-52,-48}})));
@@ -191,17 +198,19 @@ model GasSun
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={-42,-68})));
-  DeSchipjes.Controls.OnOff onOff annotation (Placement(transformation(
-        extent={{4,-4},{-4,4}},
-        rotation=90,
-        origin={-22,-60})));
-  Modelica.Blocks.Logical.LessThreshold greaterThreshold(threshold=273.15 + 85)
-    annotation (Placement(transformation(
-        extent={{4,-4},{-4,4}},
-        rotation=90,
-        origin={-10,-50})));
+  Annex60.Controls.Continuous.LimPID solarPID(controllerType=Modelica.Blocks.Types.SimpleController.PI,
+      Ti=180,
+    reverseAction=true)
+    annotation (Placement(transformation(extent={{-14,-38},{-26,-50}})));
+  Modelica.Blocks.Sources.Constant const(k=273.15 + 90)
+    annotation (Placement(transformation(extent={{4,-50},{-8,-38}})));
 equation
 
+  der(ECHP)=PCHP;
+  der(EelCHP)=PelCHP;
+
+  PCHP=cHP.PFuel;
+  PelCHP=cHP.PEl;
   Pboi=boiler.PFuelOrEl;
   PhpEl=0;
   Qsun=(solar.port_b.h_outflow-solar.port_a.h_outflow)*solar.m_flow;
@@ -257,7 +266,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(pumCon.weaBus, solar.weaBus) annotation (Line(
-      points={{-60.08,-49.6},{-64,-49.6},{-64,-12},{-60,-12},{-60,-12.4}},
+      points={{-60.08,-49.6},{-66,-49.6},{-66,-12},{-60,-12},{-60,-12.4}},
       color={255,204,51},
       thickness=0.5));
   connect(bufferSolar.heaPorSid, TRoo.port) annotation (Line(points={{11.6,-18},
@@ -318,14 +327,14 @@ equation
   connect(limiter.y, fan.m_flow_in) annotation (Line(points={{-46.4,-68},{
           -49.88,-68},{-49.88,-76.8}},
                                 color={0,0,127}));
-  connect(greaterThreshold.y, onOff.u) annotation (Line(points={{-10,-54.4},{
-          -10,-54.4},{-10,-60},{-17.2,-60}}, color={255,0,255}));
-  connect(TSuno.T, greaterThreshold.u) annotation (Line(points={{-28,-15.4},{
-          -28,-12},{-10,-12},{-10,-45.2}}, color={0,0,127}));
-  connect(gain.y, onOff.u1) annotation (Line(points={{-37.6,-52},{-30,-52},{-22,
-          -52},{-22,-55.2}}, color={0,0,127}));
   connect(gain.y, limiter.u) annotation (Line(points={{-37.6,-52},{-34,-52},{
           -34,-68},{-37.2,-68}}, color={0,0,127}));
+  connect(TSuno.T, solarPID.u_m) annotation (Line(points={{-28,-15.4},{-28,-10},
+          {-20,-10},{-20,-36.8}}, color={0,0,127}));
+  connect(solarPID.y, solar.shaCoe_in) annotation (Line(points={{-26.6,-44},{-46,
+          -44},{-68,-44},{-68,-19.4},{-62,-19.4}}, color={0,0,127}));
+  connect(solarPID.u_s, const.y) annotation (Line(points={{-12.8,-44},{-10,-44},
+          {-8.6,-44}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

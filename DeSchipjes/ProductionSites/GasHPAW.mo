@@ -42,7 +42,9 @@ model GasHPAW
     m_flow_nominal=m_flow_nominal_hpaw,
     dp_nominal=0,
     T_start=TSupRad,
-    m=13*scaler)           annotation (Placement(transformation(
+    m=13*scaler,
+    allowFlowReversal=false)
+                           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-36,20})));
@@ -70,9 +72,9 @@ model GasHPAW
     T_start=TSupRad,
     hHex_a=0.95,
     THex_nominal=TSupRad + 5,
-    hexSegMult=1,
     TTan_nominal=273.15 + 30,
-    Q_flow_nominal=bufferHp.mHex_flow_nominal*4200*30)
+    Q_flow_nominal=bufferHp.mHex_flow_nominal*4200*30,
+    hexSegMult=1)
     annotation (Placement(transformation(extent={{4,14},{24,34}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
@@ -94,7 +96,7 @@ model GasHPAW
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TBot
     annotation (Placement(transformation(extent={{-4,-16},{-16,-4}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal(realTrue=m_flow_nominal_hpaw,
-      realFalse=0)
+      realFalse=0.01*m_flow_nominal_hpaw)
     annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=270,

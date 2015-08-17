@@ -154,8 +154,9 @@ model GasBeo
     rho=0.2,
     azi=0.3,
     per=Buildings.Fluid.SolarCollectors.Data.GlazedFlatPlate.FP_TRNSYSValidation(),
-    use_shaCoe_in=false,
-    nSeg=3) annotation (Placement(transformation(extent={{-66,-74},{-46,-54}})));
+    nSeg=3,
+    use_shaCoe_in=true)
+            annotation (Placement(transformation(extent={{-66,-74},{-46,-54}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TSuni(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{-80,-68},{-72,-60}})));
@@ -241,6 +242,13 @@ model GasBeo
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={-10,-88})));
+  Annex60.Controls.Continuous.LimPID solarPID(controllerType=Modelica.Blocks.Types.SimpleController.PI,
+      Ti=180,
+    reverseAction=true)
+    annotation (Placement(transformation(extent={{-118,-62},{-106,-74}})));
+  Modelica.Blocks.Sources.Constant const1(
+                                         k=273.15 + 90)
+    annotation (Placement(transformation(extent={{-140,-74},{-128,-62}})));
 equation
 
   Pboi=boiler.PFuelOrEl;
@@ -409,6 +417,12 @@ equation
           {-54,28},{-54,16.8}}, color={255,0,255}));
   connect(booleanToReal.u, hp.u) annotation (Line(points={{-40,-11.2},{-40,28},{
           -54,28},{-54,16.8}}, color={255,0,255}));
+  connect(const1.y, solarPID.u_s) annotation (Line(points={{-127.4,-68},{-119.2,
+          -68},{-119.2,-68}}, color={0,0,127}));
+  connect(solarPID.y, solar.shaCoe_in) annotation (Line(points={{-105.4,-68},{
+          -88,-68},{-88,-61.4},{-68,-61.4}}, color={0,0,127}));
+  connect(TSuno.T, solarPID.u_m) annotation (Line(points={{-36,-57.4},{-36,-52},
+          {-112,-52},{-112,-60.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
