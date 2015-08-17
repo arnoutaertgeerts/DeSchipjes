@@ -24,6 +24,11 @@ package BaseClasses
     parameter Modelica.SIunits.HeatCapacity Cp=0
       "Heat capacity of the dry lumped material";
 
+    Modelica.SIunits.Power QEvaporator=-prescribedHeatFlow.port.Q_flow;
+    Modelica.SIunits.Power Qren=QEvaporator-PEl*2.5;
+    Real COP;
+    Modelica.SIunits.Power Q "Heat delivered to the evaporator";
+
     //Interfaces
      Modelica.Blocks.Interfaces.BooleanInput u annotation (Placement(
           transformation(
@@ -43,11 +48,9 @@ package BaseClasses
           6824,9100,10386,12072,12072; 45,4320,4906,5255,5957,6576,8765,10008,
           11647,11647; 50,4270,4824,5155,5828,6426,8564,9786,11408,11408],
         smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
-      annotation (Placement(transformation(extent={{-70,-60},{-50,-40}})));
+      annotation (Placement(transformation(extent={{28,60},{48,80}})));
     DeSchipjes.Controls.OnOff onOff(ymin=0)
       annotation (Placement(transformation(extent={{-36,-44},{-24,-56}})));
-    Modelica.Blocks.Math.Gain gain(k=scaler)
-      annotation (Placement(transformation(extent={{-10,-60},{10,-40}})));
     Modelica.Blocks.Tables.CombiTable2D powerTable(
                                                   table=[0,-15,-10,-7,-2,2,7,12,18,
           30; 30,4820,5576,6023,6892,7642,10208,11652,13518,13518; 35,4590,5279,5685,
@@ -57,28 +60,30 @@ package BaseClasses
       annotation (Placement(transformation(extent={{20,30},{40,50}})));
     Modelica.Blocks.Math.Gain gain1(k=scaler)
       annotation (Placement(transformation(extent={{74,30},{94,50}})));
-    Modelica.Blocks.Interfaces.RealOutput PFuelOrEl
-      annotation (Placement(transformation(extent={{100,30},{120,50}}),
-          iconTransformation(extent={{100,30},{120,50}})));
+    Modelica.Blocks.Interfaces.RealOutput PEl annotation (Placement(
+          transformation(extent={{100,30},{120,50}}), iconTransformation(extent={{
+              100,30},{120,50}})));
     DeSchipjes.Controls.OnOff onOff1(
                                     ymin=0)
       annotation (Placement(transformation(extent={{48,34},{60,46}})));
     Modelica.Blocks.Sources.RealExpression realExpression(y=m_flow)
       annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
-    Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0.0001)
+    Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0.001)
       annotation (Placement(transformation(extent={{-52,36},{-44,44}})));
     Modelica.Blocks.Logical.And heaterOn
       annotation (Placement(transformation(extent={{-32,46},{-20,34}})));
+    Modelica.Blocks.Sources.RealExpression realExpression1(y=Q)
+      annotation (Placement(transformation(extent={{-66,-60},{-46,-40}})));
+    DeSchipjes.Controls.OnOff onOff2(
+                                    ymin=0)
+      annotation (Placement(transformation(extent={{60,64},{72,76}})));
   equation
+
+    COP=onOff2.y;
+    Q=PEl*COP;
+
     connect(prescribedHeatFlow.port, vol.heatPort) annotation (Line(points={{20,-34},
             {20,-34},{-20,-34},{-20,-10},{-9,-10}},                color={191,0,0}));
-    connect(COPTable.y, onOff.u1) annotation (Line(points={{-49,-50},{-49,-50},
-            {-37.2,-50}}, color={0,0,127}));
-    connect(gain.u, onOff.y)
-      annotation (Line(points={{-12,-50},{-23.4,-50}},   color={0,0,127}));
-    connect(gain.y, prescribedHeatFlow.Q_flow)
-      annotation (Line(points={{11,-50},{50,-50},{50,-34},{40,-34},{40,-34}},
-                                                         color={0,0,127}));
     connect(powerTable.y, onOff1.u1)
       annotation (Line(points={{41,40},{46.8,40}},  color={0,0,127}));
     connect(onOff1.y, gain1.u)
@@ -87,14 +92,22 @@ package BaseClasses
       annotation (Line(points={{-69,40},{-52.8,40}}, color={0,0,127}));
     connect(greaterThreshold.y, heaterOn.u1)
       annotation (Line(points={{-43.6,40},{-33.2,40}}, color={255,0,255}));
-    connect(gain1.y, PFuelOrEl)
-      annotation (Line(points={{95,40},{110,40},{110,40}}, color={0,0,127}));
+    connect(gain1.y, PEl)
+      annotation (Line(points={{95,40},{110,40}}, color={0,0,127}));
     connect(u, heaterOn.u2) annotation (Line(points={{0,108},{0,68},{-40,68},{
             -40,44.8},{-33.2,44.8}}, color={255,0,255}));
-    connect(heaterOn.y, onOff1.u) annotation (Line(points={{-19.4,40},{0,40},{0,
+    connect(heaterOn.y, onOff1.u) annotation (Line(points={{-19.4,40},{-12,40},{-12,
             20},{54,20},{54,32.8}}, color={255,0,255}));
     connect(heaterOn.y, onOff.u) annotation (Line(points={{-19.4,40},{-12,40},{
             -12,20},{-30,20},{-30,-42.8}}, color={255,0,255}));
+    connect(onOff.u1, realExpression1.y)
+      annotation (Line(points={{-37.2,-50},{-45,-50}}, color={0,0,127}));
+    connect(onOff2.u1, COPTable.y)
+      annotation (Line(points={{58.8,70},{49,70}}, color={0,0,127}));
+    connect(onOff2.u, onOff1.u) annotation (Line(points={{66,62.8},{66,20},{54,20},
+            {54,32.8}}, color={255,0,255}));
+    connect(onOff.y, prescribedHeatFlow.Q_flow) annotation (Line(points={{-23.4,-50},
+            {52,-50},{52,-34},{40,-34}}, color={0,0,127}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}})), Icon(coordinateSystem(preserveAspectRatio=false,
             extent={{-100,-100},{100,100}}), graphics={Line(
@@ -132,6 +145,8 @@ package BaseClasses
       "Nominal power of the modeled heatpump";
     parameter Modelica.SIunits.Power QNomRef
       "Nominal power of the heatpump for which the data was produced";
+    parameter Modelica.SIunits.MassFlowRate m_flow_min=QNom/(4*4180)
+      "Minimal massflowrate of the condensor. Defaults to a temperature difference of 4 degrees at nominal power";
 
     parameter Modelica.SIunits.HeatCapacity Cp=0
       "Heat capacity of the dry lumped material";
@@ -142,6 +157,9 @@ package BaseClasses
     Modelica.SIunits.Power P;
     Modelica.SIunits.Power Q1;
     Modelica.SIunits.Power Q2;
+    Modelica.SIunits.Power QEvaporator;
+    Modelica.SIunits.Power QCondensor;
+    Modelica.SIunits.Power Qren;
     Real COP;
 
     //Interfaces
@@ -152,17 +170,17 @@ package BaseClasses
           origin={0,108})));
 
     //Components
-  protected
+  //protected
     Buildings.HeatTransfer.Sources.PrescribedHeatFlow prescribedHeatFlow
       annotation (Placement(transformation(
           extent={{-10,-10},{10,10}},
           rotation=270,
           origin={60,-40})));
-    Modelica.Blocks.Tables.CombiTable2D COPTable(smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
+    Modelica.Blocks.Tables.CombiTable2D COPTable(smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments)
       annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
     Modelica.Blocks.Math.Gain gain(k=scaler)
       annotation (Placement(transformation(extent={{20,-30},{40,-10}})));
-    Modelica.Blocks.Tables.CombiTable2D powerTable(smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
+    Modelica.Blocks.Tables.CombiTable2D powerTable
       annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
     Modelica.Blocks.Math.Gain gain1(k=scaler)
       annotation (Placement(transformation(extent={{84,-6},{96,6}})));
@@ -190,32 +208,40 @@ package BaseClasses
     Modelica.Blocks.Sources.RealExpression realExpression2(y=P)
       annotation (Placement(transformation(extent={{40,-10},{60,10}})));
   public
-    Modelica.Blocks.Interfaces.RealOutput PFuelOrEl annotation (Placement(
+    Modelica.Blocks.Interfaces.RealOutput PEl annotation (Placement(
           transformation(extent={{100,-10},{120,10}}), iconTransformation(extent={
               {100,-10},{120,10}})));
     Buildings.Fluid.Sensors.Temperature Ti1(redeclare package Medium = Medium1)
       annotation (Placement(transformation(extent={{-54,60},{-42,72}})));
-    Modelica.Blocks.Sources.RealExpression realExpression3(y=Ti1.T - 273.15)
+    Modelica.Blocks.Sources.RealExpression realExpression3(y=vol1.T - 273.15)
       annotation (Placement(transformation(extent={{-96,-38},{-76,-18}})));
-    Modelica.Blocks.Sources.RealExpression realExpression4(y=TEvaporator.T -
-          273.15)
+    Modelica.Blocks.Sources.RealExpression realExpression4(y=Ti2.T - 273.15)
       annotation (Placement(transformation(extent={{-96,-10},{-76,10}})));
     Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TEvaporator
       annotation (Placement(transformation(extent={{26,-54},{38,-42}})));
-    Modelica.Blocks.Sources.RealExpression realExpression5(y=m2_flow)
+    Modelica.Blocks.Sources.RealExpression realExpression5(y=m1_flow)
       annotation (Placement(transformation(extent={{14,30},{34,50}})));
-    Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0.0001)
+    Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=
+          m_flow_min)
       annotation (Placement(transformation(extent={{42,36},{50,44}})));
     Modelica.Blocks.Logical.And heaterOn
       annotation (Placement(transformation(extent={{62,46},{74,34}})));
+    DeSchipjes.Controls.OnOff onOff4(
+                                    ymin=0)
+      annotation (Placement(transformation(extent={{6,-30},{18,-42}})));
+    Buildings.Fluid.Sensors.Temperature Ti2(redeclare package Medium = Medium1)
+      annotation (Placement(transformation(extent={{94,-46},{82,-34}})));
   equation
 
     P = powerTable.y;
-    COP = COPTable.y;
+    COP = onOff4.y;
 
-    Q2 = P*COP;
-    Q1 = Q2*(1-1/COP);
+    Q2 = P*COPTable.y;
+    Q1 = Q2*(1-1/COPTable.y);
+    Qren = QEvaporator - PEl*2.5;
 
+    QEvaporator = -prescribedHeatFlow.port.Q_flow;
+    QCondensor = -prescribedHeatFlow1.port.Q_flow;
     connect(gain.y, prescribedHeatFlow.Q_flow)
       annotation (Line(points={{41,-20},{60,-20},{60,-30}},
                                                          color={0,0,127}));
@@ -223,9 +249,6 @@ package BaseClasses
             {60,-50},{60,-60},{12,-60}}, color={191,0,0}));
     connect(onOff1.y, gain.u)
       annotation (Line(points={{6.6,-20},{18,-20}}, color={0,0,127}));
-    connect(onOff2.y, gain1.u)
-      annotation (Line(points={{78.6,0},{74,0},{82.8,0}},
-                                                   color={0,0,127}));
     connect(gain2.y, prescribedHeatFlow1.Q_flow) annotation (Line(points={{-41.4,40},
             {-41.4,40},{-38,40}}, color={0,0,127}));
     connect(onOff3.y, gain2.u) annotation (Line(points={{-59.4,40},{-59.4,40},{-55.2,
@@ -238,7 +261,7 @@ package BaseClasses
       annotation (Line(points={{-7.2,-20},{-11,-20}}, color={0,0,127}));
     connect(onOff2.u1, realExpression2.y)
       annotation (Line(points={{64.8,0},{64.8,0},{61,0}},  color={0,0,127}));
-    connect(PFuelOrEl, gain1.y)
+    connect(PEl, gain1.y)
       annotation (Line(points={{110,0},{96.6,0}}, color={0,0,127}));
     connect(onOff3.u, onOff1.u) annotation (Line(points={{-66,32.8},{-66,20},{0,20},
             {0,-12.8}}, color={255,0,255}));
@@ -264,6 +287,14 @@ package BaseClasses
             {60.8,44.8}}, color={255,0,255}));
     connect(heaterOn.y, onOff1.u) annotation (Line(points={{74.6,40},{80,40},{80,20},
             {0,20},{0,-12.8}}, color={255,0,255}));
+    connect(onOff2.y, gain1.u)
+      annotation (Line(points={{78.6,0},{82.8,0},{82.8,0}}, color={0,0,127}));
+    connect(COPTable.y, onOff4.u1) annotation (Line(points={{-39,-30},{-36,-30},{-36,
+            -36},{4.8,-36}}, color={0,0,127}));
+    connect(onOff4.u, onOff1.u) annotation (Line(points={{12,-28.8},{12,-4},{0,-4},
+            {0,-12.8}}, color={255,0,255}));
+    connect(port_a2, Ti2.port) annotation (Line(points={{100,-60},{100,-52},{
+            100,-46},{88,-46}}, color={0,127,255}));
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}})), Icon(coordinateSystem(preserveAspectRatio=false,
             extent={{-100,-100},{100,100}}), graphics={Line(

@@ -10,25 +10,28 @@ model HPAWVitoA60 "Vito air-water HP"
     powerTable(table=[0,-20,-15,-7,2,7,10,12,20; 35,11809,12701.3,
           13517.2,13888.9,14658.5,15381,15980.6,16635.1; 45,13319.5,13810.9,14918,
           15932.7,16913.9,17214.5,18005.5,18669.8; 55,13961,15439.3,15450.5,17996.1,
-          19642.9,19480.5,20000,21144]));
+          19642.9,19480.5,20000,21144]),
+    QNomRef=50000);
 
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  Modelica.Blocks.Sources.RealExpression TAmbient(y=sim.Te)
-    annotation (Placement(transformation(extent={{-100,14},{-86,32}})));
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TEvaporator
-    annotation (Placement(transformation(extent={{-4,40},{8,52}})));
+  Modelica.Blocks.Sources.RealExpression TAmbient1(y=sim.Te - 273.15)
+    annotation (Placement(transformation(extent={{-8,26},{4,42}})));
+  Modelica.Blocks.Sources.RealExpression TEvap1(y=Ti.T - 273.15)
+    annotation (Placement(transformation(extent={{-8,48},{4,64}})));
+  Buildings.Fluid.Sensors.Temperature Ti(redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{-90,8},{-70,28}})));
 equation
-  connect(TAmbient.y, COPTable.u2) annotation (Line(points={{-85.3,23},{-80,23},
-          {-80,-56},{-72,-56}}, color={0,0,127}));
-  connect(powerTable.u1, TEvaporator.T)
-    annotation (Line(points={{18,46},{14,46},{8,46}}, color={0,0,127}));
-  connect(vol.heatPort, TEvaporator.port) annotation (Line(points={{-9,-10},{-20,
-          -10},{-20,16},{-4,16},{-4,46}}, color={191,0,0}));
-  connect(COPTable.u1, TEvaporator.T) annotation (Line(points={{-72,-44},{-84,-44},
-          {-84,-74},{60,-74},{60,12},{12,12},{12,46},{8,46}}, color={0,0,127}));
-  connect(TAmbient.y, powerTable.u2) annotation (Line(points={{-85.3,23},{6,23},
-          {6,34},{18,34}}, color={0,0,127}));
+  connect(powerTable.u1, TEvap1.y) annotation (Line(points={{18,46},{10,46},{10,
+          56},{4.6,56}}, color={0,0,127}));
+  connect(powerTable.u2, TAmbient1.y)
+    annotation (Line(points={{18,34},{4.6,34}}, color={0,0,127}));
+  connect(COPTable.u1, TEvap1.y) annotation (Line(points={{26,76},{10,76},{10,
+          56},{4.6,56}}, color={0,0,127}));
+  connect(COPTable.u2, TAmbient1.y) annotation (Line(points={{26,64},{14,64},{
+          14,34},{4.6,34}}, color={0,0,127}));
+  connect(Ti.port, preDro.port_a)
+    annotation (Line(points={{-80,8},{-80,0},{-60,0}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})));
 end HPAWVitoA60;

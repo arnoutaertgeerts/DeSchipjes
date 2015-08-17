@@ -83,7 +83,7 @@ package Models
     annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
               -100},{100,100}})),
       experiment(
-        StopTime=2.62974e+006,
+        StopTime=1.57785e+007,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);
@@ -98,7 +98,8 @@ package Models
       TRetRad(u=35),
       TSupRad(u=45),
       TSupGrid(u=50),
-      TRetGrid(u=40));
+      TRetGrid(u=40),
+      Qbase(u=50));
   public
     Controls.Modulator modulator(start=2)
       annotation (Placement(transformation(extent={{-90,50},{-70,70}})));
@@ -111,7 +112,7 @@ package Models
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),
       experiment(
-        StopTime=7.88923e+006,
+        StopTime=2.62974e+006,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);
@@ -158,6 +159,10 @@ package Models
       TSupRad(u=45),
       TRetRad(u=35));
 
+    annotation (experiment(
+        StopTime=2.6e+006,
+        __Dymola_fixedstepsize=30,
+        __Dymola_Algorithm="Cvode"), __Dymola_experimentSetupOutput);
   end S4;
 
   model PipeRK4 "Test for the simulation of pipe models with RK4"

@@ -19,10 +19,11 @@ model GasHPAW
   parameter Modelica.SIunits.Temperature TSupDhw=273.15+75
     "Supply temperature of the Grid for the DHW";
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_hpaw=1.19*scaler
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_hpaw=1.195*scaler
     "Nominal massflow rate of the air-water hp";
 
-  IDEAS.Fluid.Production.Boiler boiler(
+  DeSchipjes.ProductionSites.Heaters.Boiler
+                                boiler(
                              m_flow_nominal=m_flow_nominal,
     QNom=Qpeak,
     modulationInput=false,
@@ -31,18 +32,17 @@ model GasHPAW
     T_start=TSupRad,
     dp_nominal=0,
     use_onOffSignal=true,
-    m2=50)
+    m2=15*scaler)
     annotation (Placement(transformation(extent={{56,50},{76,70}})));
-  IDEAS.Fluid.Production.HeatPumpAirWater hp(
+  DeSchipjes.ProductionSites.Heaters.HPAWVitoA60
+                                          hp(
     QNom=Qbase,
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m_flow_nominal_hpaw,
     dp_nominal=0,
     T_start=TSupRad,
-    use_onOffSignal=true,
-    modulating=true,
-    modulationInput=false) annotation (Placement(transformation(
+    m=13*scaler)           annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=0,
         origin={-36,20})));
@@ -122,9 +122,9 @@ model GasHPAW
 equation
 
   Pboi=boiler.PFuelOrEl;
-  PhpEl=hp.PFuelOrEl;
+  PhpEl=hp.PEl;
   Qsun=0;
-  Qhp=-hp.heatSource.heatPort2.Q_flow;
+  Qhp=hp.QEvaporator;
   Qsto=bufferHp.Ql_flow;
 
   connect(bufferHp.portHex_b, fan.port_a) annotation (Line(points={{4,16},{0,16},
@@ -150,24 +150,18 @@ equation
       thickness=0.5));
   connect(boiler.heatPort, TRoo.port)
     annotation (Line(points={{66,50},{66,50},{66,0},{80,0}}, color={191,0,0}));
-  connect(hp.heatPort, TRoo.port)
-    annotation (Line(points={{-36,10},{-36,0},{80,0}}, color={191,0,0}));
   connect(bufferHp.heaPorBot, bufferHp.heaPorSid) annotation (Line(points={{16,16.6},
           {16,14},{19.6,14},{19.6,24}}, color={191,0,0}));
   connect(bufferHp.heaPorTop, bufferHp.heaPorSid) annotation (Line(points={{16,31.4},
           {16,34},{19.6,34},{19.6,24}}, color={191,0,0}));
   connect(TRoo.port, bufferHp.heaPorSid) annotation (Line(points={{80,0},{66,0},
           {66,28},{19.6,28},{19.6,24}}, color={191,0,0}));
-  connect(controls.hpOn, hp.on) annotation (Line(points={{-43.4,62},{-38,62},{-38,
-          30.8}}, color={255,0,255}));
   connect(controls.boi, boiler.u) annotation (Line(points={{-43.4,54},{-12,54},{
           -12,80},{68,80},{68,70.8}}, color={0,0,127}));
   connect(controls.boiOn, boiler.on) annotation (Line(points={{-43.4,50},{-8,50},
           {-8,76},{64,76},{64,70.8}}, color={255,0,255}));
   connect(TAmb.y,controls. TAmb)
     annotation (Line(points={{-79,52},{-65,52}}, color={0,0,127}));
-  connect(booleanToReal.u, hp.on) annotation (Line(points={{-20,-22.8},{-20,62},
-          {-38,62},{-38,30.8}}, color={255,0,255}));
   connect(booleanToReal.y, fan.m_flow_in) annotation (Line(points={{-20,-36.6},
           {-20,-48},{-19.8,-48}},color={0,0,127}));
   connect(bufferHp.heaPorVol[4], TBot.port) annotation (Line(points={{14,24.45},
@@ -189,8 +183,6 @@ equation
          {{24,24},{24,24},{24,-60},{30,-60}}, color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
-  connect(controls.hp, hp.u) annotation (Line(points={{-43.4,58},{-34,58},{-34,
-          30.8}}, color={0,0,127}));
   connect(threeWayValveSwitch.port_a2, TBoii.port_a)
     annotation (Line(points={{40,-50},{40,6},{40,60}},
                                                 color={0,127,255},
@@ -208,6 +200,10 @@ equation
       pattern=LinePattern.DashDot));
   connect(modulation, controls.u) annotation (Line(points={{0,110},{0,86},{-54,
           86},{-54,67}}, color={255,0,255}));
+  connect(controls.hpOn, hp.u) annotation (Line(points={{-43.4,62},{-36,62},{-36,
+          30.8}}, color={255,0,255}));
+  connect(booleanToReal.u, hp.u) annotation (Line(points={{-20,-22.8},{-20,-22.8},
+          {-20,44},{-36,44},{-36,30.8}}, color={255,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics={Line(points={{-32,32},{-32,

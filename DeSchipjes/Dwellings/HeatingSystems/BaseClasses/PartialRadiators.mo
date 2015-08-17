@@ -185,7 +185,8 @@ partial model PartialRadiators
     m_flow_nominal=sum(m_flow_nominal),
     allowFlowReversal=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    filteredSpeed=false)
     annotation (Placement(transformation(extent={{116,-38},{104,-26}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow[nZones] pumpRad(
     redeclare package Medium = Medium,
@@ -201,9 +202,10 @@ partial model PartialRadiators
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=sum(m_flow_nominal),
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    addPowerToMedium=false,
     dynamicBalance=false,
-    allowFlowReversal=true)
+    allowFlowReversal=true,
+    filteredSpeed=false,
+    addPowerToMedium=true)
     annotation (Placement(transformation(extent={{-40,50},{-28,62}})));
   Buildings.Controls.Continuous.LimPID supplyPID(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,

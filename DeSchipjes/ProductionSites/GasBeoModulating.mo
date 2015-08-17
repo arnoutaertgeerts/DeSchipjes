@@ -25,7 +25,7 @@ model GasBeoModulating
   parameter Modelica.SIunits.MassFlowRate m_flow_min_sun= 0.00161*scaler
     "Minimal massflowrate of the solar collector";
 
-  IDEAS.Fluid.Production.Boiler boiler(
+  Heaters.Boiler                boiler(
                              m_flow_nominal=m_flow_nominal,
     QNom=Qpeak,
     modulationInput=false,
@@ -33,7 +33,8 @@ model GasBeoModulating
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
     dp_nominal=0,
-    use_onOffSignal=true)
+    use_onOffSignal=true,
+    m2=15*scaler)
     annotation (Placement(transformation(extent={{56,50},{76,70}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -85,12 +86,16 @@ model GasBeoModulating
     annotation (Placement(transformation(extent={{40,54},{52,66}})));
   Buildings.HeatTransfer.Sources.FixedTemperature TRoo(T=273.15 + 18)
     annotation (Placement(transformation(extent={{88,-4},{80,4}})));
-  Heaters.HeatPumpWW hp(
+  Heaters.HPWW28     hp(
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
-    modulationInput=false,
     QNom=Qbase,
-    use_onOffSignal=true)
+    m1_flow_nominal=3.4*m_flow_nominal_hpww,
+    dp1_nominal=0,
+    dp2_nominal=0,
+    m2_flow_nominal=m_flow_nominal_hpww,
+    m1=13*scaler,
+    m2=13*scaler)
     annotation (Placement(transformation(extent={{-44,-4},{-64,16}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -187,7 +192,7 @@ model GasBeoModulating
   Controls.ControlS3 controls
     annotation (Placement(transformation(extent={{-10,60},{10,80}})));
   inner IDEAS.SimInfoManager sim
-    annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
+    annotation (Placement(transformation(extent={{-80,-60},{-100,-40}})));
   Modelica.Blocks.Sources.RealExpression TAmb(y=sim.Te)
     annotation (Placement(transformation(extent={{-56,58},{-40,74}})));
   IDEAS.Fluid.Valves.ThreeWayValveSwitch threeWayValveSwitch1(
@@ -219,8 +224,6 @@ model GasBeoModulating
     annotation (Placement(transformation(extent={{4,-4},{-4,4}},
         rotation=180,
         origin={10,-76})));
-  IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam="modelica://Buildings/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos")
-    annotation (Placement(transformation(extent={{-96,-56},{-84,-44}})));
   Buildings.Fluid.SolarCollectors.Controls.SolarPumpController pumCon(per=solar.per)
     annotation (Placement(transformation(extent={{-4,-4},{4,4}},
         rotation=180,
@@ -239,9 +242,9 @@ model GasBeoModulating
 equation
 
   Pboi=boiler.PFuelOrEl;
-  PhpEl=hp.PFuelOrEl;
+  PhpEl=hp.PEl;
   Qsun=(solar.port_b.h_outflow-solar.port_a.h_outflow)*solar.m_flow;
-  Qhp=-hp.heatSource.heatPort2.Q_flow;
+  Qhp=hp.QEvaporator;
   Qsto=bufferHp.Ql_flow + bufferSolar.Ql_flow;
   connect(bufferHp.portHex_b, fan.port_a) annotation (Line(points={{-14,-4},{-20,
           -4},{-20,-40},{-34,-40}}, color={0,127,255},
@@ -317,7 +320,7 @@ equation
       thickness=0.5,
       pattern=LinePattern.DashDot));
   connect(bufferHp.heaPorVol[1], TTopHp.port)
-    annotation (Line(points={{-4,3.55},{-4,22},{-4,40}}, color={191,0,0}));
+    annotation (Line(points={{-4,3.55},{-4,40}},         color={191,0,0}));
   connect(bufferHp.heaPorVol[4], TBotHp.port)
     annotation (Line(points={{-4,4.45},{-4,50}}, color={191,0,0}));
   connect(TAmb.y, controls.TAmb)
@@ -326,10 +329,6 @@ equation
           {-24,74},{-11,74}}, color={175,175,175}));
   connect(TBotHp.T, controls.TstoBot) annotation (Line(points={{-12,50},{-20,50},
           {-20,70},{-11,70}}, color={175,175,175}));
-  connect(controls.hpOn, hp.on) annotation (Line(points={{10.6,76},{18,76},{18,
-          30},{-52,30},{-52,16.8}}, color={255,0,255}));
-  connect(controls.hp, hp.u) annotation (Line(points={{10.6,72},{14,72},{14,34},
-          {-56,34},{-56,16.8}}, color={175,175,175}));
   connect(controls.boi, boiler.u) annotation (Line(points={{10.6,68},{22,68},{
           22,80},{68,80},{68,70.8}}, color={175,175,175}));
   connect(controls.boiOn, boiler.on) annotation (Line(points={{10.6,64},{26,64},
@@ -373,8 +372,6 @@ equation
           {-80,-40},{-80,0},{-76,0}}, color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
-  connect(booleanToReal.u, hp.on) annotation (Line(points={{-40,-11.2},{-40,30},
-          {-52,30},{-52,16.8}}, color={255,0,255}));
   connect(booleanToReal.y, fan.m_flow_in) annotation (Line(points={{-40,-20.4},{
           -40,-32.8},{-39.88,-32.8}}, color={0,0,127}));
   connect(gain.u, fan.m_flow_in) annotation (Line(points={{-91,17.4},{-91,-26},{
@@ -385,12 +382,6 @@ equation
           {-80,-92},{-80,-64}}, color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
-  connect(weaDat.weaBus, solar.weaBus) annotation (Line(
-      points={{-84,-50},{-66,-50},{-66,-54.4}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(hp.heatPort, TRoo.port) annotation (Line(points={{-54,-4},{-54,-16},{66,
-          -16},{66,0},{80,0}}, color={255,213,170}));
   connect(boiler.heatPort, TRoo.port) annotation (Line(points={{66,50},{66,22},{
           66,0},{80,0}}, color={255,213,170}));
   connect(bufferHp.heaPorSid, TRoo.port) annotation (Line(points={{1.6,4},{2,4},
@@ -405,13 +396,21 @@ equation
           -80},{-26,-80},{-26,-88},{-14.4,-88}}, color={0,0,127}));
   connect(TBotSun.T, pumCon.TIn) annotation (Line(points={{14,-76},{40,-76},{40,
           -86.4},{20.8,-86.4}}, color={0,0,127}));
-  connect(pumCon.weaBus, solar.weaBus) annotation (Line(
-      points={{20.08,-90.4},{26,-90.4},{26,-90},{26,-50},{-66,-50},{-66,-54.4}},
-      color={255,204,51},
-      thickness=0.5));
 
   connect(modulation, controls.u)
     annotation (Line(points={{0,110},{0,81}},        color={255,0,255}));
+  connect(pumCon.weaBus, solar.weaBus) annotation (Line(
+      points={{20.08,-90.4},{26,-90.4},{26,-50},{-66,-50},{-66,-54.4}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(sim.weaBus1, solar.weaBus) annotation (Line(
+      points={{-80,-50},{-66,-50},{-66,-54.4}},
+      color={255,204,51},
+      thickness=0.5));
+  connect(controls.hpOn, hp.u) annotation (Line(points={{10.6,76},{14,76},{14,30},
+          {-54,30},{-54,16.8}}, color={255,0,255}));
+  connect(booleanToReal.u, hp.u) annotation (Line(points={{-40,-11.2},{-40,30},{
+          -54,30},{-54,16.8}}, color={255,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

@@ -37,6 +37,8 @@ partial model ProductionSite
   Modelica.SIunits.Power Qsto "Heat loss of the storage tanks";
   Modelica.SIunits.Energy Esto "Energy loss of the storage tanks";
 
+  Modelica.SIunits.MassFlowRate mGrid "Massflow rate to the grid";
+
   Modelica.Fluid.Interfaces.FluidPort_a port_a(redeclare package Medium =
         Medium)
     "Fluid connector a2 (positive design flow direction is from port_a2 to port_b2)"
@@ -56,6 +58,7 @@ partial model ProductionSite
 equation
 
   Qren = Qsun + Qhp - PhpEl*2.5;
+  mGrid = port_a.m_flow;
 
   der(Eren) = Qren;
   der(Eboi) = Pboi;

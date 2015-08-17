@@ -26,7 +26,7 @@ model GasBeo
   parameter Modelica.SIunits.MassFlowRate m_flow_min_sun= 0.00161*scaler
     "Minimal massflowrate of the solar collector";
 
-  IDEAS.Fluid.Production.Boiler boiler(
+  Heaters.Boiler                boiler(
                              m_flow_nominal=m_flow_nominal,
     QNom=Qpeak,
     modulationInput=false,
@@ -86,12 +86,16 @@ model GasBeo
     annotation (Placement(transformation(extent={{40,54},{52,66}})));
   Buildings.HeatTransfer.Sources.FixedTemperature TRoo(T=273.15 + 18)
     annotation (Placement(transformation(extent={{88,-4},{80,4}})));
-  Heaters.HeatPumpWW hp(
+  Heaters.HPWW42     hp(
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
-    modulationInput=false,
     QNom=Qbase,
-    use_onOffSignal=true)
+    m1_flow_nominal=m_flow_nominal_hpww*3.4,
+    m2_flow_nominal=m_flow_nominal_hpww,
+    dp1_nominal=0,
+    dp2_nominal=0,
+    m1=50*scaler,
+    m2=50*scaler)
     annotation (Placement(transformation(extent={{-44,-4},{-64,16}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -240,9 +244,9 @@ model GasBeo
 equation
 
   Pboi=boiler.PFuelOrEl;
-  PhpEl=hp.PFuelOrEl;
+  PhpEl=hp.PEl;
   Qsun=(solar.port_b.h_outflow-solar.port_a.h_outflow)*solar.m_flow;
-  Qhp=-hp.heatSource.heatPort2.Q_flow;
+  Qhp=hp.QEvaporator;
   Qsto=bufferHp.Ql_flow + bufferSolar.Ql_flow;
   connect(bufferHp.portHex_b, fan.port_a) annotation (Line(points={{-14,-4},{
           -20,-4},{-20,-40},{-34,-40}},
@@ -324,10 +328,6 @@ equation
           {-24,74},{-11,74}}, color={175,175,175}));
   connect(TBotHp.T, controls.TstoBot) annotation (Line(points={{-12,50},{-20,50},
           {-20,70},{-11,70}}, color={175,175,175}));
-  connect(controls.hpOn, hp.on) annotation (Line(points={{10.6,76},{18,76},{18,
-          30},{-52,30},{-52,16.8}}, color={255,0,255}));
-  connect(controls.hp, hp.u) annotation (Line(points={{10.6,72},{14,72},{14,34},
-          {-56,34},{-56,16.8}}, color={175,175,175}));
   connect(controls.boi, boiler.u) annotation (Line(points={{10.6,68},{22,68},{
           22,80},{68,80},{68,70.8}}, color={175,175,175}));
   connect(controls.boiOn, boiler.on) annotation (Line(points={{10.6,64},{26,64},
@@ -371,8 +371,6 @@ equation
                                       color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
-  connect(booleanToReal.u, hp.on) annotation (Line(points={{-40,-11.2},{-40,30},
-          {-52,30},{-52,16.8}}, color={255,0,255}));
   connect(booleanToReal.y, fan.m_flow_in) annotation (Line(points={{-40,-20.4},{
           -40,-32.8},{-39.88,-32.8}}, color={0,0,127}));
   connect(gain.u, fan.m_flow_in) annotation (Line(points={{-91,17.4},{-91,-26},{
@@ -388,8 +386,6 @@ equation
       points={{-84,-50},{-66,-50},{-66,-54.4}},
       color={255,204,51},
       thickness=0.5));
-  connect(hp.heatPort, TRoo.port) annotation (Line(points={{-54,-4},{-54,-16},{66,
-          -16},{66,0},{80,0}}, color={255,213,170}));
   connect(boiler.heatPort, TRoo.port) annotation (Line(points={{66,50},{66,22},{
           66,0},{80,0}}, color={255,213,170}));
   connect(bufferHp.heaPorSid, TRoo.port) annotation (Line(points={{1.6,4},{2,4},
@@ -409,6 +405,10 @@ equation
       color={255,204,51},
       thickness=0.5));
 
+  connect(controls.hpOn, hp.u) annotation (Line(points={{10.6,76},{14,76},{14,28},
+          {-54,28},{-54,16.8}}, color={255,0,255}));
+  connect(booleanToReal.u, hp.u) annotation (Line(points={{-40,-11.2},{-40,28},{
+          -54,28},{-54,16.8}}, color={255,0,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

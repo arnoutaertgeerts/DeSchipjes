@@ -1,6 +1,206 @@
 within DeSchipjes.ProductionSites;
 package Controls
 
+  model ControlS1
+    import DeSchipjes;
+
+    extends PartialControls;
+
+    parameter Modelica.SIunits.Temperature TEco=273.15+15;
+    parameter Modelica.SIunits.Temperature THigh=273.15+70;
+    parameter Modelica.SIunits.Temperature TSetHp=273.15+50;
+
+    Modelica.Blocks.Interfaces.RealInput TstoTop
+      annotation (Placement(transformation(extent={{-130,20},{-90,60}})));
+    Modelica.Blocks.Interfaces.RealInput TstoBot
+      annotation (Placement(transformation(extent={{-130,-20},{-90,20}})));
+    Modelica.Blocks.Interfaces.BooleanOutput hpOn
+      annotation (Placement(transformation(extent={{96,50},{116,70}})));
+    Modelica_StateGraph2.Step stateOn(
+      use_activePort=true,
+      initialStep=true,
+      nOut=1,
+      nIn=1)
+      annotation (Placement(transformation(extent={{-64,16},{-56,24}})));
+    Modelica_StateGraph2.Transition T1(
+      delayedTransition=true,
+      use_conditionPort=true,
+      use_firePort=false,
+      waitTime=180)
+      annotation (Placement(transformation(extent={{-64,-4},{-56,4}})));
+    Modelica_StateGraph2.Transition T2(
+      delayedTransition=true,
+      use_conditionPort=true,
+      use_firePort=false,
+      waitTime=180) annotation (Placement(transformation(
+          extent={{-4,-4},{4,4}},
+          rotation=0,
+          origin={-60,40})));
+    Modelica.Blocks.Logical.LessThreshold greaterThreshold1(threshold=TSetHp)
+      annotation (Placement(transformation(extent={{-86,34},{-74,46}})));
+    Modelica.Blocks.Logical.GreaterThreshold greaterThreshold2(threshold=TSetHp)
+      annotation (Placement(transformation(extent={{-86,-6},{-74,6}})));
+    Modelica.Blocks.Interfaces.RealOutput hp
+      annotation (Placement(transformation(extent={{96,10},{116,30}})));
+    Modelica.Blocks.Interfaces.RealOutput boi
+      annotation (Placement(transformation(extent={{96,-30},{116,-10}})));
+    Modelica.Blocks.Sources.Constant const(k=TSetHp + 2)
+      annotation (Placement(transformation(extent={{60,10},{80,30}})));
+    Modelica.Blocks.Interfaces.BooleanOutput boiOn
+      annotation (Placement(transformation(extent={{96,-70},{116,-50}})));
+    Modelica.Blocks.Sources.Constant const1(k=THigh)
+      annotation (Placement(transformation(extent={{66,-24},{74,-16}})));
+    Modelica.Blocks.Interfaces.BooleanOutput noBuffer annotation (Placement(
+          transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=270,
+          origin={40,-106})));
+    Modelica.Blocks.Interfaces.BooleanOutput hpOrSolar "If true, use hp buffer"
+      annotation (Placement(transformation(
+          extent={{-10,-10},{10,10}},
+          rotation=270,
+          origin={0,-106})));
+    Modelica.Blocks.Interfaces.RealInput TstoTopSun
+      annotation (Placement(transformation(extent={{-130,60},{-90,100}})));
+    Modelica.Blocks.Interfaces.RealInput Tret
+      annotation (Placement(transformation(extent={{-130,-100},{-90,-60}})));
+    Modelica.Blocks.Logical.Not not1
+      annotation (Placement(transformation(extent={{10,-84},{18,-76}})));
+    Modelica.Blocks.Logical.And and4
+      annotation (Placement(transformation(extent={{28,-76},{36,-84}})));
+    Modelica_StateGraph2.Step bufferHp(
+      use_activePort=true,
+      initialStep=true,
+      nIn=1,
+      nOut=1)
+      annotation (Placement(transformation(extent={{-30,16},{-22,24}})));
+    Modelica_StateGraph2.Step bufferSolar(
+      initialStep=false,
+      nIn=1,
+      nOut=1)
+      annotation (Placement(transformation(extent={{-4,-4},{4,4}},
+          rotation=180,
+          origin={-10,18})));
+    Modelica_StateGraph2.Transition T3(
+      delayedTransition=true,
+      use_firePort=false,
+      use_conditionPort=false,
+      condition=TstoTopSun > TstoTop + 5,
+      waitTime=180)
+      annotation (Placement(transformation(extent={{-30,-4},{-22,4}})));
+    Modelica_StateGraph2.Transition T4(
+      delayedTransition=true,
+      use_firePort=false,
+      use_conditionPort=false,
+      condition=TstoTop > TstoTopSun + 5,
+      waitTime=180) annotation (Placement(transformation(
+          extent={{-4,-4},{4,4}},
+          rotation=0,
+          origin={-26,40})));
+    Modelica_StateGraph2.Step solarOff(
+      use_activePort=true,
+      initialStep=true,
+      nIn=1,
+      nOut=1) annotation (Placement(transformation(extent={{10,16},{18,24}})));
+    Modelica_StateGraph2.Transition T5(
+      delayedTransition=true,
+      use_firePort=false,
+      use_conditionPort=false,
+      condition=TstoTopSun > Tret + 2,
+      waitTime=180)
+      annotation (Placement(transformation(extent={{10,-4},{18,4}})));
+    Modelica_StateGraph2.Transition T6(
+      delayedTransition=true,
+      use_firePort=false,
+      use_conditionPort=false,
+      condition=Tret > TstoTopSun + 2,
+      waitTime=180) annotation (Placement(transformation(
+          extent={{-4,-4},{4,4}},
+          rotation=0,
+          origin={14,40})));
+    Modelica_StateGraph2.Step stateOff(
+      initialStep=false,
+      nIn=1,
+      nOut=1)
+      annotation (Placement(transformation(extent={{-4,-4},{4,4}},
+          rotation=180,
+          origin={-46,20})));
+    Modelica_StateGraph2.Step solarOn(
+      initialStep=false,
+      nIn=1,
+      nOut=1) annotation (Placement(transformation(
+          extent={{-4,-4},{4,4}},
+          rotation=180,
+          origin={32,20})));
+    Modelica.Blocks.Sources.BooleanConstant booleanConstant
+      annotation (Placement(transformation(extent={{64,-70},{84,-50}})));
+  equation
+    connect(TstoTop, greaterThreshold1.u)
+      annotation (Line(points={{-110,40},{-110,40},{-87.2,40}},
+                                                      color={0,0,127}));
+    connect(TstoBot, greaterThreshold2.u)
+      annotation (Line(points={{-110,0},{-110,0},{-87.2,0}},
+                                                    color={0,0,127}));
+    connect(const.y, hp)
+      annotation (Line(points={{81,20},{94,20},{106,20}}, color={0,0,127}));
+    connect(greaterThreshold1.y, T2.conditionPort) annotation (Line(points={{-73.4,
+            40},{-73.4,40},{-65,40}},
+                                    color={255,0,255}));
+    connect(greaterThreshold2.y, T1.conditionPort)
+      annotation (Line(points={{-73.4,0},{-73.4,0},{-65,0}}, color={255,0,255}));
+    connect(and4.y, noBuffer) annotation (Line(points={{36.4,-80},{40,-80},{40,
+            -106}}, color={255,0,255}));
+    connect(hpOrSolar, not1.u) annotation (Line(points={{0,-106},{0,-80},{9.2,-80}},
+                   color={255,0,255}));
+    connect(not1.y, and4.u1) annotation (Line(points={{18.4,-80},{27.2,-80},{27.2,
+            -80}}, color={255,0,255}));
+    connect(solarOff.activePort, and4.u2) annotation (Line(points={{18.72,20},{
+            22,20},{22,-76.8},{27.2,-76.8}}, color={255,0,255}));
+
+    connect(T1.outPort, stateOff.inPort[1]) annotation (Line(points={{-60,-5},{-60,
+            -10},{-46,-10},{-46,16}}, color={0,0,0}));
+    connect(stateOn.outPort[1], T1.inPort)
+      annotation (Line(points={{-60,15.4},{-60,9.7},{-60,4}}, color={0,0,0}));
+    connect(T2.outPort, stateOn.inPort[1])
+      annotation (Line(points={{-60,35},{-60,29.5},{-60,24}}, color={0,0,0}));
+    connect(T2.inPort, stateOff.outPort[1]) annotation (Line(points={{-60,44},{-60,
+            48},{-46,48},{-46,24.6}}, color={0,0,0}));
+    connect(T4.outPort, bufferHp.inPort[1])
+      annotation (Line(points={{-26,35},{-26,29.5},{-26,24}}, color={0,0,0}));
+    connect(bufferHp.outPort[1], T3.inPort)
+      annotation (Line(points={{-26,15.4},{-26,9.7},{-26,4}}, color={0,0,0}));
+    connect(T3.outPort, bufferSolar.inPort[1]) annotation (Line(points={{-26,-5},{
+            -26,-10},{-10,-10},{-10,14}}, color={0,0,0}));
+    connect(T4.inPort, bufferSolar.outPort[1]) annotation (Line(points={{-26,44},{
+            -26,48},{-10,48},{-10,22.6}}, color={0,0,0}));
+    connect(T6.outPort, solarOff.inPort[1])
+      annotation (Line(points={{14,35},{14,24}}, color={0,0,0}));
+    connect(solarOff.outPort[1], T5.inPort)
+      annotation (Line(points={{14,15.4},{14,4}}, color={0,0,0}));
+    connect(T5.outPort, solarOn.inPort[1]) annotation (Line(points={{14,-5},{14,
+            -10},{32,-10},{32,16}}, color={0,0,0}));
+    connect(T6.inPort, solarOn.outPort[1]) annotation (Line(points={{14,44},{14,
+            48},{32,48},{32,24.6}}, color={0,0,0}));
+    connect(stateOn.activePort, hpOn) annotation (Line(points={{-55.28,20},{-52,
+            20},{-52,60},{106,60}}, color={255,0,255}));
+    connect(const1.y, boi) annotation (Line(points={{74.4,-20},{106,-20},{106,
+            -20}}, color={0,0,127}));
+    connect(boiOn, booleanConstant.y)
+      annotation (Line(points={{106,-60},{85,-60}}, color={255,0,255}));
+    connect(bufferHp.activePort, not1.u) annotation (Line(points={{-21.28,20},{
+            -18,20},{-18,-60},{0,-60},{0,-80},{9.2,-80}}, color={255,0,255}));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+              -100},{100,100}}), graphics={Text(
+            extent={{-94,-94},{-8,-100}},
+            lineColor={28,108,200},
+            textString="Use HP if TbufHP > TBufSun and Tamb < 15"), Text(
+            extent={{50,-84},{100,-106}},
+            lineColor={28,108,200},
+            horizontalAlignment=TextAlignment.Left,
+            textString="Use solar buffer if we don't use 
+the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
+  end ControlS1;
+
   model ControlS2
     import DeSchipjes;
     extends PartialControls;
@@ -36,17 +236,16 @@ package Controls
       initialStep=false)
       annotation (Placement(transformation(extent={{-64,-18},{-56,-10}})));
     Modelica_StateGraph2.Transition T1(
-      waitTime=900,
-      delayedTransition=true,
       use_conditionPort=true,
-      use_firePort=false)
+      use_firePort=false,
+      delayedTransition=true,
+      waitTime=180)
       annotation (Placement(transformation(extent={{-64,-4},{-56,4}})));
     Modelica_StateGraph2.Transition T2(
-      waitTime=900,
-      delayedTransition=true,
       use_conditionPort=true,
-      use_firePort=false)
-                    annotation (Placement(transformation(
+      use_firePort=false,
+      delayedTransition=true,
+      waitTime=180) annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
           origin={-60,40})));
@@ -184,17 +383,16 @@ package Controls
       nIn=1)
       annotation (Placement(transformation(extent={{-64,16},{-56,24}})));
     Modelica_StateGraph2.Transition T1(
-      waitTime=900,
       delayedTransition=true,
       use_conditionPort=true,
-      use_firePort=false)
+      use_firePort=false,
+      waitTime=180)
       annotation (Placement(transformation(extent={{-64,-4},{-56,4}})));
     Modelica_StateGraph2.Transition T2(
-      waitTime=900,
       delayedTransition=true,
       use_conditionPort=true,
-      use_firePort=false)
-                    annotation (Placement(transformation(
+      use_firePort=false,
+      waitTime=180) annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
           origin={-60,40})));
@@ -253,19 +451,18 @@ package Controls
           rotation=180,
           origin={-10,18})));
     Modelica_StateGraph2.Transition T3(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TstoTopSun > TstoTop + 5)
+      condition=TstoTopSun > TstoTop + 5,
+      waitTime=180)
       annotation (Placement(transformation(extent={{-30,-4},{-22,4}})));
     Modelica_StateGraph2.Transition T4(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TstoTop > TstoTopSun + 5)
-                    annotation (Placement(transformation(
+      condition=TstoTop > TstoTopSun + 5,
+      waitTime=180) annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
           origin={-26,40})));
@@ -284,19 +481,18 @@ package Controls
       nIn=1,
       nOut=1) annotation (Placement(transformation(extent={{10,16},{18,24}})));
     Modelica_StateGraph2.Transition T5(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TstoTopSun > Tret + 2)
+      condition=TstoTopSun > Tret + 2,
+      waitTime=180)
       annotation (Placement(transformation(extent={{10,-4},{18,4}})));
     Modelica_StateGraph2.Transition T6(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=Tret > TstoTopSun + 2)
-                    annotation (Placement(transformation(
+      condition=Tret > TstoTopSun + 2,
+      waitTime=180) annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
           origin={14,40})));
@@ -443,17 +639,16 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
       initialStep=false)
       annotation (Placement(transformation(extent={{-64,-16},{-56,-8}})));
     Modelica_StateGraph2.Transition T1(
-      waitTime=900,
       delayedTransition=true,
       use_conditionPort=true,
-      use_firePort=false)
+      use_firePort=false,
+      waitTime=180)
       annotation (Placement(transformation(extent={{-64,-4},{-56,4}})));
     Modelica_StateGraph2.Transition T2(
-      waitTime=900,
       delayedTransition=true,
       use_conditionPort=true,
-      use_firePort=false)
-                    annotation (Placement(transformation(
+      use_firePort=false,
+      waitTime=180) annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
           origin={-60,40})));
@@ -504,19 +699,18 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
       initialStep=false)
       annotation (Placement(transformation(extent={{-30,-16},{-22,-8}})));
     Modelica_StateGraph2.Transition T3(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TstoTopSun > TstoTop + 5)
+      condition=TstoTopSun > TstoTop + 5,
+      waitTime=180)
       annotation (Placement(transformation(extent={{-30,-4},{-22,4}})));
     Modelica_StateGraph2.Transition T4(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TstoTop > TstoTopSun + 5)
-                    annotation (Placement(transformation(
+      condition=TstoTop > TstoTopSun + 5,
+      waitTime=180) annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
           origin={-26,40})));
@@ -533,19 +727,18 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
       nIn=1,
       nOut=1) annotation (Placement(transformation(extent={{10,14},{18,22}})));
     Modelica_StateGraph2.Transition T5(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TstoTopSun > Tret + 2)
+      condition=TstoTopSun > Tret + 2,
+      waitTime=180)
       annotation (Placement(transformation(extent={{10,-6},{18,2}})));
     Modelica_StateGraph2.Transition T6(
-      waitTime=900,
       delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=Tret > TstoTopSun + 2)
-                    annotation (Placement(transformation(
+      condition=Tret > TstoTopSun + 2,
+      waitTime=180) annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
           origin={14,38})));
