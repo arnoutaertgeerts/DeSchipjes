@@ -19,7 +19,7 @@ model S1HTGasSun
           fillColor={255,255,255},
           fillPattern=FillPattern.Solid,
           textString="1")}),
-    experiment(StopTime=1.57785e+007, __Dymola_Algorithm="Cvode"),
+    experiment(StopTime=3.15569e+007, __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,
     Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
             100,100}})),

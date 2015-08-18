@@ -32,7 +32,7 @@ equation
           textString="3")}), Diagram(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}})),
     experiment(
-      StopTime=2.62974e+006,
+      StopTime=3.15569e+007,
       __Dymola_fixedstepsize=5,
       __Dymola_Algorithm="Cvode"),
     __Dymola_experimentSetupOutput,
