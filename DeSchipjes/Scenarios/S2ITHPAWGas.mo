@@ -18,7 +18,7 @@ public
     annotation (Placement(transformation(extent={{-92,40},{-72,60}})));
 public
   DeSchipjes.Controls.Modulator
-                     modulator1(duration=1 + 3/60, start=2)
+                     modulator1(start=2, duration=1 + 5/60)
     annotation (Placement(transformation(extent={{-2,40},{18,60}})));
 equation
   connect(modulator.on, grid.u)

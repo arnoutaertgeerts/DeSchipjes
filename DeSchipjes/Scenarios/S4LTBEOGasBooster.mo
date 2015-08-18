@@ -6,7 +6,10 @@ model S4LTBEOGasBooster
             redeclare DeSchipjes.ProductionSites.GasBeo productionSite(
         modulating=false),
     Qpeak(u=72),
-    Qbase(u=43));
+    Qbase(u=42.8),
+    TSupRad(u=45),
+    TRetRad(u=35),
+    TStorage(u=60));
 
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},

@@ -5,8 +5,11 @@ model S3ITBEOGas
       grid(ids={1,3,4,5,6,8,10,11,13,14,19}),
             redeclare DeSchipjes.ProductionSites.GasBeoModulating
       productionSite,
-    Qbase(u=29),
-    Qpeak(u=72));
+    Qbase(u=28.8),
+    Qpeak(u=72),
+    TSupRad(u=45),
+    TRetRad(u=35),
+    TStorage(u=60));
 
 public
   DeSchipjes.Controls.Modulator
@@ -14,7 +17,7 @@ public
     annotation (Placement(transformation(extent={{-92,40},{-72,60}})));
 public
   DeSchipjes.Controls.Modulator
-                     modulator1(duration=1 + 3/60, start=2)
+                     modulator1(start=2, duration=1 + 5/60)
     annotation (Placement(transformation(extent={{-2,40},{18,60}})));
 equation
   connect(modulator.on, grid.u)

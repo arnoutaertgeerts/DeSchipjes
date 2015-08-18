@@ -6,7 +6,7 @@ model S1HTGasSun
     redeclare DeSchipjes.Grids.ROM.ROMHT          grid(ids={1,3,4,5,6,8,10,11,
           13,14,19}),
     TSupRad(u=70),
-    TRetRad(u=60),
+    TRetRad(u=50),
     TSupGrid(u=80),
     TRetGrid(u=63),
     Qbase(u=0.0),
