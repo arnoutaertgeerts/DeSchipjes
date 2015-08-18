@@ -238,8 +238,8 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
     Modelica_StateGraph2.Transition T1(
       use_conditionPort=true,
       use_firePort=false,
-      delayedTransition=true,
-      waitTime=180)
+      waitTime=180,
+      delayedTransition=false)
       annotation (Placement(transformation(extent={{-64,-4},{-56,4}})));
     Modelica_StateGraph2.Transition T2(
       use_conditionPort=true,
@@ -251,7 +251,8 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
           origin={-60,40})));
     Modelica.Blocks.Logical.LessThreshold greaterThreshold1(threshold=TSetHp)
       annotation (Placement(transformation(extent={{-82,34},{-70,46}})));
-    Modelica.Blocks.Logical.GreaterThreshold greaterThreshold2(threshold=TSetHp)
+    Modelica.Blocks.Logical.GreaterThreshold greaterThreshold2(threshold=TSetHp
+           - 5)
       annotation (Placement(transformation(extent={{-82,-6},{-70,6}})));
     Modelica.Blocks.Interfaces.RealOutput hp
       annotation (Placement(transformation(extent={{96,10},{116,30}})));

@@ -101,10 +101,10 @@ package Models
       TRetGrid(u=40),
       Qbase(u=50));
   public
-    Controls.Modulator modulator(start=3)
+    Controls.Modulator modulator(start=2)
       annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
   public
-    Controls.Modulator modulator1(duration=1 + 3/60, start=3)
+    Controls.Modulator modulator1(duration=1 + 5/60, start=2)
       annotation (Placement(transformation(extent={{0,30},{20,50}})));
   equation
     connect(modulator.on, grid.u) annotation (Line(points={{-69,40},{-62,40},{
@@ -115,8 +115,7 @@ package Models
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),
       experiment(
-        StartTime=1e+007,
-        StopTime=1.57785e+007,
+        StopTime=3.15569e+007,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);
@@ -132,12 +131,12 @@ package Models
       TRetRad(u=35),
       TSupGrid(u=50),
       TRetGrid(u=40),
-      Qpeak(u=154));
+      Qpeak(u=72));
   public
-    Controls.Modulator modulator(start=3)
+    Controls.Modulator modulator(start=2)
       annotation (Placement(transformation(extent={{-90,40},{-70,60}})));
   public
-    Controls.Modulator modulator1(duration=1 + 3/60, start=3)
+    Controls.Modulator modulator1(duration=1 + 5/60, start=2)
       annotation (Placement(transformation(extent={{0,40},{20,60}})));
   equation
     connect(modulator.on, grid.u) annotation (Line(points={{-69,50},{-62,50},{

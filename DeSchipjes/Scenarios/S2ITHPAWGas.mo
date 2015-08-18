@@ -14,11 +14,11 @@ model S2ITHPAWGas
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
 public
   DeSchipjes.Controls.Modulator
-                     modulator(start=3)
+                     modulator(start=2)
     annotation (Placement(transformation(extent={{-92,40},{-72,60}})));
 public
   DeSchipjes.Controls.Modulator
-                     modulator1(duration=1 + 3/60, start=3)
+                     modulator1(duration=1 + 3/60, start=2)
     annotation (Placement(transformation(extent={{-2,40},{18,60}})));
 equation
   connect(modulator.on, grid.u)
