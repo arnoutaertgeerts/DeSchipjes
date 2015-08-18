@@ -29,7 +29,6 @@ model GasSun
   Modelica.SIunits.Power ECHP "Integrated Gas consumption of the CHP";
   Modelica.SIunits.Power EelCHP "Integrated Electricity production of the CHP";
   Heaters.Boiler                boiler(
-                             m_flow_nominal=m_flow_nominal,
     modulationInput=false,
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -37,7 +36,8 @@ model GasSun
     dp_nominal=0,
     QNom=Qpeak,
     m2=40,
-    use_onOffSignal=true)
+    use_onOffSignal=true,
+    m_flow_nominal=5.2*0.2778*scaler)
     annotation (Placement(transformation(extent={{56,50},{76,70}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,

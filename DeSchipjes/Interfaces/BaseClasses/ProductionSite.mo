@@ -6,7 +6,7 @@ partial model ProductionSite
   //Parameters
   parameter Modelica.SIunits.Temperature TSupRad(displayUnit="Celsius") =  273.15+55
     "Supply temperature of the Grid for the radiators";
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=0.167*scaler
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal=6.2*0.2778*scaler
     "Nominal mass flow rate of the production site";
   parameter Modelica.SIunits.Power Qbase;
   parameter Modelica.SIunits.Power Qpeak;
