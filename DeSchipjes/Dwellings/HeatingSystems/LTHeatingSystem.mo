@@ -109,7 +109,7 @@ model LTHeatingSystem
     use_conditionPort=false,
     waitTime=180,
     delayedTransition=false,
-    condition=TStoBot.T > 273.15 + 50)
+    condition=TStoBot.T > 273.15 + 55)
                   annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=90,
