@@ -2,7 +2,7 @@ within DeSchipjes.Scenarios;
 model S1bHTCHPGasSun
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMHT
-      grid,
+      grid(ids={1,3,4,5,6,8,10,11,13,14,19}),
     TSupRad(u=70),
     TRetRad(u=50),
     TRetGrid(u=63),

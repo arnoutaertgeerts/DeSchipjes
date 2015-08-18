@@ -17,7 +17,7 @@ model GasSun
 
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal_solar=0.161*scaler
     "Nominal massflow rate of the solar collector";
-  parameter Modelica.SIunits.MassFlowRate m_flow_min_solar= 0.00161*scaler
+  parameter Modelica.SIunits.MassFlowRate m_flow_min_solar= 0.02*m_flow_nominal_solar
     "Minimal massflowrate of the solar collector";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal_chp=0.14*scaler
     "Nominal massflow rate of the solar collector";
@@ -45,7 +45,9 @@ model GasSun
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
-    m_flow_nominal=m_flow_nominal_solar)
+    m_flow_nominal=m_flow_nominal_solar,
+    allowFlowReversal=false,
+    riseTime=60)
     annotation (Placement(transformation(extent={{-44,-90},{-56,-78}})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferSolar(
     redeclare package Medium = Medium,
@@ -55,7 +57,6 @@ model GasSun
     dIns=dIns,
     hHex_b=0.05,
     linearizeFlowResistance=true,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package MediumHex = Medium,
@@ -65,7 +66,9 @@ model GasSun
     THex_nominal=TSupRad + 5,
     mHex_flow_nominal=m_flow_nominal_solar,
     TTan_nominal=273.15 + 63,
-    hexSegMult=1)
+    hexSegMult=1,
+    allowFlowReversalHex=false,
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{-4,-28},{16,-8}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,
@@ -107,7 +110,8 @@ model GasSun
     per=Buildings.Fluid.SolarCollectors.Data.GlazedFlatPlate.FP_TRNSYSValidation(),
     sysConfig=Buildings.Fluid.SolarCollectors.Types.SystemConfiguration.Parallel,
     nSeg=5,
-    use_shaCoe_in=true)
+    use_shaCoe_in=true,
+    allowFlowReversal=false)
             annotation (Placement(transformation(extent={{-60,-32},{-40,-12}})));
 
   Buildings.Fluid.SolarCollectors.Controls.SolarPumpController pumCon(per=solar.per)
@@ -126,7 +130,6 @@ model GasSun
     dIns=dIns,
     hHex_b=0.05,
     linearizeFlowResistance=true,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     mHex_flow_nominal=m_flow_nominal_chp,
@@ -136,14 +139,17 @@ model GasSun
     THex_nominal=TSupRad + 5,
     hexSegMult=1,
     TTan_nominal=273.15 + 30,
-    Q_flow_nominal=bufferChp.mHex_flow_nominal*4200*30)
+    Q_flow_nominal=bufferChp.mHex_flow_nominal*4200*30,
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+    allowFlowReversalHex=false)
     annotation (Placement(transformation(extent={{-44,6},{-24,26}})));
   Heaters.CHP cHP(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal_chp,
     dp_nominal=0,
     m=14*scaler,
-    PNomRef=6000*scaler)
+    PNomRef=6000*scaler,
+    allowFlowReversal=false)
     annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -151,7 +157,9 @@ model GasSun
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
-    m_flow_nominal=m_flow_nominal_chp)
+    m_flow_nominal=m_flow_nominal_chp,
+    allowFlowReversal=false,
+    riseTime=60)
     annotation (Placement(transformation(extent={{-60,2},{-72,14}})));
   Controls.ControlS1 controlS1_1(THigh=273.15 + 80, TSetHp=273.15 + 80)
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
@@ -170,7 +178,7 @@ model GasSun
         rotation=270,
         origin={-8,28})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal(realTrue=m_flow_nominal_chp,
-      realFalse=0.001)
+      realFalse=m_flow_nominal_chp*0.01)
     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=270,

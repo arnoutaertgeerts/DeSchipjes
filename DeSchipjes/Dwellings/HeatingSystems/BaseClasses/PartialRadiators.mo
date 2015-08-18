@@ -81,10 +81,11 @@ partial model PartialRadiators
   //Components
   Buildings.Controls.Continuous.LimPID supplyPID(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    yMin=0,
-    k=0.01,
     yMax=sum(m_flow_nominal),
-    Ti=180) annotation (Placement(transformation(extent={{56,8},{68,20}})));
+    Ti=180,
+    k=0.005,
+    yMin=0.01*supplyPID.yMax)
+            annotation (Placement(transformation(extent={{56,8},{68,20}})));
 
 protected
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
@@ -144,9 +145,9 @@ protected
   IDEAS.Controls.Continuous.LimPID radPID[nZones](
     each controllerType=Modelica.Blocks.Types.SimpleController.PI,
     Td=30,
-    each Ti=360,
-    each k=0.01,
-    yMax=1.2*m_flow_nominal)
+    yMax=1.2*m_flow_nominal,
+    each Ti=180,
+    each k=0.005)
     annotation (Placement(transformation(extent={{-160,48},{-148,60}})));
   Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=1)     annotation (
       Placement(transformation(
@@ -193,7 +194,8 @@ protected
     allowFlowReversal=true,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    filteredSpeed=false)
+    filteredSpeed=true,
+    riseTime=100)
     annotation (Placement(transformation(extent={{116,-38},{104,-26}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow[nZones] pumpRad(
     redeclare package Medium = Medium,

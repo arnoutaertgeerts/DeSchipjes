@@ -3,7 +3,8 @@ model ITHeatingSystem
   import DeSchipjes;
   extends BaseClasses.PartialStorage(
     radPID(yMin=0),
-    realExpression1(y=273.15 + 70));
+    realExpression1(y=273.15 + 70),
+    pumpDHW(allowFlowReversal=false));
 
   parameter Modelica.SIunits.Temperature TSupplyDHW=273.15+70;
 
@@ -63,6 +64,13 @@ model ITHeatingSystem
     annotation (Placement(transformation(extent={{40,8},{52,20}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=273.15 + 70)
     annotation (Placement(transformation(extent={{14,14},{28,28}})));
+protected
+  Modelica.Blocks.Nonlinear.Limiter limiter1(uMax=0.167, uMin=0.01*0.167)
+                                                                annotation (
+      Placement(transformation(
+        extent={{-4,-4},{4,4}},
+        rotation=180,
+        origin={-26,80})));
 equation
 
   Qdhw = (tan.portHex_a.h_outflow - tan.portHex_b.h_outflow)*tan.portHex_a.m_flow;
@@ -84,8 +92,6 @@ equation
     annotation (Line(points={{66,80},{66,80},{22,80}}, color={0,0,127}));
   connect(temperatureSensor.port, tan.heaPorVol[end])
     annotation (Line(points={{74,80},{110,80},{110,52}},    color={191,0,0}));
-  connect(mDHW.y, pumpDHW.m_flow_in) annotation (Line(points={{-18.4,80},{-34.12,
-          80},{-34.12,63.2}}, color={0,0,127}));
   connect(onOffRad.y, pumpRad.m_flow_in) annotation (Line(points={{-92,-10.6},{-92,
           -24.8},{-91.88,-24.8}},      color={0,0,127}));
   connect(tan.portHex_a, inletHex.port_b) annotation (Line(points={{100,48.2},{
@@ -112,6 +118,10 @@ equation
           {6,44},{-32,44},{-32,-44},{40,-44}}, color={0,127,255}));
   connect(radPID.y, onOffRad.u1) annotation (Line(points={{-147.4,54},{-92,54},
           {-92,3.2}}, color={0,0,127}));
+  connect(mDHW.y, limiter1.u)
+    annotation (Line(points={{-18.4,80},{-21.2,80}}, color={0,0,127}));
+  connect(limiter1.y, pumpDHW.m_flow_in) annotation (Line(points={{-30.4,80},{
+          -34.12,80},{-34.12,63.2}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end ITHeatingSystem;

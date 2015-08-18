@@ -3,7 +3,8 @@ model S1HTGasSun
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(
     redeclare DeSchipjes.ProductionSites.GasSun                productionSite,
-    redeclare DeSchipjes.Grids.ROM.ROMHT          grid,
+    redeclare DeSchipjes.Grids.ROM.ROMHT          grid(ids={1,3,4,5,6,8,10,11,
+          13,14,19}),
     TSupRad(u=70),
     TRetRad(u=60),
     TSupGrid(u=80),

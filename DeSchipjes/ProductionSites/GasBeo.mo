@@ -42,7 +42,9 @@ model GasBeo
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
-    m_flow_nominal=m_flow_nominal_hpww)
+    m_flow_nominal=m_flow_nominal_hpww,
+    allowFlowReversal=false,
+    riseTime=60)
     annotation (Placement(transformation(extent={{-34,-46},{-46,-34}})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferHp(
     redeclare package Medium = Medium,
@@ -52,7 +54,6 @@ model GasBeo
     dIns=dIns,
     hHex_b=0.05,
     linearizeFlowResistance=true,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package MediumHex = Medium,
@@ -62,7 +63,9 @@ model GasBeo
     THex_nominal=TSupRad + 5,
     mHex_flow_nominal=m_flow_nominal_hpww,
     Q_flow_nominal=bufferHp.mHex_flow_nominal*4200*40,
-    hexSegMult=1)
+    hexSegMult=1,
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+    allowFlowReversalHex=false)
     annotation (Placement(transformation(extent={{-14,-6},{6,14}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,
@@ -95,7 +98,8 @@ model GasBeo
     dp1_nominal=0,
     dp2_nominal=0,
     m1=50*scaler,
-    m2=50*scaler)
+    m2=50*scaler,
+    allowFlowReversal2=false)
     annotation (Placement(transformation(extent={{-44,-4},{-64,16}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -103,7 +107,8 @@ model GasBeo
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
-    m_flow_nominal=m_flow_nominal_hpww)
+    m_flow_nominal=m_flow_nominal_hpww,
+    riseTime=60)
     annotation (Placement(transformation(extent={{-6,-6},{6,6}},
         rotation=90,
         origin={-80,30})));
@@ -132,7 +137,6 @@ model GasBeo
     dIns=dIns,
     hHex_b=0.05,
     linearizeFlowResistance=true,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     redeclare package MediumHex = Medium,
@@ -141,9 +145,11 @@ model GasBeo
     TTan_nominal=TSupRad,
     THex_nominal=TSupRad + 5,
     Q_flow_nominal=bufferSolar.mHex_flow_nominal*4200*40,
-    mHex_flow_nominal=m_flow_nominal_sun)
+    mHex_flow_nominal=m_flow_nominal_sun,
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+    allowFlowReversalHex=false)
     annotation (Placement(transformation(extent={{-18,-70},{2,-50}})));
-  Buildings.Fluid.SolarCollectors.EN12975 solar(
+  Buildings.Fluid.SolarCollectors.ASHRAE93 solar(
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     linearizeFlowResistance=true,
@@ -155,7 +161,8 @@ model GasBeo
     azi=0.3,
     per=Buildings.Fluid.SolarCollectors.Data.GlazedFlatPlate.FP_TRNSYSValidation(),
     nSeg=3,
-    use_shaCoe_in=true)
+    use_shaCoe_in=true,
+    allowFlowReversal=false)
             annotation (Placement(transformation(extent={{-66,-74},{-46,-54}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TSuni(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
@@ -169,7 +176,9 @@ model GasBeo
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
-    m_flow_nominal=m_flow_nominal_hpww)
+    m_flow_nominal=m_flow_nominal_hpww,
+    allowFlowReversal=false,
+    riseTime=60)
     annotation (Placement(transformation(extent={{-42,-98},{-54,-86}})));
   IDEAS.Fluid.Sources.FixedBoundary bou2(
     use_T=false,
@@ -216,7 +225,8 @@ model GasBeo
   IDEAS.Fluid.Sensors.TemperatureTwoPort Tret(redeclare package Medium = Medium,
       m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{76,-66},{64,-54}})));
-  Modelica.Blocks.Math.BooleanToReal booleanToReal(realTrue=m_flow_nominal_hpww)
+  Modelica.Blocks.Math.BooleanToReal booleanToReal(realTrue=m_flow_nominal_hpww,
+      realFalse=0.01*m_flow_nominal_hpww)
     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=270,
@@ -237,7 +247,8 @@ model GasBeo
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={4,-88})));
-  Modelica.Blocks.Nonlinear.Limiter limiter(uMax=100, uMin=0.01) annotation (
+  Modelica.Blocks.Nonlinear.Limiter limiter(uMax=100, uMin=m_flow_min_sun)
+                                                                 annotation (
       Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=180,

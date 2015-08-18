@@ -1,7 +1,7 @@
 within DeSchipjes.Controls;
 model Modulator
-  parameter Integer start=12;
-  parameter Integer duration=1;
+  parameter Real start=12;
+  parameter Real duration=1;
 
   Real hour;
 

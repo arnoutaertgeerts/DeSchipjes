@@ -45,7 +45,8 @@ model LTHeatingSystem
     addPowerToMedium=false,
     dynamicBalance=false,
     m_flow_nominal=0.167,
-    allowFlowReversal=true)
+    allowFlowReversal=false,
+    riseTime=60)
     annotation (Placement(transformation(extent={{44,50},{56,62}})));
   Buildings.Fluid.FixedResistances.Pipe inletSto(
     nSeg=1,
@@ -80,36 +81,39 @@ model LTHeatingSystem
         rotation=180,
         origin={70,44})));
   Modelica.Blocks.Math.BooleanToReal
-                            mDHW(                realFalse=0, realTrue=0.16*
-        0.2778)
+                            mDHW(                             realTrue=0.16*
+        0.2778, realFalse=0.01*mDHW.realTrue)
     annotation (Placement(transformation(extent={{74,76},{66,84}})));
   Modelica_StateGraph2.Step boosterOn(
     use_activePort=true,
-    initialStep=true,
     nOut=1,
-    nIn=1) annotation (Placement(transformation(extent={{134,76},{126,84}})));
-  Modelica_StateGraph2.Step boosterOff(
-    initialStep=false,
     nIn=1,
-    nOut=1) annotation (Placement(transformation(extent={{156,84},{164,76}})));
+    initialStep=false)
+           annotation (Placement(transformation(extent={{134,76},{126,84}})));
+  Modelica_StateGraph2.Step boosterOff(
+    nIn=1,
+    nOut=1,
+    initialStep=true)
+            annotation (Placement(transformation(extent={{164,84},{156,76}})));
   Modelica_StateGraph2.Transition T1(
-    delayedTransition=true,
     use_firePort=false,
     use_conditionPort=false,
-    condition=TStoTop.T < TDhws,
-    waitTime=180)
+    waitTime=180,
+    delayedTransition=true,
+    condition=TStoTop.T < 273.15 + 45)
     annotation (Placement(transformation(extent={{-4,-4},{4,4}},
         rotation=270,
-        origin={142,90})));
+        origin={142,92})));
   Modelica_StateGraph2.Transition T2(
-    delayedTransition=true,
     use_firePort=false,
     use_conditionPort=false,
-    condition=TStoBot.T > TStorage,
-    waitTime=180) annotation (Placement(transformation(
+    waitTime=180,
+    delayedTransition=false,
+    condition=TStoBot.T > 273.15 + 50)
+                  annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=90,
-        origin={150,74})));
+        origin={142,72})));
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TStoBot
     annotation (Placement(transformation(extent={{106,68},{98,76}})));
   Modelica.Blocks.Sources.RealExpression THotWaterSetExpr1(y=273.15 + 45)
@@ -184,13 +188,13 @@ equation
   connect(boosterOn.activePort, mDHW.u)
     annotation (Line(points={{125.28,80},{74.8,80}}, color={255,0,255}));
   connect(T2.outPort, boosterOff.inPort[1])
-    annotation (Line(points={{155,74},{160,74},{160,76}}, color={0,0,0}));
+    annotation (Line(points={{147,72},{160,72},{160,76}}, color={0,0,0}));
   connect(T2.inPort, boosterOn.outPort[1])
-    annotation (Line(points={{146,74},{130,74},{130,75.4}}, color={0,0,0}));
+    annotation (Line(points={{138,72},{130,72},{130,75.4}}, color={0,0,0}));
   connect(T1.outPort, boosterOn.inPort[1])
-    annotation (Line(points={{137,90},{130,90},{130,84}}, color={0,0,0}));
+    annotation (Line(points={{137,92},{130,92},{130,84}}, color={0,0,0}));
   connect(T1.inPort, boosterOff.outPort[1])
-    annotation (Line(points={{146,90},{160,90},{160,84.6}}, color={0,0,0}));
+    annotation (Line(points={{146,92},{160,92},{160,84.6}}, color={0,0,0}));
   connect(tan.heaPorVol[4], TStoBot.port) annotation (Line(points={{110,52.45},{
           110,52.45},{110,72},{106,72}}, color={191,0,0}));
   connect(TStoTop.port, tan.heaPorVol[2])

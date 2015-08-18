@@ -2,7 +2,8 @@ within DeSchipjes.Scenarios;
 model S4LTBEOGasBooster
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMLT
-      grid, redeclare DeSchipjes.ProductionSites.GasBeo productionSite(
+      grid(ids={1,3,4,5,6,8,10,11,13,14,19}),
+            redeclare DeSchipjes.ProductionSites.GasBeo productionSite(
         modulating=false),
     Qpeak(u=72),
     Qbase(u=43));

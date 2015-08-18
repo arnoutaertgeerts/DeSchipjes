@@ -54,7 +54,9 @@ model GasHPAW
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=m_flow_nominal_hpaw,
-    T_start=TSupRad)
+    T_start=TSupRad,
+    allowFlowReversal=false,
+    riseTime=60)
     annotation (Placement(transformation(extent={{-10,-70},{-30,-50}})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferHp(
     redeclare package Medium = Medium,
@@ -64,26 +66,21 @@ model GasHPAW
     dIns=dIns,
     hHex_b=0.05,
     linearizeFlowResistance=true,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     mHex_flow_nominal=m_flow_nominal_hpaw,
     redeclare package MediumHex = Medium,
     T_start=TSupRad,
     hHex_a=0.95,
-    THex_nominal=TSupRad + 5,
     TTan_nominal=273.15 + 30,
     Q_flow_nominal=bufferHp.mHex_flow_nominal*4200*30,
-    hexSegMult=1)
+    THex_nominal=273.15 + 70,
+    hexSegMult=2,
+    allowFlowReversalHex=false,
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{4,14},{24,34}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{-100,80},{-80,100}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort THpi(redeclare package Medium = Medium,
-      m_flow_nominal=sum(m_flow_nominal))
-    annotation (Placement(transformation(extent={{-62,14},{-50,26}})));
-  IDEAS.Fluid.Sensors.TemperatureTwoPort THpo(redeclare package Medium = Medium,
-      m_flow_nominal=sum(m_flow_nominal))
-    annotation (Placement(transformation(extent={{-16,14},{-4,26}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TBoio(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{80,54},{92,66}})));
@@ -113,14 +110,20 @@ model GasHPAW
   IDEAS.Fluid.Sensors.TemperatureTwoPort TBoii(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{40,54},{52,66}})));
+  IDEAS.Fluid.Sensors.TemperatureTwoPort THpo(redeclare package Medium = Medium,
+      m_flow_nominal=sum(m_flow_nominal))
+    annotation (Placement(transformation(extent={{-16,14},{-4,26}})));
+  IDEAS.Fluid.Sensors.TemperatureTwoPort THpi(redeclare package Medium = Medium,
+      m_flow_nominal=sum(m_flow_nominal))
+    annotation (Placement(transformation(extent={{-62,14},{-50,26}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,
-    nPorts=1,
-    redeclare package Medium = Medium)              annotation (Placement(
+    redeclare package Medium = Medium,
+    nPorts=1)                                       annotation (Placement(
         transformation(
         extent={{-4,-4},{4,4}},
         rotation=270,
-        origin={-52,-52})));
+        origin={6,-52})));
 equation
 
   Pboi=boiler.PFuelOrEl;
@@ -133,18 +136,6 @@ equation
           {0,-60},{-10,-60}}, color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
-  connect(fan.port_b, THpi.port_a) annotation (Line(points={{-30,-60},{-66,-60},
-          {-66,20},{-62,20}}, color={0,127,255},
-      thickness=0.5,
-      pattern=LinePattern.DashDot));
-  connect(THpi.port_b, hp.port_a)
-    annotation (Line(points={{-50,20},{-46,20}}, color={0,127,255}));
-  connect(hp.port_b, THpo.port_a)
-    annotation (Line(points={{-26,20},{-26,20},{-16,20}}, color={0,127,255},
-      thickness=0.5));
-  connect(THpo.port_b, bufferHp.portHex_a)
-    annotation (Line(points={{-4,20},{4,20},{4,20.2}}, color={0,127,255},
-      thickness=0.5));
   connect(boiler.port_b, TBoio.port_a)
     annotation (Line(points={{76,60},{76,60},{80,60}}, color={0,127,255}));
   connect(TBoio.port_b, port_b)
@@ -195,17 +186,22 @@ equation
   connect(bufferHp.port_a, TBoii.port_a) annotation (Line(points={{4,24},{0,24},
           {0,46},{40,46},{40,60}}, color={0,127,255},
       thickness=0.5));
-  connect(bou.ports[1], THpi.port_a) annotation (Line(
-      points={{-52,-56},{-52,-60},{-66,-60},{-66,20},{-62,20}},
-      color={0,127,255},
-      thickness=0.5,
-      pattern=LinePattern.DashDot));
   connect(modulation, controls.u) annotation (Line(points={{0,110},{0,86},{-54,
           86},{-54,67}}, color={255,0,255}));
   connect(controls.hpOn, hp.u) annotation (Line(points={{-43.4,62},{-36,62},{-36,
           30.8}}, color={255,0,255}));
   connect(booleanToReal.u, hp.u) annotation (Line(points={{-20,-22.8},{-20,-22.8},
           {-20,44},{-36,44},{-36,30.8}}, color={255,0,255}));
+  connect(hp.port_b, THpo.port_a)
+    annotation (Line(points={{-26,20},{-21,20},{-16,20}}, color={0,127,255}));
+  connect(THpo.port_b, bufferHp.portHex_a)
+    annotation (Line(points={{-4,20},{4,20},{4,20.2}}, color={0,127,255}));
+  connect(hp.port_a, THpi.port_b)
+    annotation (Line(points={{-46,20},{-50,20}}, color={0,127,255}));
+  connect(fan.port_b, THpi.port_a) annotation (Line(points={{-30,-60},{-70,-60},
+          {-70,20},{-62,20}}, color={0,127,255}));
+  connect(bou.ports[1], fan.port_a)
+    annotation (Line(points={{6,-56},{6,-60},{-10,-60}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics={Line(points={{-32,32},{-32,

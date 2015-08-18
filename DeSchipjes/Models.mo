@@ -101,17 +101,21 @@ package Models
       TRetGrid(u=40),
       Qbase(u=50));
   public
-    Controls.Modulator modulator(start=2)
-      annotation (Placement(transformation(extent={{-90,50},{-70,70}})));
+    Controls.Modulator modulator(start=3)
+      annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
+  public
+    Controls.Modulator modulator1(duration=1 + 3/60, start=3)
+      annotation (Placement(transformation(extent={{0,30},{20,50}})));
   equation
-    connect(modulator.on, grid.u) annotation (Line(points={{-69,60},{-62,60},{
+    connect(modulator.on, grid.u) annotation (Line(points={{-69,40},{-62,40},{
             -62,11}}, color={255,0,255}));
-    connect(modulator.on, productionSite.modulation)
-      annotation (Line(points={{-69,60},{28,60},{28,11}}, color={255,0,255}));
+    connect(modulator1.on, productionSite.modulation)
+      annotation (Line(points={{21,40},{28,40},{28,11}}, color={255,0,255}));
     annotation (
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),
       experiment(
+        StartTime=1e+007,
         StopTime=1.57785e+007,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
@@ -130,13 +134,16 @@ package Models
       TRetGrid(u=40),
       Qpeak(u=154));
   public
-    Controls.Modulator modulator(start=2)
-      annotation (Placement(transformation(extent={{-90,50},{-70,70}})));
+    Controls.Modulator modulator(start=3)
+      annotation (Placement(transformation(extent={{-90,40},{-70,60}})));
+  public
+    Controls.Modulator modulator1(duration=1 + 3/60, start=3)
+      annotation (Placement(transformation(extent={{0,40},{20,60}})));
   equation
-    connect(modulator.on, grid.u) annotation (Line(points={{-69,60},{-62,60},{
+    connect(modulator.on, grid.u) annotation (Line(points={{-69,50},{-62,50},{
             -62,11}}, color={255,0,255}));
-    connect(modulator.on, productionSite.modulation) annotation (Line(points={{
-            -69,60},{-20,60},{28,60},{28,11}}, color={255,0,255}));
+    connect(modulator1.on, productionSite.modulation)
+      annotation (Line(points={{21,50},{28,50},{28,11}}, color={255,0,255}));
     annotation (
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),

@@ -176,11 +176,11 @@ package BaseClasses
           extent={{-10,-10},{10,10}},
           rotation=270,
           origin={60,-40})));
-    Modelica.Blocks.Tables.CombiTable2D COPTable(smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments)
+    Modelica.Blocks.Tables.CombiTable2D COPTable(smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
       annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
     Modelica.Blocks.Math.Gain gain(k=scaler)
       annotation (Placement(transformation(extent={{20,-30},{40,-10}})));
-    Modelica.Blocks.Tables.CombiTable2D powerTable
+    Modelica.Blocks.Tables.CombiTable2D powerTable(smoothness=Modelica.Blocks.Types.Smoothness.ContinuousDerivative)
       annotation (Placement(transformation(extent={{-60,-10},{-40,10}})));
     Modelica.Blocks.Math.Gain gain1(k=scaler)
       annotation (Placement(transformation(extent={{84,-6},{96,6}})));

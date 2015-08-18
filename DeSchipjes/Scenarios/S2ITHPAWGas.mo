@@ -2,24 +2,29 @@ within DeSchipjes.Scenarios;
 model S2ITHPAWGas
   import DeSchipjes;
   extends DeSchipjes.Interfaces.Scenario(redeclare DeSchipjes.Grids.ROM.ROMIT
-      grid, redeclare DeSchipjes.ProductionSites.GasHPAW productionSite,
+      grid(ids={1,3,4,5,6,8,10,11,13,14,19}),
+            redeclare DeSchipjes.ProductionSites.GasHPAW productionSite,
     Qbase(u=50),
     Qpeak(u=72),
     TSupRad(u=45),
     TRetRad(u=35),
     TStorage(u=60));
 
-public
-  DeSchipjes.Controls.Modulator
-                     modulator(start=2)
-    annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
   inner IDEAS.SimInfoManager sim
     annotation (Placement(transformation(extent={{80,80},{100,100}})));
+public
+  DeSchipjes.Controls.Modulator
+                     modulator(start=3)
+    annotation (Placement(transformation(extent={{-92,40},{-72,60}})));
+public
+  DeSchipjes.Controls.Modulator
+                     modulator1(duration=1 + 3/60, start=3)
+    annotation (Placement(transformation(extent={{-2,40},{18,60}})));
 equation
   connect(modulator.on, grid.u)
-    annotation (Line(points={{-69,40},{-62,40},{-62,11}}, color={255,0,255}));
-  connect(productionSite.modulation, grid.u) annotation (Line(points={{28,11},{
-          28,40},{-62,40},{-62,11}}, color={255,0,255}));
+    annotation (Line(points={{-71,50},{-62,50},{-62,11}}, color={255,0,255}));
+  connect(modulator1.on, productionSite.modulation)
+    annotation (Line(points={{19,50},{28,50},{28,11}}, color={255,0,255}));
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},
           lineColor={135,135,135},

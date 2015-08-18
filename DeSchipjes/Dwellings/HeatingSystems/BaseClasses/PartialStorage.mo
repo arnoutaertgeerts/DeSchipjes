@@ -22,15 +22,15 @@ partial model PartialStorage
     m_flow_nominal=0.1,
     energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamicsHex=Modelica.Fluid.Types.Dynamics.SteadyState,
     R=1.625,
     redeclare package MediumHex = Medium,
     linearizeFlowResistance=true,
     allowFlowReversal=true,
-    allowFlowReversalHex=true,
     tau=300,
-    hexSegMult=1)
+    hexSegMult=1,
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+    allowFlowReversalHex=false)
     annotation (Placement(transformation(extent={{100,42},{120,62}})));
 equation
 
