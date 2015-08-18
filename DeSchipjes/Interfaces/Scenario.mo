@@ -69,7 +69,7 @@ model Scenario
     u=72)      annotation (Placement(transformation(extent={{60,-20},{80,0}})));
 equation
 
-  Eprim = productionSite.Eboi + 2.5*(productionSite.EhpEl + grid.EboosEl*2.5);
+  Eprim = productionSite.Eboi + 2.5*(productionSite.EhpEl + grid.EboosEl);
   Eren = productionSite.Eren + grid.Eren;
   Esto = productionSite.Esto + grid.Esto;
 

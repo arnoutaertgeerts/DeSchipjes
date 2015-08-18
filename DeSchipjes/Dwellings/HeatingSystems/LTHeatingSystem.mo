@@ -15,15 +15,6 @@ model LTHeatingSystem
   parameter Modelica.SIunits.Temperature THPmin=273.15+20
     "Minimal temperature on the evaporator side to use the HP";
 
-  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TStoTop
-    annotation (Placement(transformation(extent={{106,86},{98,94}})));
-  IDEAS.Fluid.Sources.FixedBoundary bou2(
-    redeclare package Medium = Medium,
-    use_T=false,
-    nPorts=1)
-    annotation (Placement(transformation(extent={{4,4},{-4,-4}},
-        rotation=270,
-        origin={54,38})));
   ProductionSites.Heaters.Booster           hpww(
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,
@@ -38,6 +29,25 @@ model LTHeatingSystem
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={24,50})));
+
+  Buildings.Controls.Continuous.LimPID dhwPID(
+    controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    yMax=1,
+    Ti=180,
+    k=0.01,
+    yMin=0)
+         annotation (Placement(transformation(extent={{6,84},{-6,96}})));
+
+protected
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TStoTop
+    annotation (Placement(transformation(extent={{106,86},{98,94}})));
+  IDEAS.Fluid.Sources.FixedBoundary bou2(
+    redeclare package Medium = Medium,
+    use_T=false,
+    nPorts=1)
+    annotation (Placement(transformation(extent={{4,4},{-4,-4}},
+        rotation=270,
+        origin={54,38})));
   Buildings.Fluid.Movers.FlowControlled_m_flow pumpDHWHex(
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -119,14 +129,6 @@ model LTHeatingSystem
   Modelica.Blocks.Sources.RealExpression THotWaterSetExpr1(y=273.15 + 45)
     annotation (Placement(transformation(extent={{28,84},{18,96}})));
 
-  Buildings.Controls.Continuous.LimPID dhwPID(
-    controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    yMax=1,
-    Ti=180,
-    k=0.01,
-    yMin=0)
-         annotation (Placement(transformation(extent={{6,84},{-6,96}})));
-public
   .DeSchipjes.Controls.OnOff releaseDHW(ymin=0) annotation (Placement(
         transformation(
         extent={{4,-4},{-4,4}},

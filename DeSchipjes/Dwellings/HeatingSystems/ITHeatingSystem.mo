@@ -8,6 +8,7 @@ model ITHeatingSystem
 
   parameter Modelica.SIunits.Temperature TSupplyDHW=273.15+70;
 
+protected
   .DeSchipjes.Controls.OnOff onOffRad[nZones] annotation (Placement(
         transformation(
         extent={{6,-6},{-6,6}},
@@ -64,7 +65,6 @@ model ITHeatingSystem
     annotation (Placement(transformation(extent={{40,8},{52,20}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=273.15 + 70)
     annotation (Placement(transformation(extent={{14,14},{28,28}})));
-protected
   Modelica.Blocks.Nonlinear.Limiter limiter1(uMax=0.167, uMin=0.01*0.167)
                                                                 annotation (
       Placement(transformation(

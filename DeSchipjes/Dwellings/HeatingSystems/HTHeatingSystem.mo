@@ -11,7 +11,7 @@ model HTHeatingSystem
       Ti=360),
     rad(Q_flow_nominal=QNom));
 
-public
+protected
   Buildings.Fluid.HeatExchangers.ConstantEffectiveness hex1(
     redeclare package Medium1 = Medium,
     redeclare package Medium2 = Medium,

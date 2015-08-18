@@ -40,8 +40,12 @@ partial model PartialRadiators
   Modelica.SIunits.Temperature TGrido = outlet.vol[1].T
     "Grid outlet temperature";
 
-  Modelica.SIunits.Temperature Ti = inletRad.vol[1].T "Inlet temperature";
-  Modelica.SIunits.Temperature To = outletRad.vol[1].T "Outlet temperature";
+  Modelica.SIunits.Temperature TSupplym = inletRad.vol[1].T
+    "Inlet measured temperature";
+  Modelica.SIunits.Temperature TSupplys = supplyPID.u_s
+    "Inlet setpoint temperature";
+  Modelica.SIunits.Temperature TReturm = outletRad.vol[1].T
+    "Measured Outlet temperature";
 
   Modelica.SIunits.Temperature TDhws = dHWTap.TDHWSet
     "DHW setpoint temperature";
@@ -51,7 +55,7 @@ partial model PartialRadiators
 
   Modelica.SIunits.MassFlowRate mRad[nZones] = pumpRad.m_flow
     "massflow rate in the radiator";
-  Modelica.SIunits.MassFlowRate mGrid = pumpSupply.m_flow
+  Modelica.SIunits.MassFlowRate mSupply = pumpSupply.m_flow
     "massflow rate in the grid";
   Modelica.SIunits.MassFlowRate mDhw = pumpDHW.m_flow_in
     "massflow rate used for producing DHW";
@@ -79,6 +83,8 @@ partial model PartialRadiators
   Modelica.SIunits.Energy Esto "Energy loss of the storage tanks";
 
   //Components
+
+protected
   Buildings.Controls.Continuous.LimPID supplyPID(
     controllerType=Modelica.Blocks.Types.SimpleController.PI,
     yMax=sum(m_flow_nominal),
@@ -87,7 +93,6 @@ partial model PartialRadiators
     yMin=0.01*supplyPID.yMax)
             annotation (Placement(transformation(extent={{56,8},{68,20}})));
 
-protected
   Buildings.Fluid.HeatExchangers.Radiators.RadiatorEN442_2 rad[nZones](
     redeclare package Medium = Medium,
     each T_a_nominal=TSupply,
@@ -219,7 +224,6 @@ protected
   Buildings.Fluid.Sensors.MassFlowRate senMasFlo(redeclare package Medium =
         Medium)
     annotation (Placement(transformation(extent={{68,-38},{56,-26}})));
-public
   Buildings.Controls.SetPoints.Table tab(table=[263.15,TSupply + 5; 273.15 + 20,
         273.15 + 20])
     annotation (Placement(transformation(extent={{20,0},{28,8}})));
@@ -230,7 +234,6 @@ public
     annotation (Placement(transformation(extent={{-120,28},{-108,40}})));
   Modelica.Blocks.Sources.RealExpression realExpression(y=sim.Te)
     annotation (Placement(transformation(extent={{4,-2},{16,10}})));
-public
   Modelica.Blocks.Logical.GreaterThreshold greaterThreshold(threshold=0.01)
     annotation (Placement(transformation(extent={{20,-16},{28,-8}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=sum(radPID.y) + mDhw)
@@ -276,10 +279,8 @@ public
         extent={{-4,-4},{4,4}},
         rotation=90,
         origin={44,-22})));
-initial equation
 
 equation
-
   P[1] = 0;
   Q[1] = 0;
 
