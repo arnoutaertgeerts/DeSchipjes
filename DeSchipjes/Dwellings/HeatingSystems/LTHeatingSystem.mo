@@ -9,7 +9,8 @@ model LTHeatingSystem
     onOffController(bandwidth=1),
     pumpDHW(filteredSpeed=true),
     tan(Q_flow_nominal=0.16*4180*(tan.THex_nominal - tan.TTan_nominal),
-        mHex_flow_nominal=0.16));
+        mHex_flow_nominal=0.16,
+      allowFlowReversalHex=true));
 
   //Parameters
   parameter Modelica.SIunits.Temperature THPmin=273.15+20
@@ -55,8 +56,8 @@ protected
     addPowerToMedium=false,
     dynamicBalance=false,
     m_flow_nominal=0.167,
-    allowFlowReversal=false,
-    riseTime=60)
+    riseTime=60,
+    allowFlowReversal=true)
     annotation (Placement(transformation(extent={{44,50},{56,62}})));
   Buildings.Fluid.FixedResistances.Pipe inletSto(
     nSeg=1,
@@ -67,10 +68,10 @@ protected
     thicknessIns=0.01,
     lambdaIns=0.026,
     diameter=0.02,
-    allowFlowReversal=true,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    length=20)              annotation (Placement(transformation(
+    length=20,
+    allowFlowReversal=true) annotation (Placement(transformation(
         extent={{6,-6},{-6,6}},
         rotation=180,
         origin={70,56})));

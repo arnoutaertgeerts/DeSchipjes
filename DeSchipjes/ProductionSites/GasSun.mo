@@ -15,9 +15,9 @@ model GasSun
   parameter Modelica.SIunits.Height hTan=1 "Height of the storage tank";
   parameter Modelica.SIunits.Length dIns=0.04 "Insulation thickness";
 
-  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_solar=0.161*scaler
+  parameter Modelica.SIunits.MassFlowRate m_flow_nominal_sun=0.161*scaler
     "Nominal massflow rate of the solar collector";
-  parameter Modelica.SIunits.MassFlowRate m_flow_min_solar= 0.02*m_flow_nominal_solar
+  parameter Modelica.SIunits.MassFlowRate m_flow_min_sun= 0.02*m_flow_nominal_sun
     "Minimal massflowrate of the solar collector";
   parameter Modelica.SIunits.MassFlowRate m_flow_nominal_chp=0.14*scaler
     "Nominal massflow rate of the solar collector";
@@ -45,10 +45,10 @@ model GasSun
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
-    m_flow_nominal=m_flow_nominal_solar,
-    allowFlowReversal=false,
-    riseTime=60)
-    annotation (Placement(transformation(extent={{-44,-90},{-56,-78}})));
+    riseTime=60,
+    m_flow_nominal=m_flow_nominal_sun,
+    allowFlowReversal=true)
+    annotation (Placement(transformation(extent={{-32,-86},{-44,-74}})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferSolar(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -64,11 +64,11 @@ model GasSun
     hHex_a=0.95,
     Q_flow_nominal=bufferSolar.mHex_flow_nominal*4200*40,
     THex_nominal=TSupRad + 5,
-    mHex_flow_nominal=m_flow_nominal_solar,
     TTan_nominal=273.15 + 63,
     hexSegMult=1,
-    allowFlowReversalHex=false,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
+    mHex_flow_nominal=m_flow_nominal_sun,
+    allowFlowReversalHex=true)
     annotation (Placement(transformation(extent={{-4,-28},{16,-8}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,
@@ -77,12 +77,12 @@ model GasSun
         transformation(
         extent={{-4,-4},{4,4}},
         rotation=270,
-        origin={-32,-78})));
+        origin={-24,-72})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TSuni(redeclare package Medium =
-        Medium, m_flow_nominal=m_flow_nominal_solar)
+        Medium, m_flow_nominal=m_flow_nominal_sun)
     annotation (Placement(transformation(extent={{-78,-16},{-66,-28}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TSuno(redeclare package Medium =
-        Medium, m_flow_nominal=m_flow_nominal_solar)
+        Medium, m_flow_nominal=m_flow_nominal_sun)
     annotation (Placement(transformation(extent={{-34,-28},{-22,-16}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TBoio(
     redeclare package Medium = Medium,
@@ -109,19 +109,11 @@ model GasSun
     azi=0.3,
     per=Buildings.Fluid.SolarCollectors.Data.GlazedFlatPlate.FP_TRNSYSValidation(),
     sysConfig=Buildings.Fluid.SolarCollectors.Types.SystemConfiguration.Parallel,
-    nSeg=5,
     use_shaCoe_in=true,
-    allowFlowReversal=false)
+    nSeg=3,
+    allowFlowReversal=true)
             annotation (Placement(transformation(extent={{-60,-32},{-40,-12}})));
 
-  Buildings.Fluid.SolarCollectors.Controls.SolarPumpController pumCon(per=solar.per)
-    annotation (Placement(transformation(extent={{-60,-56},{-52,-48}})));
-  Modelica.Blocks.Math.Gain gain(k=m_flow_nominal_solar)
-    "Flow rate of the system in kg/s"
-    annotation (Placement(transformation(
-        extent={{-4,-4},{4,4}},
-        rotation=0,
-        origin={-42,-52})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferChp(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
@@ -141,7 +133,7 @@ model GasSun
     TTan_nominal=273.15 + 30,
     Q_flow_nominal=bufferChp.mHex_flow_nominal*4200*30,
     energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    allowFlowReversalHex=false)
+    allowFlowReversalHex=true)
     annotation (Placement(transformation(extent={{-44,6},{-24,26}})));
   Heaters.CHP cHP(
     redeclare package Medium = Medium,
@@ -149,7 +141,7 @@ model GasSun
     dp_nominal=0,
     m=14*scaler,
     PNomRef=6000*scaler,
-    allowFlowReversal=false)
+    allowFlowReversal=true)
     annotation (Placement(transformation(extent={{-90,30},{-70,50}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -158,8 +150,8 @@ model GasSun
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
     m_flow_nominal=m_flow_nominal_chp,
-    allowFlowReversal=false,
-    riseTime=60)
+    riseTime=60,
+    allowFlowReversal=true)
     annotation (Placement(transformation(extent={{-60,2},{-72,14}})));
   Controls.ControlS1 controlS1_1(THigh=273.15 + 80, TSetHp=273.15 + 80)
     annotation (Placement(transformation(extent={{-40,70},{-20,90}})));
@@ -178,7 +170,7 @@ model GasSun
         rotation=270,
         origin={-8,28})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal(realTrue=m_flow_nominal_chp,
-      realFalse=m_flow_nominal_chp*0.01)
+      realFalse=0)
     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=270,
@@ -200,18 +192,24 @@ model GasSun
         extent={{-4,-4},{4,4}},
         rotation=270,
         origin={-60,48})));
-  Modelica.Blocks.Nonlinear.Limiter limiter(uMax=100, uMin=m_flow_min_solar)
-                                                                 annotation (
-      Placement(transformation(
-        extent={{-4,-4},{4,4}},
-        rotation=180,
-        origin={-42,-68})));
   Annex60.Controls.Continuous.LimPID solarPID(controllerType=Modelica.Blocks.Types.SimpleController.PI,
       Ti=180,
     reverseAction=true)
-    annotation (Placement(transformation(extent={{-14,-38},{-26,-50}})));
+    annotation (Placement(transformation(extent={{-30,-38},{-42,-50}})));
   Modelica.Blocks.Sources.Constant const(k=273.15 + 90)
     annotation (Placement(transformation(extent={{4,-50},{-8,-38}})));
+  DeSchipjes.ProductionSites.Controls.SolarControls solarControls
+    annotation (Placement(transformation(extent={{-72,-70},{-56,-54}})));
+  Modelica.Blocks.Sources.RealExpression realExpression1(y=solar.vol[3].T)
+    annotation (Placement(transformation(extent={{-102,-66},{-84,-48}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TBotSun
+    annotation (Placement(transformation(extent={{2,-94},{-6,-86}})));
+  Modelica.Blocks.Math.BooleanToReal booleanToReal1(realFalse=0, realTrue=
+        m_flow_nominal_sun)
+    annotation (Placement(transformation(
+        extent={{-4,4},{4,-4}},
+        rotation=0,
+        origin={-46,-62})));
 equation
 
   der(ECHP)=PCHP;
@@ -226,16 +224,16 @@ equation
   Qsto=bufferSolar.Ql_flow + bufferChp.Ql_flow;
 
   connect(bufferSolar.portHex_b, fan.port_a) annotation (Line(
-      points={{-4,-26},{-16,-26},{-16,-84},{-44,-84}},
+      points={{-4,-26},{-16,-26},{-16,-80},{-32,-80}},
       color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
-  connect(bou.ports[1],fan. port_a) annotation (Line(points={{-32,-82},{-32,-84},
-          {-44,-84}}, color={0,127,255},
+  connect(bou.ports[1],fan. port_a) annotation (Line(points={{-24,-76},{-24,-80},
+          {-32,-80}}, color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
   connect(fan.port_b, TSuni.port_a) annotation (Line(
-      points={{-56,-84},{-80,-84},{-80,-22},{-78,-22}},
+      points={{-44,-80},{-80,-80},{-80,-22},{-78,-22}},
       color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
@@ -259,22 +257,12 @@ equation
       color={0,127,255},
       thickness=0.5,
       pattern=LinePattern.DashDot));
-  connect(TSuni.T, pumCon.TIn) annotation (Line(points={{-72,-28.6},{-72,-53.6},
-          {-60.8,-53.6}},
-                 color={0,0,127}));
-  connect(pumCon.y, gain.u)
-    annotation (Line(points={{-51.28,-52},{-51.28,-52},{-46.8,-52}},
-                                                       color={0,0,127}));
   connect(TBoio.port_b, port_b) annotation (Line(
       points={{92,60},{100,60}},
       color={0,127,255},
       thickness=0.5));
   connect(sim.weaBus1, solar.weaBus) annotation (Line(
       points={{-80,-12},{-60,-12},{-60,-12.4}},
-      color={255,204,51},
-      thickness=0.5));
-  connect(pumCon.weaBus, solar.weaBus) annotation (Line(
-      points={{-60.08,-49.6},{-66,-49.6},{-66,-12},{-60,-12},{-60,-12.4}},
       color={255,204,51},
       thickness=0.5));
   connect(bufferSolar.heaPorSid, TRoo.port) annotation (Line(points={{11.6,-18},
@@ -316,8 +304,9 @@ equation
     annotation (Line(points={{44,-60},{50,-60}}, color={0,127,255}));
   connect(Tret.port_a, port_a)
     annotation (Line(points={{62,-60},{100,-60}}, color={0,127,255}));
-  connect(Tret.T, controlS1_1.Tret) annotation (Line(points={{56,-53.4},{68,-53.4},
-          {68,44},{-54,44},{-54,72},{-41,72}}, color={0,0,127}));
+  connect(Tret.T, controlS1_1.Tret) annotation (Line(points={{56,-53.4},{56,-53.4},
+          {56,-48},{66,-48},{66,46},{-54,46},{-54,72},{-41,72}},
+                                               color={0,0,127}));
   connect(bufferChp.heaPorVol[1], TTopHp.port) annotation (Line(points={{-34,15.55},
           {-34,15.55},{-34,36}}, color={191,0,0}));
   connect(bufferChp.heaPorVol[4], TBotHp.port)
@@ -332,17 +321,26 @@ equation
           0},{-96,88},{-41,88}}, color={0,0,127}));
   connect(bou1.ports[1], bufferChp.portHex_a) annotation (Line(points={{-60,44},
           {-60,40},{-48,40},{-48,12.2},{-44,12.2}}, color={0,127,255}));
-  connect(limiter.y, fan.m_flow_in) annotation (Line(points={{-46.4,-68},{
-          -49.88,-68},{-49.88,-76.8}},
-                                color={0,0,127}));
-  connect(gain.y, limiter.u) annotation (Line(points={{-37.6,-52},{-34,-52},{
-          -34,-68},{-37.2,-68}}, color={0,0,127}));
-  connect(TSuno.T, solarPID.u_m) annotation (Line(points={{-28,-15.4},{-28,-10},
-          {-20,-10},{-20,-36.8}}, color={0,0,127}));
-  connect(solarPID.y, solar.shaCoe_in) annotation (Line(points={{-26.6,-44},{-46,
+  connect(solarPID.y, solar.shaCoe_in) annotation (Line(points={{-42.6,-44},{-42.6,
           -44},{-68,-44},{-68,-19.4},{-62,-19.4}}, color={0,0,127}));
-  connect(solarPID.u_s, const.y) annotation (Line(points={{-12.8,-44},{-10,-44},
+  connect(solarPID.u_s, const.y) annotation (Line(points={{-28.8,-44},{-28.8,-44},
           {-8.6,-44}}, color={0,0,127}));
+  connect(realExpression1.y, solarControls.TCollector) annotation (Line(points={
+          {-83.1,-57},{-74,-57},{-74,-58},{-74,-57.2},{-72.8,-57.2}}, color={0,0,
+          127}));
+  connect(bufferSolar.heaPorVol[4], TBotSun.port) annotation (Line(points={{6,-17.55},
+          {6,-17.55},{6,-90},{2,-90}}, color={191,0,0}));
+  connect(TBotSun.T, solarControls.TStoBot) annotation (Line(points={{-6,-90},{-86,
+          -90},{-86,-62},{-72.8,-62}}, color={0,0,127}));
+  connect(solarControls.Tret, controlS1_1.Tret) annotation (Line(points={{-72.8,
+          -66.8},{-90,-66.8},{-90,-94},{66,-94},{66,46},{-54,46},{-54,72},{-41,72}},
+        color={0,0,127}));
+  connect(booleanToReal1.u, solarControls.on)
+    annotation (Line(points={{-50.8,-62},{-55.52,-62}}, color={255,0,255}));
+  connect(booleanToReal1.y, fan.m_flow_in) annotation (Line(points={{-41.6,-62},
+          {-37.88,-62},{-37.88,-72.8}}, color={0,0,127}));
+  connect(TSuno.T, solarPID.u_m) annotation (Line(points={{-28,-15.4},{-28,-10},
+          {-36,-10},{-36,-36.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

@@ -43,7 +43,6 @@ model GasBeo
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
     m_flow_nominal=m_flow_nominal_hpww,
-    allowFlowReversal=false,
     riseTime=60)
     annotation (Placement(transformation(extent={{-34,-46},{-46,-34}})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferHp(
@@ -64,8 +63,7 @@ model GasBeo
     mHex_flow_nominal=m_flow_nominal_hpww,
     Q_flow_nominal=bufferHp.mHex_flow_nominal*4200*40,
     hexSegMult=1,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    allowFlowReversalHex=false)
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{-14,-6},{6,14}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,
@@ -98,8 +96,7 @@ model GasBeo
     dp1_nominal=0,
     dp2_nominal=0,
     m1=50*scaler,
-    m2=50*scaler,
-    allowFlowReversal2=false)
+    m2=50*scaler)
     annotation (Placement(transformation(extent={{-44,-4},{-64,16}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -146,8 +143,7 @@ model GasBeo
     THex_nominal=TSupRad + 5,
     Q_flow_nominal=bufferSolar.mHex_flow_nominal*4200*40,
     mHex_flow_nominal=m_flow_nominal_sun,
-    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    allowFlowReversalHex=false)
+    energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
     annotation (Placement(transformation(extent={{-18,-70},{2,-50}})));
   Buildings.Fluid.SolarCollectors.ASHRAE93 solar(
     redeclare package Medium = Medium,
@@ -162,7 +158,7 @@ model GasBeo
     per=Buildings.Fluid.SolarCollectors.Data.GlazedFlatPlate.FP_TRNSYSValidation(),
     nSeg=3,
     use_shaCoe_in=true,
-    allowFlowReversal=false)
+    sysConfig=Buildings.Fluid.SolarCollectors.Types.SystemConfiguration.Parallel)
             annotation (Placement(transformation(extent={{-66,-74},{-46,-54}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TSuni(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
@@ -177,7 +173,6 @@ model GasBeo
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
     m_flow_nominal=m_flow_nominal_hpww,
-    allowFlowReversal=false,
     riseTime=60)
     annotation (Placement(transformation(extent={{-42,-98},{-54,-86}})));
   IDEAS.Fluid.Sources.FixedBoundary bou2(

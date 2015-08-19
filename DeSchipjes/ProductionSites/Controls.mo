@@ -833,7 +833,9 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
 
   model SolarControls
 
-    Modelica.Blocks.Interfaces.RealInput TSuno
+    extends PartialControls;
+
+    Modelica.Blocks.Interfaces.RealInput TCollector
       annotation (Placement(transformation(extent={{-130,40},{-90,80}})));
     Modelica.Blocks.Interfaces.RealInput Tret
       annotation (Placement(transformation(extent={{-130,-80},{-90,-40}})));
@@ -849,18 +851,17 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
       initialStep=false)
       annotation (Placement(transformation(extent={{-34,-76},{-26,-68}})));
     Modelica_StateGraph2.Transition T1(
-      waitTime=900,
-      delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TSuno < TStoBot + 2)
-      annotation (Placement(transformation(extent={{-34,-64},{-26,-56}})));
+      delayedTransition=true,
+      condition=TCollector < TStoBot + 2,
+      waitTime=360)
+      annotation (Placement(transformation(extent={{-34,-44},{-26,-36}})));
     Modelica_StateGraph2.Transition T2(
-      waitTime=900,
-      delayedTransition=true,
       use_firePort=false,
       use_conditionPort=false,
-      condition=TSuno > TStoBot)
+      delayedTransition=false,
+      condition=TCollector > TStoBot)
                     annotation (Placement(transformation(
           extent={{-4,-4},{4,4}},
           rotation=0,
@@ -871,18 +872,18 @@ the HP and TbufSun > Tret")}),    Icon(coordinateSystem(extent={{-100,-100},{100
       annotation (Placement(transformation(extent={{96,-10},{116,10}})));
   equation
     connect(stateOn.outPort[1],T1. inPort)
-      annotation (Line(points={{-30,-4.6},{-30,-4.6},{-30,-56}},
+      annotation (Line(points={{-30,-4.6},{-30,-36}},
                                                     color={0,0,0}));
     connect(T1.outPort,stateOff. inPort[1])
-      annotation (Line(points={{-30,-65},{-30,-68}},         color={0,0,0}));
+      annotation (Line(points={{-30,-45},{-30,-68}},         color={0,0,0}));
     connect(T2.outPort,stateOn. inPort[1])
       annotation (Line(points={{-30,55},{-30,4}},  color={0,0,0}));
     connect(T2.inPort,stateOff. outPort[1]) annotation (Line(points={{-30,64},{
             -30,70},{0,70},{0,-80},{-30,-80},{-30,-76.6}}, color={0,0,0}));
     connect(stateOn.activePort, on)
       annotation (Line(points={{-25.28,0},{106,0}}, color={255,0,255}));
-    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{
-              -100,-100},{100,100}})));
+    annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
+              -100},{100,100}})));
   end SolarControls;
 
   model PartialControls
