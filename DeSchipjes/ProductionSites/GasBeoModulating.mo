@@ -44,7 +44,7 @@ model GasBeoModulating
     T_start=TSupRad,
     m_flow_nominal=m_flow_nominal_hpww,
     riseTime=60,
-    allowFlowReversal=true)
+    allowFlowReversal=false)
     annotation (Placement(transformation(extent={{-34,-46},{-46,-34}})));
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferHp(
     redeclare package Medium = Medium,
@@ -65,7 +65,7 @@ model GasBeoModulating
     Q_flow_nominal=bufferHp.mHex_flow_nominal*4200*40,
     hexSegMult=1,
     energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    allowFlowReversalHex=true)
+    allowFlowReversalHex=false)
     annotation (Placement(transformation(extent={{-14,-6},{6,14}})));
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,
@@ -99,7 +99,7 @@ model GasBeoModulating
     m2_flow_nominal=m_flow_nominal_hpww,
     m1=13*scaler,
     m2=13*scaler,
-    allowFlowReversal2=true)
+    allowFlowReversal2=false)
     annotation (Placement(transformation(extent={{-44,-4},{-64,16}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan1(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -147,7 +147,7 @@ model GasBeoModulating
     Q_flow_nominal=bufferSolar.mHex_flow_nominal*4200*40,
     mHex_flow_nominal=m_flow_nominal_sun,
     energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    allowFlowReversalHex=true)
+    allowFlowReversalHex=false)
     annotation (Placement(transformation(extent={{-18,-70},{2,-50}})));
   Buildings.Fluid.SolarCollectors.ASHRAE93 solar(
     redeclare package Medium = Medium,
@@ -162,8 +162,8 @@ model GasBeoModulating
     nSeg=3,
     use_shaCoe_in=true,
     sysConfig=Buildings.Fluid.SolarCollectors.Types.SystemConfiguration.Parallel,
-    allowFlowReversal=true,
-    totalArea=A)
+    totalArea=A,
+    allowFlowReversal=false)
             annotation (Placement(transformation(extent={{-66,-74},{-46,-54}})));
 
   IDEAS.Fluid.Sensors.TemperatureTwoPort TSuni(redeclare package Medium =
@@ -180,7 +180,7 @@ model GasBeoModulating
     T_start=TSupRad,
     m_flow_nominal=m_flow_nominal_hpww,
     riseTime=60,
-    allowFlowReversal=true)
+    allowFlowReversal=false)
     annotation (Placement(transformation(extent={{-42,-98},{-54,-86}})));
   IDEAS.Fluid.Sources.FixedBoundary bou2(
     use_T=false,
@@ -228,7 +228,7 @@ model GasBeoModulating
       m_flow_nominal=sum(m_flow_nominal))
     annotation (Placement(transformation(extent={{76,-66},{64,-54}})));
   Modelica.Blocks.Math.BooleanToReal booleanToReal(realTrue=m_flow_nominal_hpww,
-      realFalse=0)
+      realFalse=0.01*m_flow_nominal_hpww)
     annotation (Placement(transformation(
         extent={{-4,-4},{4,4}},
         rotation=270,
@@ -237,25 +237,25 @@ model GasBeoModulating
     annotation (Placement(transformation(extent={{4,-4},{-4,4}},
         rotation=180,
         origin={10,-74})));
-  Annex60.Controls.Continuous.LimPID solarPID(controllerType=Modelica.Blocks.Types.SimpleController.PI,
-    reverseAction=true,
-    Ti=30)
-    annotation (Placement(transformation(extent={{-132,-62},{-120,-74}})));
-  Modelica.Blocks.Sources.Constant const1(
-                                         k=273.15 + 90)
-    annotation (Placement(transformation(extent={{-154,-74},{-142,-62}})));
-  Modelica.Blocks.Sources.RealExpression realExpression(y=solar.vol[3].T)
-    annotation (Placement(transformation(extent={{-156,-52},{-136,-32}})));
   Controls.SolarControls solarControls
     annotation (Placement(transformation(extent={{2,-96},{-14,-80}})));
   Modelica.Blocks.Sources.RealExpression realExpression1(y=solar.vol[3].T)
     annotation (Placement(transformation(extent={{42,-92},{24,-74}})));
-  Modelica.Blocks.Math.BooleanToReal booleanToReal1(realFalse=0, realTrue=
-        m_flow_nominal_sun)
+  Modelica.Blocks.Math.BooleanToReal booleanToReal1(             realTrue=
+        m_flow_nominal_sun, realFalse=0.01*m_flow_nominal_sun)
     annotation (Placement(transformation(
         extent={{4,4},{-4,-4}},
         rotation=0,
         origin={-32,-80})));
+  Annex60.Controls.Continuous.LimPID solarPID(controllerType=Modelica.Blocks.Types.SimpleController.PI,
+    reverseAction=true,
+    Ti=30)
+    annotation (Placement(transformation(extent={{-128,-62},{-116,-74}})));
+  Modelica.Blocks.Sources.RealExpression realExpression(y=solar.vol[3].T)
+    annotation (Placement(transformation(extent={{-146,-58},{-126,-38}})));
+  Modelica.Blocks.Sources.Constant const1(
+                                         k=273.15 + 90)
+    annotation (Placement(transformation(extent={{-146,-74},{-134,-62}})));
 equation
 
   Pboi=boiler.PFuelOrEl;
@@ -416,12 +416,6 @@ equation
           {-54,30},{-54,16.8}}, color={255,0,255}));
   connect(booleanToReal.u, hp.u) annotation (Line(points={{-40,-11.2},{-40,30},{
           -54,30},{-54,16.8}}, color={255,0,255}));
-  connect(solarPID.u_s, const1.y) annotation (Line(points={{-133.2,-68},{-141.4,
-          -68}},              color={0,0,127}));
-  connect(solarPID.y, solar.shaCoe_in) annotation (Line(points={{-119.4,-68},{-84,
-          -68},{-84,-61.4},{-68,-61.4}}, color={0,0,127}));
-  connect(realExpression.y, solarPID.u_m) annotation (Line(points={{-135,-42},{
-          -126,-42},{-126,-60.8}}, color={0,0,127}));
   connect(solarControls.TStoBot, TBotSun.T) annotation (Line(points={{2.8,-88},
           {20,-88},{20,-74},{14,-74}}, color={0,0,127}));
   connect(realExpression1.y, solarControls.TCollector) annotation (Line(points=
@@ -432,6 +426,12 @@ equation
           {-47.88,-80},{-47.88,-84.8}}, color={0,0,127}));
   connect(solarControls.on, booleanToReal1.u) annotation (Line(points={{-14.48,
           -88},{-22,-88},{-22,-80},{-27.2,-80}}, color={255,0,255}));
+  connect(realExpression.y, solarPID.u_m) annotation (Line(points={{-125,-48},{
+          -122,-48},{-122,-60.8}}, color={0,0,127}));
+  connect(solarPID.u_s, const1.y)
+    annotation (Line(points={{-129.2,-68},{-133.4,-68}}, color={0,0,127}));
+  connect(solarPID.y, solar.shaCoe_in) annotation (Line(points={{-115.4,-68},{
+          -84,-68},{-84,-61.4},{-68,-61.4}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={

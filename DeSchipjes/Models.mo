@@ -166,7 +166,7 @@ package Models
       TRetRad(u=35));
 
     annotation (experiment(
-        StopTime=2.6e+006,
+        StopTime=1.57785e+007,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"), __Dymola_experimentSetupOutput);
   end S4;

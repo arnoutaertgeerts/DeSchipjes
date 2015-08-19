@@ -10,7 +10,7 @@ model LTHeatingSystem
     pumpDHW(filteredSpeed=true),
     tan(Q_flow_nominal=0.16*4180*(tan.THex_nominal - tan.TTan_nominal),
         mHex_flow_nominal=0.16,
-      allowFlowReversalHex=true));
+      allowFlowReversalHex=false));
 
   //Parameters
   parameter Modelica.SIunits.Temperature THPmin=273.15+20
@@ -57,7 +57,7 @@ protected
     dynamicBalance=false,
     m_flow_nominal=0.167,
     riseTime=60,
-    allowFlowReversal=true)
+    allowFlowReversal=false)
     annotation (Placement(transformation(extent={{44,50},{56,62}})));
   Buildings.Fluid.FixedResistances.Pipe inletSto(
     nSeg=1,
