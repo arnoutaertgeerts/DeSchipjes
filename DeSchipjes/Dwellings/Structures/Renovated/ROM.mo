@@ -11,7 +11,7 @@ package ROM
       frontWall(insulationThickness=0, redeclare
           DeSchipjes.Dwellings.Structures.Data.Constructions.Renovated.GevelType1
           constructionType),
-      zone(n50=5));
+      zone(n50=5, energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial));
 
   end RowHouse;
 

@@ -26,13 +26,13 @@ model GasHPAW
                                 boiler(
                              m_flow_nominal=m_flow_nominal,
     QNom=Qpeak,
-    modulationInput=false,
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
     dp_nominal=0,
     use_onOffSignal=true,
-    m2=15*scaler)
+    m2=15*scaler,
+    modulationInput=false)
     annotation (Placement(transformation(extent={{56,50},{76,70}})));
   DeSchipjes.ProductionSites.Heaters.HPAWVitoA60
                                           hp(
@@ -149,8 +149,6 @@ equation
           {16,34},{19.6,34},{19.6,24}}, color={191,0,0}));
   connect(TRoo.port, bufferHp.heaPorSid) annotation (Line(points={{80,0},{66,0},
           {66,28},{19.6,28},{19.6,24}}, color={191,0,0}));
-  connect(controls.boi, boiler.u) annotation (Line(points={{-43.4,54},{-12,54},{
-          -12,80},{68,80},{68,70.8}}, color={0,0,127}));
   connect(controls.boiOn, boiler.on) annotation (Line(points={{-43.4,50},{-8,50},
           {-8,76},{64,76},{64,70.8}}, color={255,0,255}));
   connect(TAmb.y,controls. TAmb)
@@ -202,6 +200,8 @@ equation
           {-70,20},{-62,20}}, color={0,127,255}));
   connect(bou.ports[1], fan.port_a)
     annotation (Line(points={{6,-56},{6,-60},{-10,-60}}, color={0,127,255}));
+  connect(controls.boi, boiler.u) annotation (Line(points={{-43.4,54},{-12,54},
+          {-12,80},{68,80},{68,70.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics={Line(points={{-32,32},{-32,

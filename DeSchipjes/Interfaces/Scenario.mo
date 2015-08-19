@@ -6,10 +6,10 @@ model Scenario
   Modelica.SIunits.Energy Esto;
 
   replaceable BaseClasses.ProductionSite productionSite(
-           m_flow_nominal=grid.m_flow_nominal*productionSite.scaler,
     TSupRad=TSupGrid.y,
     Qbase=Qbase.y*productionSite.scaler,
-    Qpeak=Qpeak.y*productionSite.scaler)
+    Qpeak=Qpeak.y*productionSite.scaler,
+    m_flow_nominal=1.7224*productionSite.scaler)
     annotation (Placement(transformation(extent={{38,-10},{18,10}})),choicesAllMatching=true);
   IDEAS.Fluid.Sources.FixedBoundary bou(
     use_T=false,

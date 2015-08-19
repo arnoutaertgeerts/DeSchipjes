@@ -164,14 +164,14 @@ protected
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=sum(m_flow_nominal),
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     dp_nominal=0,
     linearizeFlowResistance=true,
     thicknessIns=0.01,
     lambdaIns=0.026,
     diameter=0.02,
     length=10,
-    allowFlowReversal=true)
+    allowFlowReversal=true,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
                annotation (Placement(transformation(
         extent={{6,6},{-6,-6}},
         rotation=90,
@@ -181,14 +181,14 @@ protected
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     m_flow_nominal=sum(m_flow_nominal),
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     dp_nominal=0,
     linearizeFlowResistance=true,
     thicknessIns=0.01,
     lambdaIns=0.026,
     diameter=0.02,
     length=10,
-    allowFlowReversal=true)
+    allowFlowReversal=true,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
                annotation (Placement(transformation(
         extent={{-6,-6},{6,6}},
         rotation=90,
@@ -197,10 +197,11 @@ protected
     redeclare package Medium = Medium,
     m_flow_nominal=sum(m_flow_nominal),
     allowFlowReversal=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     filteredSpeed=true,
-    riseTime=100)
+    riseTime=100,
+    dynamicBalance=false,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
     annotation (Placement(transformation(extent={{116,-38},{104,-26}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow[nZones] pumpRad(
     redeclare package Medium = Medium,

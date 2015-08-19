@@ -8,13 +8,14 @@ package Models
 
     Dwellings.Building building(
       isDH=true,
-      redeclare DeSchipjes.Dwellings.Structures.Renovated.HaarhakkerStraatHouse
-        building,
       redeclare IDEAS.Occupants.Extern.StROBe occupant(id=3, VZones=building.building.VZones),
       redeclare IDEAS.VentilationSystems.None ventilationSystem(redeclare
           package Medium = IDEAS.Media.Air),
-      redeclare DeSchipjes.Dwellings.HeatingSystems.HTHeatingSystem
-        heatingSystem(QNom=building.Q_design))
+      redeclare DeSchipjes.Dwellings.Structures.Renovated.ROM.PetersLeiROM
+        building,
+      redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem
+        heatingSystem(QNom=building.building.Q_design),
+      modulating=false)
       annotation (Placement(transformation(extent={{-20,20},{0,40}})));
 
     Annex60.Fluid.HeatExchangers.HeaterCooler_T hea(
@@ -115,7 +116,8 @@ package Models
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),
       experiment(
-        StopTime=3.15569e+007,
+        StartTime=7.37083e+006,
+        StopTime=1.57785e+007,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);
@@ -147,7 +149,8 @@ package Models
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),
       experiment(
-        StopTime=7.88923e+006,
+        StartTime=1e+007,
+        StopTime=1.57785e+007,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);

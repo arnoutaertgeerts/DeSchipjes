@@ -28,13 +28,13 @@ model GasBeoModulating
   Heaters.Boiler                boiler(
                              m_flow_nominal=m_flow_nominal,
     QNom=Qpeak,
-    modulationInput=false,
     redeclare package Medium = Medium,
     massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
     T_start=TSupRad,
     dp_nominal=0,
     use_onOffSignal=true,
-    m2=15*scaler)
+    m2=15*scaler,
+    modulationInput=false)
     annotation (Placement(transformation(extent={{56,50},{76,70}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow fan(
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
@@ -346,8 +346,6 @@ equation
           {-24,74},{-11,74}}, color={175,175,175}));
   connect(TBotHp.T, controls.TstoBot) annotation (Line(points={{-12,50},{-20,50},
           {-20,70},{-11,70}}, color={175,175,175}));
-  connect(controls.boi, boiler.u) annotation (Line(points={{10.6,68},{22,68},{
-          22,80},{68,80},{68,70.8}}, color={175,175,175}));
   connect(controls.boiOn, boiler.on) annotation (Line(points={{10.6,64},{26,64},
           {26,76},{64,76},{64,70.8}}, color={255,0,255}));
   connect(threeWayValveSwitch1.port_a1, bufferSolar.port_b)
@@ -432,6 +430,8 @@ equation
     annotation (Line(points={{-129.2,-68},{-133.4,-68}}, color={0,0,127}));
   connect(solarPID.y, solar.shaCoe_in) annotation (Line(points={{-115.4,-68},{
           -84,-68},{-84,-61.4},{-68,-61.4}}, color={0,0,127}));
+  connect(controls.boi, boiler.u) annotation (Line(points={{10.6,68},{22,68},{
+          22,80},{68,80},{68,70.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
