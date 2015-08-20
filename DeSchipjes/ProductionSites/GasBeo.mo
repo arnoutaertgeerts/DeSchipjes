@@ -132,7 +132,6 @@ model GasBeo
   Buildings.Fluid.Storage.StratifiedEnhancedInternalHex bufferSolar(
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
-    VTan=VTan,
     hTan=hTan,
     dIns=dIns,
     hHex_b=0.05,
@@ -147,7 +146,8 @@ model GasBeo
     Q_flow_nominal=bufferSolar.mHex_flow_nominal*4200*40,
     mHex_flow_nominal=m_flow_nominal_sun,
     energyDynamicsHex=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial,
-    allowFlowReversalHex=false)
+    allowFlowReversalHex=false,
+    VTan=VTan/scaler)
     annotation (Placement(transformation(extent={{-18,-70},{2,-50}})));
   Buildings.Fluid.SolarCollectors.ASHRAE93 solar(
     redeclare package Medium = Medium,
@@ -155,7 +155,6 @@ model GasBeo
     linearizeFlowResistance=true,
     til=0.5,
     nColType=Buildings.Fluid.SolarCollectors.Types.NumberSelection.Area,
-    totalArea=A,
     lat=0.8727,
     rho=0.2,
     azi=0.3,
@@ -163,7 +162,8 @@ model GasBeo
     nSeg=3,
     sysConfig=Buildings.Fluid.SolarCollectors.Types.SystemConfiguration.Parallel,
     use_shaCoe_in=true,
-    allowFlowReversal=false)
+    allowFlowReversal=false,
+    totalArea=A/scaler)
             annotation (Placement(transformation(extent={{-66,-74},{-46,-54}})));
   IDEAS.Fluid.Sensors.TemperatureTwoPort TSuni(redeclare package Medium =
         Medium, m_flow_nominal=sum(m_flow_nominal))
@@ -209,7 +209,10 @@ model GasBeo
   IDEAS.Fluid.Valves.ThreeWayValveSwitch threeWayValveSwitch1(
     redeclare package Medium = IDEAS.Media.Water,
     m_flow_nominal=m_flow_nominal,
-    allowFlowReversal=true) annotation (Placement(transformation(
+    allowFlowReversal=true,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+                            annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,
         origin={40,-60})));
@@ -238,8 +241,8 @@ model GasBeo
         origin={10,-76})));
   IDEAS.BoundaryConditions.WeatherData.ReaderTMY3 weaDat(filNam="modelica://Buildings/Resources/weatherdata/USA_CA_San.Francisco.Intl.AP.724940_TMY3.mos")
     annotation (Placement(transformation(extent={{-96,-56},{-84,-44}})));
-  Modelica.Blocks.Math.BooleanToReal booleanToReal1(             realTrue=
-        m_flow_nominal_sun, realFalse=0.01*m_flow_nominal_sun)
+  Modelica.Blocks.Math.BooleanToReal booleanToReal1(realTrue=m_flow_nominal_sun
+        /scaler, realFalse=0.01*m_flow_nominal_sun/scaler)
     annotation (Placement(transformation(
         extent={{4,4},{-4,-4}},
         rotation=0,

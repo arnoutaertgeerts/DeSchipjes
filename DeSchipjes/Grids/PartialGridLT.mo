@@ -1,6 +1,6 @@
 within DeSchipjes.Grids;
 partial model PartialGridLT
-  extends PartialGrid(
+  extends PartialGridNoStates(
     modulating=false,
     haarHakker1(redeclare DeSchipjes.Dwellings.HeatingSystems.LTHeatingSystem
         heatingSystem(
