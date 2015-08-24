@@ -345,6 +345,8 @@ equation
           -116,-20},{-116,-32.8}}, color={0,0,127}));
   connect(solarPID.u_s, const1.y)
     annotation (Line(points={{-123.2,-40},{-127.4,-40}}, color={0,0,127}));
+  connect(bufferChp.heaPorSid, TRoo.port) annotation (Line(points={{-28.4,16},{
+          -28,16},{-28,18},{46,18},{46,0},{80,0}}, color={191,0,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})),           Icon(coordinateSystem(
           preserveAspectRatio=false, extent={{-100,-100},{100,100}}), graphics={
