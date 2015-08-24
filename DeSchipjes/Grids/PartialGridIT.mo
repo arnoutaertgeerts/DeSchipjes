@@ -1,6 +1,6 @@
 within DeSchipjes.Grids;
 partial model PartialGridIT
-  extends PartialGridNoStates(
+  extends PartialGrid(
     haarHakker1(redeclare DeSchipjes.Dwellings.HeatingSystems.ITHeatingSystem
         heatingSystem(
         TSupply=TSupRad,

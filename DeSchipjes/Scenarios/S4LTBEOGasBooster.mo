@@ -5,7 +5,9 @@ model S4LTBEOGasBooster
       grid(ids={1,3,4,5,6,8,10,11,13,14,19}),
             redeclare DeSchipjes.ProductionSites.GasBeo productionSite,
     Qpeak(u=72),
-    Qbase(u=43));
+    Qbase(u=43),
+    TSupRad(u=45),
+    TRetRad(u=35));
 
   annotation (Icon(graphics={Text(
           extent={{-100,100},{100,-100}},

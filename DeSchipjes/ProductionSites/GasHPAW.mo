@@ -124,6 +124,9 @@ model GasHPAW
         extent={{-4,-4},{4,4}},
         rotation=270,
         origin={6,-52})));
+  IDEAS.Fluid.Sensors.TemperatureTwoPort Tret(redeclare package Medium = Medium,
+      m_flow_nominal=sum(m_flow_nominal))
+    annotation (Placement(transformation(extent={{78,-66},{66,-54}})));
 equation
 
   Pboi=boiler.PFuelOrEl;
@@ -163,10 +166,6 @@ equation
     annotation (Line(points={{14,23.55},{14,40},{-4,40}}, color={191,0,0}));
   connect(TTop.T,controls. TstoTop) annotation (Line(points={{-16,40},{-70,40},{
           -70,60},{-65,60}}, color={0,0,127}));
-  connect(threeWayValveSwitch.port_b, port_a)
-    annotation (Line(points={{50,-60},{50,-60},{100,-60}}, color={0,127,255},
-      thickness=0.5,
-      pattern=LinePattern.DashDot));
   connect(controls.noBuffer, threeWayValveSwitch.switch) annotation (Line(
         points={{-54,45.4},{-54,32},{-80,32},{-80,-80},{40,-80},{40,-68}},
         color={255,0,255}));
@@ -202,6 +201,10 @@ equation
     annotation (Line(points={{6,-56},{6,-60},{-10,-60}}, color={0,127,255}));
   connect(controls.boi, boiler.u) annotation (Line(points={{-43.4,54},{-12,54},
           {-12,80},{68,80},{68,70.8}}, color={0,0,127}));
+  connect(threeWayValveSwitch.port_b, Tret.port_b)
+    annotation (Line(points={{50,-60},{66,-60}}, color={0,127,255}));
+  connect(Tret.port_a, port_a)
+    annotation (Line(points={{78,-60},{100,-60}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,100}})), Icon(coordinateSystem(preserveAspectRatio=false,
           extent={{-100,-100},{100,100}}), graphics={Line(points={{-32,32},{-32,
