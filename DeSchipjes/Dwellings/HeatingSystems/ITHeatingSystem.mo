@@ -4,7 +4,7 @@ model ITHeatingSystem
   extends BaseClasses.PartialStorage(
     radPID(yMin=0),
     realExpression1(y=273.15 + 70),
-    pumpDHW(allowFlowReversal=false));
+    pumpDHW(allowFlowReversal=false, filteredSpeed=true));
 
   parameter Modelica.SIunits.Temperature TSupplyDHW=273.15+70;
 

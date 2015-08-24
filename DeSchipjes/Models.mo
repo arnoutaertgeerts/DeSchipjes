@@ -116,8 +116,7 @@ package Models
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{
               100,100}})),
       experiment(
-        StartTime=7.37083e+006,
-        StopTime=1.57785e+007,
+        StopTime=7.88923e+006,
         __Dymola_fixedstepsize=30,
         __Dymola_Algorithm="Cvode"),
       __Dymola_experimentSetupOutput);

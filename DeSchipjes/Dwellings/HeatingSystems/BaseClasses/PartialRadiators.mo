@@ -57,7 +57,7 @@ partial model PartialRadiators
     "massflow rate in the radiator";
   Modelica.SIunits.MassFlowRate mSupply = pumpSupply.m_flow
     "massflow rate in the grid";
-  Modelica.SIunits.MassFlowRate mDhw = pumpDHW.m_flow_in
+  Modelica.SIunits.MassFlowRate mDhw = pumpDHW.m_flow
     "massflow rate used for producing DHW";
   Modelica.SIunits.MassFlowRate mDhwReq = gain.y
     "Requested DHW massflowrate at 40°C";
