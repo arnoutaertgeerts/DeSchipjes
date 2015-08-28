@@ -29,11 +29,6 @@ protected
         extent={{10,-10},{-10,10}},
         rotation=270,
         origin={50,50})));
-public
-  DeSchipjes.Controls.MaxQ maxQ(max=100)
-    annotation (Placement(transformation(extent={{14,66},{0,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(y=gain.y)
-    annotation (Placement(transformation(extent={{46,78},{26,98}})));
 equation
 
   Qdhw = (hex1.port_a2.h_outflow - hex1.port_b2.h_outflow)*hex1.port_a2.m_flow;
@@ -59,12 +54,9 @@ equation
           {54.8,14}}, color={0,0,127}));
   connect(senMasFlo.m_flow, pumpSupply.m_flow_in) annotation (Line(points={{62,
           -25.4},{62,-18},{110.12,-18},{110.12,-24.8}}, color={0,0,127}));
-  connect(pumpDHW.m_flow_in, maxQ.y) annotation (Line(points={{-34.12,63.2},{
-          -34.12,73},{-0.42,73}}, color={0,0,127}));
-  connect(maxQ.u1, dHWTap.mDHW60C) annotation (Line(points={{14.56,73},{130,73},
-          {130,54},{159,54},{159,46}}, color={0,0,127}));
-  connect(realExpression2.y, maxQ.u)
-    annotation (Line(points={{25,88},{7,88},{7,80.56}}, color={0,0,127}));
+  connect(pumpDHW.m_flow_in, dHWTap.mDHW60C) annotation (Line(points={{-34.12,
+          63.2},{-34.12,70},{130,70},{130,54},{159,54},{159,46}}, color={0,0,
+          127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end HTHeatingSystem;

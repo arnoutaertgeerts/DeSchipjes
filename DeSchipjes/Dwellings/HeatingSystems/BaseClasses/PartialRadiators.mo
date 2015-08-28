@@ -59,7 +59,7 @@ partial model PartialRadiators
     "massflow rate in the grid";
   Modelica.SIunits.MassFlowRate mDhw = pumpDHW.m_flow
     "massflow rate used for producing DHW";
-  Modelica.SIunits.MassFlowRate mDhwReq = gain.y
+  Modelica.SIunits.MassFlowRate mDhwReq = maxQ.y
     "Requested DHW massflowrate at 40°C";
 
   Modelica.SIunits.Power Qhea "Usefull heating power";
@@ -276,6 +276,13 @@ protected
         rotation=90,
         origin={44,-22})));
 
+public
+  DeSchipjes.Controls.MaxQ maxQ(max=100) annotation (Placement(transformation(
+        extent={{6,6},{-6,-6}},
+        rotation=270,
+        origin={130,-8})));
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=gain.y)
+    annotation (Placement(transformation(extent={{94,-18},{114,2}})));
 equation
   P[1] = 0;
   Q[1] = 0;
@@ -368,8 +375,12 @@ equation
     annotation (Line(points={{44,-30},{44,-26}}, color={191,0,0}));
   connect(temperatureSensor1.T, supplyPID.u_m) annotation (Line(points={{44,-18},
           {44,-6},{62,-6},{62,6.8}}, color={0,0,127}));
-  connect(gain.y, dHWTap.mDHW60C) annotation (Line(points={{80,-71.6},{80,-60},
-          {130,-60},{130,54},{159,54},{159,46}}, color={0,0,127}));
+  connect(gain.y, maxQ.u1) annotation (Line(points={{80,-71.6},{80,-60},{130,-60},
+          {130,-14.48}}, color={0,0,127}));
+  connect(maxQ.y, dHWTap.mDHW60C) annotation (Line(points={{130,-1.64},{130,54},
+          {159,54},{159,46}}, color={0,0,127}));
+  connect(realExpression2.y, maxQ.u)
+    annotation (Line(points={{115,-8},{123.52,-8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end PartialRadiators;

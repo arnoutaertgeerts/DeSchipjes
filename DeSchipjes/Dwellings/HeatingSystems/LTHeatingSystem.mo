@@ -1,5 +1,6 @@
 within DeSchipjes.Dwellings.HeatingSystems;
 model LTHeatingSystem
+  import DeSchipjes;
   //Extensions
   extends BaseClasses.PartialStorage(
     modulating=false,
@@ -134,7 +135,7 @@ protected
         transformation(
         extent={{4,-4},{-4,4}},
         rotation=90,
-        origin={-16,72})));
+        origin={-14,72})));
   Buildings.Fluid.FixedResistances.Pipe inletHp(
     nSeg=1,
     redeclare package Medium = Medium,
@@ -205,8 +206,8 @@ equation
   connect(THotWaterSetExpr1.y, dhwPID.u_s)
     annotation (Line(points={{17.5,90},{7.2,90}}, color={0,0,127}));
   connect(dhwPID.y, releaseDHW.u1)
-    annotation (Line(points={{-6.6,90},{-16,90},{-16,76.8}}, color={0,0,127}));
-  connect(releaseDHW.u, mDHW.u) annotation (Line(points={{-11.2,72},{80,72},{80,
+    annotation (Line(points={{-6.6,90},{-14,90},{-14,76.8}}, color={0,0,127}));
+  connect(releaseDHW.u, mDHW.u) annotation (Line(points={{-9.2,72},{80,72},{80,
           80},{74.8,80}},
                       color={255,0,255}));
   connect(tab.y, supplyPID.u_s) annotation (Line(points={{28.4,4},{48,4},{48,14},
@@ -225,12 +226,12 @@ equation
           0,82.8},{0,70},{2.498e-016,70}}, color={0,0,127}));
   connect(hpww.u, mDHW.u) annotation (Line(points={{13.2,50},{8,50},{8,72},{80,72},
           {80,80},{74.8,80}}, color={255,0,255}));
-  connect(pumpDHW.m_flow_in, gain1.y) annotation (Line(points={{-34.12,63.2},{
-          -34.12,80},{21.6,80}}, color={0,0,127}));
   connect(gain1.u, pumpDHWHex.m_flow_in) annotation (Line(points={{30.8,80},{
           49.88,80},{49.88,63.2}}, color={0,0,127}));
   connect(pumpDHW.port_b, inletHp.port_a)
     annotation (Line(points={{-28,56},{-16,56},{-4,56}}, color={0,127,255}));
+  connect(gain1.y, pumpDHW.m_flow_in) annotation (Line(points={{21.6,80},{
+          -34.12,80},{-34.12,63.2}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end LTHeatingSystem;
