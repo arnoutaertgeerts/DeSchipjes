@@ -5,7 +5,8 @@ model ITHeatingSystem
     radPID(yMin=0),
     realExpression1(y=273.15 + 70),
     pumpDHW(allowFlowReversal=false, filteredSpeed=true,
-      riseTime=20));
+      riseTime=20),
+    gain(k=(38 - 10)/(60 - 10)));
 
   parameter Modelica.SIunits.Temperature TSupplyDHW=273.15+70;
 
@@ -72,6 +73,11 @@ protected
         extent={{-4,-4},{4,4}},
         rotation=180,
         origin={-26,80})));
+public
+  DeSchipjes.Controls.MaxQ maxQ
+    annotation (Placement(transformation(extent={{140,70},{120,90}})));
+  Modelica.Blocks.Sources.RealExpression realExpression2(y=mDHW60C)
+    annotation (Placement(transformation(extent={{84,80},{104,100}})));
 equation
 
   Qdhw = (tan.portHex_a.h_outflow - tan.portHex_b.h_outflow)*tan.portHex_a.m_flow;
@@ -123,6 +129,10 @@ equation
     annotation (Line(points={{-18.4,80},{-21.2,80}}, color={0,0,127}));
   connect(limiter1.y, pumpDHW.m_flow_in) annotation (Line(points={{-30.4,80},{
           -34.12,80},{-34.12,63.2}}, color={0,0,127}));
+  connect(maxQ.u1, dHWTap.mDHW60C) annotation (Line(points={{140.8,80},{148,80},
+          {148,60},{159,60},{159,46}}, color={0,0,127}));
+  connect(realExpression2.y, maxQ.u) annotation (Line(points={{105,90},{114,90},
+          {114,96},{130,96},{130,90.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end ITHeatingSystem;

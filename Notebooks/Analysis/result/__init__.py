@@ -5,6 +5,7 @@ import DyMat
 import pandas as pd
 import fnmatch
 import os
+import re
 
 
 class Result():
@@ -29,6 +30,8 @@ class Result():
             for k in keys:
                 all_keys += self.find(k)
 
+        all_keys = list(set(all_keys))
+
         blocks = self.mat.sortByBlocks(all_keys)
         dfs = []
 
@@ -47,11 +50,10 @@ class Result():
         df = df.sort_index()
         df = df.fillna(method='ffill').fillna(method='bfill')
 
-        return df
+        return df.astype(float)
 
-    def find(self, search):
-        case = fnmatch.filter(self.keys, search)
-        return filter(lambda x: fnmatch.fnmatchcase(x, search), case)
+    def find(self, regex):
+        return filter(lambda x: re.match(regex, x), self.keys)
 
     def save(self, keys, name=None, key='data'):
         if name is None:

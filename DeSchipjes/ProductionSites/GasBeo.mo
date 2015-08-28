@@ -210,8 +210,8 @@ model GasBeo
     redeclare package Medium = IDEAS.Media.Water,
     m_flow_nominal=m_flow_nominal,
     allowFlowReversal=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
-    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState)
+    massDynamics=Modelica.Fluid.Types.Dynamics.SteadyState,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.DynamicFreeInitial)
                             annotation (Placement(transformation(
         extent={{10,-10},{-10,10}},
         rotation=180,

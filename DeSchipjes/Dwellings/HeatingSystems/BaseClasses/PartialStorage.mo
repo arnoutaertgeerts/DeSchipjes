@@ -5,7 +5,6 @@ partial model PartialStorage
     dHWTap(m_flow_nominal=m_flow_dhw,
     redeclare package Medium=Medium,
     TDHWSet=273.15 + 38),
-    gain(k=(38 - 10)/(60 - 10)),
     bouDHW(nPorts=2),
     pumpDHW(m_flow_nominal=0.167));
 

@@ -109,7 +109,7 @@ protected
     TDHWSet=273.15 + 40)
     annotation (Placement(transformation(extent={{172,32},{146,46}})));
 
-  Modelica.Blocks.Math.Gain gain(k=(TStorage - 273.15 - 20)/40)
+  Modelica.Blocks.Math.Gain gain(k=(38 - 10)/(60 - 10))
                                                        annotation (Placement(
         transformation(
         extent={{-4,-4},{4,4}},
@@ -154,11 +154,6 @@ protected
     each Ti=180,
     each k=0.005)
     annotation (Placement(transformation(extent={{-160,48},{-148,60}})));
-  Modelica.Blocks.Nonlinear.Limiter limiter(uMin=0, uMax=1)     annotation (
-      Placement(transformation(
-        extent={{-4,-4},{4,4}},
-        rotation=90,
-        origin={130,-12})));
   Buildings.Fluid.FixedResistances.Pipe outlet(
     nSeg=1,
     redeclare package Medium = Medium,
@@ -326,10 +321,6 @@ equation
       points={{146,36},{144,36},{144,36},{140,36},{140,30}},
       color={0,127,255},
       smooth=Smooth.None));
-  connect(gain.y, limiter.u) annotation (Line(points={{80,-71.6},{80,-60},{130,
-          -60},{130,-16.8}}, color={175,175,175}));
-  connect(limiter.y, dHWTap.mDHW60C) annotation (Line(points={{130,-7.6},{130,
-          60},{159,60},{159,46}}, color={175,175,175}));
   connect(inlet.port_a, flowPort_supply) annotation (Line(points={{160,-78},{
           160,-89},{160,-100}}, color={0,127,255}));
   connect(inlet.port_b, pumpSupply.port_a) annotation (Line(points={{160,-66},{
@@ -377,6 +368,8 @@ equation
     annotation (Line(points={{44,-30},{44,-26}}, color={191,0,0}));
   connect(temperatureSensor1.T, supplyPID.u_m) annotation (Line(points={{44,-18},
           {44,-6},{62,-6},{62,6.8}}, color={0,0,127}));
+  connect(gain.y, dHWTap.mDHW60C) annotation (Line(points={{80,-71.6},{80,-60},
+          {130,-60},{130,54},{159,54},{159,46}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-200,
             -100},{200,100}})));
 end PartialRadiators;
